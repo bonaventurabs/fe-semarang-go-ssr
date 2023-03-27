@@ -1,10 +1,10 @@
-import Image from 'next/image'
+import Image, { type StaticImageData } from 'next/image'
 
 import styles from './GuideSection.module.scss'
 
 interface GuideSectionProps {
 	text?: string
-	image?: string
+	image?: string | StaticImageData
 	emText?: string
 }
 

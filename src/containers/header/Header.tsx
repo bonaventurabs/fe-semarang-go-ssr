@@ -1,4 +1,5 @@
-import { type To, useLocation, useNavigate } from 'react-router-dom'
+import { type Url } from 'next/dist/shared/lib/router/router'
+import { useRouter } from 'next/router'
 
 import { BackIcon, InfoIcon } from '@/components/icon/SVGIcon'
 
@@ -12,21 +13,20 @@ const Header = ({
 	onInfoButtonClick,
 }: {
 	title?: string
-	backTo?: To
+	backTo?: Url
 	isBackButtonDisplayed?: boolean
 	isInfoButtonDisplayed?: boolean
 	onInfoButtonClick?: React.MouseEventHandler
 }) => {
-	const navigate = useNavigate()
-	const location = useLocation()
+	const router = useRouter()
 
-	const handleBackClick = () => {
+	const handleBackClick = async () => {
 		if (backTo) {
-			navigate(backTo)
-		} else if (location.key !== 'default') {
-			navigate(-1)
+			await router.push(backTo)
+		} else if (history.length > 1) {
+			router.back()
 		} else {
-			navigate('/')
+			await router.push('/')
 		}
 	}
 
