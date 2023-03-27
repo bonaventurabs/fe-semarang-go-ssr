@@ -103,6 +103,12 @@
 				"ignoredTypeNames": ["Error", "RegExp", "URL", "URLSearchParams", "To"]
 			}
 		],
+		"@typescript-eslint/no-misused-promises": [
+			"error",
+			{
+				"checksVoidReturn": false
+			}
+		],
 		// React
 		"react/jsx-boolean-value": "warn",
 		"react/jsx-curly-brace-presence": "warn",
