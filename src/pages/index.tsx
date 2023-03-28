@@ -19,6 +19,8 @@ function HomePage() {
 					name="description"
 					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
 				/>
+				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
+				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>

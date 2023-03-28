@@ -88,8 +88,10 @@ const OtherNewsSection = ({
 	}
 
 	useEffect(() => {
-		scrollToBottom()
-	}, [itemOffset])
+		if (pagination) {
+			scrollToBottom()
+		}
+	}, [itemOffset, pagination])
 
 	return (
 		<section className={styles.otherNewsSection}>

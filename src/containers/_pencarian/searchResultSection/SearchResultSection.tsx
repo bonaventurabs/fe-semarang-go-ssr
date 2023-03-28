@@ -1,4 +1,5 @@
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 import newsImg from '@/assets/images/news-1.png'
 import serviceImg1 from '@/assets/images/service-1.png'
@@ -167,7 +168,7 @@ const FilterButton = ({
 	type?: string
 	onClick?: React.MouseEventHandler
 }) => {
-	const [searchParams] = useSearchParams()
+	const searchParams = useSearchParams()
 	const isActive = (searchParams.get(search.params.type) ?? '') === type
 	return (
 		<button
@@ -185,15 +186,26 @@ const FilterButton = ({
 }
 
 const SearchResultSection = () => {
-	const [searchParams, setSearchParams] = useSearchParams()
+	const router = useRouter()
+	const searchParams = useSearchParams()
+
 	const handleSearchTypeClick = (e: React.MouseEvent) => {
 		const value = e.currentTarget.getAttribute('value')
 		if (value && value !== '') {
-			searchParams.set(search.params.type, value)
-			setSearchParams(searchParams, { replace: true })
+			const url = {
+				pathname: router.pathname,
+				query: { ...router.query, type: value },
+			}
+			void router.replace(url, undefined, { shallow: true })
 		} else {
-			searchParams.delete(search.params.type)
-			setSearchParams(searchParams, { replace: true })
+			const { type, ...routerQuery } = router.query
+			void router.replace(
+				{
+					query: { ...routerQuery },
+				},
+				undefined,
+				{ shallow: true },
+			)
 		}
 	}
 	const isTypeSelected =

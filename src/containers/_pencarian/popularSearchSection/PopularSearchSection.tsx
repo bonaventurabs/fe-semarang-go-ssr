@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom'
+import { useRouter } from 'next/router'
 
 import OutlinedButton from '@/components/outlinedButton/OutlinedButton'
 
@@ -13,13 +13,17 @@ const popularSearchData = [
 ]
 
 const PopularSearchSection = () => {
-	const [, setSearchParams] = useSearchParams()
+	const router = useRouter()
 
 	const handlePopularSearchClick = (e: React.MouseEvent) => {
-		setSearchParams(
-			{ q: e.currentTarget.getAttribute('value') ?? '' },
-			{ replace: true },
-		)
+		const url = {
+			pathname: router.pathname,
+			query: {
+				...router.query,
+				q: e.currentTarget.getAttribute('value') ?? '',
+			},
+		}
+		void router.replace(url, undefined, { shallow: true })
 	}
 
 	return (

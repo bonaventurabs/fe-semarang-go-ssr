@@ -11,6 +11,18 @@ interface DatePickerProps {
 }
 
 const DatePicker = ({ value, onChange }: DatePickerProps) => {
-	return <DatePickerLib selected={value} onChange={onChange} />
+	return (
+		<DatePickerLib
+			portalId="root-portal"
+			selected={value}
+			onChange={onChange}
+			popperProps={{
+				strategy: 'fixed',
+				flip: { behavior: ['bottom'] },
+				preventOverflow: { enabled: false },
+				hide: { enabled: false },
+			}}
+		/>
+	)
 }
 export default DatePicker

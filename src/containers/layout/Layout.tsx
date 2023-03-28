@@ -1,9 +1,13 @@
 import React, { type PropsWithChildren, useEffect, useState } from 'react'
 
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
 import LoadingSection from '../loadingSection/LoadingSection'
-import NavBar from '../navBar/NavBar'
+
+const NavBar = dynamic(async () => await import('../navBar/NavBar'), {
+	ssr: false,
+})
 
 function Loading() {
 	const router = useRouter()
@@ -11,7 +15,7 @@ function Loading() {
 
 	useEffect(() => {
 		const handleStart = (url: string) =>
-			url !== router.asPath && setLoading(true)
+			url !== router.pathname && !url.includes('?') && setLoading(true)
 		const handleComplete = () => setLoading(false)
 
 		router.events.on('routeChangeStart', handleStart)
@@ -23,9 +27,15 @@ function Loading() {
 			router.events.off('routeChangeComplete', handleComplete)
 			router.events.off('routeChangeError', handleComplete)
 		}
-	}, [router.asPath, router.events])
+	}, [router.pathname, router.events])
 
-	return loading && <LoadingSection />
+	return (
+		loading && (
+			// <Overlay open={loading}>
+			<LoadingSection />
+			// </Overlay>
+		)
+	)
 }
 
 const Layout = ({ children }: PropsWithChildren) => {

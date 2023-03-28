@@ -1,4 +1,6 @@
-import { type To, useNavigate, useLocation } from 'react-router-dom'
+import { type To } from 'react-router-dom'
+
+import { useRouter } from 'next/router'
 
 import { BackIcon } from '@/components/icon/SVGIcon'
 import SearchBar from '@/components/searchBar/SearchBar'
@@ -18,8 +20,7 @@ const SearchHeader = ({
 	onChange?: React.ChangeEventHandler
 	onReset?: React.MouseEventHandler
 }) => {
-	const navigate = useNavigate()
-	const location = useLocation()
+	const router = useRouter()
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (typeof onChange !== 'undefined') {
@@ -27,13 +28,13 @@ const SearchHeader = ({
 		}
 	}
 
-	const handleBackClick = () => {
+	const handleBackClick = async () => {
 		if (backTo) {
-			navigate(backTo)
-		} else if (location.key !== 'default') {
-			navigate(-1)
+			await router.push(backTo)
+		} else if (history.length > 1) {
+			router.back()
 		} else {
-			navigate('/')
+			await router.push('/')
 		}
 	}
 

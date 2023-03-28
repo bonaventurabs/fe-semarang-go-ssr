@@ -1,4 +1,5 @@
 import { type Url } from 'next/dist/shared/lib/router/router'
+import Head from 'next/head'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 
@@ -100,6 +101,17 @@ const ReportPage = () => {
 
 	return (
 		<>
+			<Head>
+				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+				<meta
+					name="description"
+					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
+				/>
+				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
+				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
 			<Header title="Lapor Kota Semarang" isBackButtonDisplayed={false} />
 			<main className={styles.pageWrapper}>
 				<Separator />

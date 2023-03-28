@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import map from '@/assets/images/map.png'
 import Separator from '@/components/separator/Separator'
@@ -14,11 +15,40 @@ import styles from './_error.module.scss'
 // 	message: string
 // }
 
-function NotFoundPage() {
-	const statusCode = 404
-	const status = 'Not Found'
-	const message = 'Maaf, halaman yang Anda coba akses tidak tersedia!'
-	const to = '/'
+function ErrorPage({ statusCode }: { statusCode: number }) {
+	const router = useRouter()
+	const status = (() => {
+		if (statusCode === 404) {
+			return 'Not Found'
+		} else if (statusCode === 500) {
+			return 'Internal Server Error'
+		} else {
+			return 'Error'
+		}
+	})()
+	const message = (() => {
+		if (statusCode === 404) {
+			return 'Maaf, halaman yang Anda coba akses tidak tersedia!'
+		} else if (statusCode === 500) {
+			return 'Maaf, terjadi kesalahan pada server!'
+		} else {
+			return 'Maaf, terjadi kesalahan!'
+		}
+	})()
+	const to = (() => {
+		if (statusCode === 404) {
+			return '/'
+		} else {
+			return router.asPath
+		}
+	})()
+	const [toMessage1, toMessage2] = (() => {
+		if (statusCode === 404) {
+			return ['Kembali ke ', 'Beranda']
+		} else {
+			return ['Muat ulang halaman ini ', 'atau coba lagi nanti']
+		}
+	})()
 	return (
 		<>
 			<Head>
@@ -48,16 +78,31 @@ function NotFoundPage() {
 					<div className={styles.messageWrapper}>
 						<Image src={map} alt="Error image" />
 						<span>{message}</span>
-						<span>
-							Kembali ke{' '}
-							<Link className={styles.link} href={to}>
-								Beranda
-							</Link>
-						</span>
+						{statusCode === 404 ? (
+							<span>
+								{toMessage1}
+								<Link className={styles.link} href={to}>
+									{toMessage2}
+								</Link>
+							</span>
+						) : (
+							<span>
+								<Link className={styles.link} href={to}>
+									{toMessage1}
+								</Link>
+								{toMessage2}
+							</span>
+						)}
 					</div>
 				</section>
 			</main>
 		</>
 	)
 }
-export default NotFoundPage
+
+ErrorPage.getInitialProps = ({ res, err }: { res: any; err: any }) => {
+	const statusCode = res ? res.statusCode : err ? err.statusCode : 404
+	return { statusCode }
+}
+
+export default ErrorPage
