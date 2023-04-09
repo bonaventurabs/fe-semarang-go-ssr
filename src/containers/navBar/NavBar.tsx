@@ -67,7 +67,7 @@ const NavBar = () => {
 			text: 'Berita',
 		},
 		{
-			to: '/smart-city',
+			to: '/indeks-kota-cerdas',
 			icon: SmartCityIcon,
 			activeIcon: CustomSmartCityIcon,
 			text: 'Smart City',

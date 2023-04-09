@@ -3,10 +3,10 @@ import Head from 'next/head'
 import Separator from '@/components/separator/Separator'
 import AboutSemarangGoSection from '@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
 import AgendaSection from '@/containers/_beranda/agendaSection/AgendaSection'
+import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
 import InformationSection from '@/containers/_beranda/informationSection/InformationSection'
 import NewsSection from '@/containers/_beranda/newsSection/NewsSection'
 import ServiceSection from '@/containers/_beranda/serviceSection/ServiceSection'
-import SmartCityAnalysisSection from '@/containers/_beranda/smartCityAnalysisSection/SmartCityAnalysis'
 import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHeader'
 import styles from '@/styles/Home.module.scss'
 
@@ -31,7 +31,7 @@ function HomePage() {
 				<Separator />
 				<InformationSection />
 				<Separator />
-				<SmartCityAnalysisSection />
+				<CityIndeksCluster />
 				<Separator />
 				<NewsSection />
 				<Separator />

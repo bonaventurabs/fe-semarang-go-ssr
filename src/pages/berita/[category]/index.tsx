@@ -12,15 +12,15 @@ import styles from './index.module.scss'
 
 const NewsCategoryPage = () => {
 	const router = useRouter()
-	const { newsCategory } = router.query
+	const { category } = router.query
 	if (
-		typeof newsCategory === 'undefined' ||
-		!(newsCategory.toString() in newsCategoryTypeToTitle)
+		typeof category === 'undefined' ||
+		!(category.toString() in newsCategoryTypeToTitle)
 	) {
 		return <NotFoundPage />
 	}
 	const title = `Berita ${
-		newsCategoryTypeToTitle[newsCategory as newsCategoryType]
+		newsCategoryTypeToTitle[category as newsCategoryType]
 	}`
 
 	return (
@@ -39,12 +39,12 @@ const NewsCategoryPage = () => {
 			<Header title={title} isBackButtonDisplayed />
 			<main className={styles.pageWrapper}>
 				<Separator />
-				<RecentNewsSection newsCategory={newsCategory as newsCategoryType} />
+				<RecentNewsSection newsCategory={category as newsCategoryType} />
 				<Separator />
 				<OtherNewsSection
 					pagination
 					itemsPerPage={3}
-					newsCategory={newsCategory as newsCategoryType}
+					newsCategory={category as newsCategoryType}
 				/>
 			</main>
 		</>

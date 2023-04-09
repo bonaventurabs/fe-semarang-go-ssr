@@ -20,18 +20,23 @@ const serviceData = [
 		desc: 'Aplikasi Ambulan Hebat yang dikelola oleh Dinas Kesehatan Kota Semarang',
 		org: 'Dinas Kesehatan',
 		image: serviceImg1,
+		// url: 'ambulanhebat.semarangkota.go.id',
+		// url: 'ppebalinusra.menlhk.go.id',
+		url: 'dapodik.semarangkota.go.id',
 	},
 	{
 		title: 'Sistem Informasi GIS Kesehatan Lingkungan',
 		desc: 'Aplikasi Sistem Informasi GIS Kesehatan Lingkungan yang dikelola oleh Dinas Lingkungan Kota Semarang',
 		org: 'Dinas Lingkungan',
 		image: serviceImg2,
+		url: 'dlh.semarangkota.go.id',
 	},
 	{
 		title: 'E-Puskesmas',
 		desc: 'Aplikasi E-Puskesmas yang dikelola oleh Dinas Kesehatan Kota Semarang',
 		org: 'Dinas Kesehatan',
 		image: serviceImg3,
+		url: 'epuskesmas.semarangkota.go.id',
 	},
 ]
 
@@ -242,6 +247,7 @@ const SearchResultSection = () => {
 							title={value.title}
 							desc={value.desc}
 							org={value.org}
+							url={value.url}
 						/>
 					))}
 				</div>

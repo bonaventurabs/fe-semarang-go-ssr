@@ -16,26 +16,6 @@ const SearchPage = () => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
-	// const setSearchParams = useCallback(
-	// 	(
-	// 		nextInit?: Record<string, string | string[]> | URLSearchParams,
-	// 		navigateOpts?: { replace?: boolean },
-	// 	) => {
-	// 		if (typeof nextInit === 'undefined') {
-	// 			void (navigateOpts?.replace
-	// 				? router.replace(pathname)
-	// 				: router.push(pathname))
-	// 			return
-	// 		}
-	// 		const params = new URLSearchParams(searchParams)
-	// 		params.set(nextInit.keys().next().value, nextInit.values().next().value)
-	// 		void (navigateOpts?.replace
-	// 			? router.replace(pathname + '?' + params.toString())
-	// 			: router.push(pathname + '?' + params.toString()))
-	// 	},
-	// 	[pathname, router, searchParams],
-	// )
-
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.value) {
 			const url = {

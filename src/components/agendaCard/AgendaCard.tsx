@@ -91,7 +91,6 @@ const AgendaCard = ({
 			<BottomSheet
 				isOpen={isOpen}
 				onClose={() => setOpen(false)}
-				isDebugMode={false}
 				initialDrawerDistanceTop={350}
 			>
 				<div className={styles.agendaModal}>

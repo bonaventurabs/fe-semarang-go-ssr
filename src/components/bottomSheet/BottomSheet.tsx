@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
+import { Portal } from '@reach/portal'
 import { animated, useSpring } from '@react-spring/web'
 
 import { useOutsideClick } from '@/hooks/useOutsideClick'
@@ -46,7 +48,7 @@ interface BottomSheetProps {
 	/**
 	 * Do you want to see logs instead of children in the BottomSheet?
 	 */
-	isDebugMode: boolean
+	isDebugMode?: boolean
 	/**
 	 * Is the BottomSheet visible on the scren?
 	 */
@@ -77,7 +79,7 @@ const BottomSheet = ({
 	children,
 	closeButtonAriaLabel = 'Close',
 	initialDrawerDistanceTop = INITIAL_DRAWER_DISTANCE_FROM_TOP,
-	isDebugMode,
+	isDebugMode = false,
 	isOpen,
 	maxWidth = MAX_WIDTH,
 	onClose,
@@ -105,7 +107,7 @@ const BottomSheet = ({
 	const handlePointerDown = (
 		e: React.TouchEvent<HTMLDivElement> | React.MouseEvent<HTMLDivElement>,
 	) => {
-		const event = (e.nativeEvent instanceof TouchEvent
+		const event = (window.TouchEvent && e.nativeEvent instanceof TouchEvent
 			? e.nativeEvent.touches[0]
 			: e) as unknown as MouseEvent
 		document.documentElement.classList.add('is-locked')
@@ -117,7 +119,9 @@ const BottomSheet = ({
 
 	const handlePointerMove = useCallback(
 		(e: TouchEvent | MouseEvent) => {
-			const event = (e instanceof TouchEvent ? e.touches[0] : e) as MouseEvent
+			const event = (
+				window.TouchEvent && e instanceof TouchEvent ? e.touches[0] : e
+			) as MouseEvent
 			if (draggingPosition != null) {
 				const newBottom = window.innerHeight - event.clientY - draggingPosition
 				if (newBottom !== bottom) {
@@ -207,7 +211,7 @@ const BottomSheet = ({
 	])
 
 	return (
-		<>
+		<Portal>
 			<Overlay open={isOpen} preventScroll />
 			<animated.div
 				style={{
@@ -238,7 +242,6 @@ const BottomSheet = ({
 							// eslint-disable-next-line @typescript-eslint/no-explicit-any
 							onDragStart={(e: any) => {
 								e.preventDefault()
-								// get rid of the ghost drag image in the view
 								e.dataTransfer.setDragImage(new Image(), 0, 0)
 							}}
 							draggable
@@ -283,7 +286,7 @@ const BottomSheet = ({
 					</div>
 				</div>
 			</animated.div>
-		</>
+		</Portal>
 	)
 }
 export default BottomSheet

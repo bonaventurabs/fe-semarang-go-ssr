@@ -1,6 +1,5 @@
-import { type To } from 'react-router-dom'
-
-import { useRouter } from 'next/router'
+import { type Url } from 'next/dist/shared/lib/router/router'
+import { useRouter } from 'next/navigation'
 
 import { BackIcon } from '@/components/icon/SVGIcon'
 import SearchBar from '@/components/searchBar/SearchBar'
@@ -16,7 +15,7 @@ const SearchHeader = ({
 }: {
 	name?: string
 	value?: string
-	backTo?: To
+	backTo?: Url
 	onChange?: React.ChangeEventHandler
 	onReset?: React.MouseEventHandler
 }) => {
@@ -30,11 +29,11 @@ const SearchHeader = ({
 
 	const handleBackClick = async () => {
 		if (backTo) {
-			await router.push(backTo)
+			router.push(backTo as string)
 		} else if (history.length > 1) {
 			router.back()
 		} else {
-			await router.push('/')
+			router.push('/')
 		}
 	}
 

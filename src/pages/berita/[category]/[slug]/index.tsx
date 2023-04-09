@@ -14,15 +14,14 @@ import styles from './index.module.scss'
 
 const NewsContentPage = () => {
 	const router = useRouter()
-	const { newsCategory, newsSlug } = router.query
+	const { category, slug } = router.query
 	if (
-		typeof newsCategory === 'undefined' ||
-		!(newsCategory.toString() in newsCategoryTypeToTitle)
+		typeof category === 'undefined' ||
+		!(category.toString() in newsCategoryTypeToTitle)
 	) {
 		return <ErrorPage statusCode={404} />
 	}
-	const title = slugToTitle(newsSlug?.toString() ?? '', '-')
-	const category = newsCategory
+	const title = slugToTitle(slug?.toString() ?? '', '-')
 	const date = new Date()
 	const image = img
 	const content =

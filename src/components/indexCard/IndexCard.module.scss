@@ -82,3 +82,19 @@
 		text-decoration: none;
 	}
 }
+
+.tag {
+	display: inline-block;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5em;
+	border-radius: 8px;
+	background: $color-mono-light-grey;
+
+	&-text {
+		@include font-sm-regular;
+		display: inline-block;
+		vertical-align: middle;
+		color: $color-mono-black;
+	}
+}

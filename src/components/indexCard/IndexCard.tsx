@@ -1,11 +1,21 @@
 import styles from './IndexCard.module.scss'
 import { IndexIcon, TargetIcon } from '../icon/SVGIcon'
 
+const Tag = ({ text }: { text: string }) => {
+	return (
+		<div className={`${styles.tag}`}>
+			<span className={`${styles.tagText}`}>{text}</span>
+		</div>
+	)
+}
+
 interface IndexCardProps {
 	title: string
 	currentIndex: number
 	targetIndex: number
 	description: string
+	tag?: string
+	isTagDisplayed?: boolean
 }
 
 const IndexCard = ({
@@ -13,6 +23,8 @@ const IndexCard = ({
 	currentIndex,
 	targetIndex,
 	description,
+	tag,
+	isTagDisplayed = false,
 }: IndexCardProps) => {
 	return (
 		<div className={styles.indexCard}>
@@ -34,6 +46,7 @@ const IndexCard = ({
 				</div>
 			</div>
 			<p className={styles.description}>{description}</p>
+			{tag && isTagDisplayed && <Tag text={tag} />}
 		</div>
 	)
 }

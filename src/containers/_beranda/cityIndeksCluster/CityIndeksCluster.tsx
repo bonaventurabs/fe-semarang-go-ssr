@@ -10,7 +10,7 @@ import {
 } from '@/components/icon/SVGIcon'
 import IconCard from '@/components/iconCard/IconCard'
 
-import styles from './SmartCityAnalysis.module.scss'
+import styles from './CityIndeksCluster.module.scss'
 
 interface IconProps {
 	name: string
@@ -18,39 +18,39 @@ interface IconProps {
 	to: Url
 }
 
-const SmartCityAnalysisSection = () => {
-	const title = 'Analisis Smart City Semarang'
+const CityIndeksCluster = () => {
+	const title = 'Kelompok Indeks Kota'
 	const columnCount = 3
 	const data: IconProps[] = [
 		{
-			name: 'Governance',
+			name: 'Pemerintahan',
 			icon: GovernanceIcon,
-			to: '/smart-city/governance',
+			to: '/indeks-kota-cerdas/pemerintahan',
 		},
 		{
 			name: 'Branding',
 			icon: BrandingIcon,
-			to: '/smart-city/branding',
+			to: '/indeks-kota-cerdas/branding',
 		},
 		{
-			name: 'Economy',
+			name: 'Ekonomi',
 			icon: EconomyIcon,
-			to: '/smart-city/economy',
+			to: '/indeks-kota-cerdas/ekonomi',
 		},
 		{
-			name: 'Living',
+			name: 'Kehidupan',
 			icon: LivingIcon,
-			to: '/smart-city/living',
+			to: '/indeks-kota-cerdas/kehidupan',
 		},
 		{
-			name: 'Society',
+			name: 'Masyarakat',
 			icon: SocietyIcon,
-			to: '/smart-city/society',
+			to: '/indeks-kota-cerdas/masyarakat',
 		},
 		{
-			name: 'Environment',
+			name: 'Lingkungan',
 			icon: EnvirontmentIcon,
-			to: '/smart-city/environment',
+			to: '/indeks-kota-cerdas/lingkungan',
 		},
 	]
 	return (
@@ -75,4 +75,4 @@ const SmartCityAnalysisSection = () => {
 	)
 }
 
-export default SmartCityAnalysisSection
+export default CityIndeksCluster

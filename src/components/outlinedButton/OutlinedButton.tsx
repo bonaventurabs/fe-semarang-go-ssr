@@ -7,12 +7,14 @@ const OutlinedButton = ({
 	onClick,
 	className,
 	iconClassName,
+	isIconDisplayed = true,
 }: {
 	text?: string
 	value?: string
 	onClick?: React.MouseEventHandler
 	className?: string
 	iconClassName?: string
+	isIconDisplayed?: boolean
 }) => {
 	return (
 		<button
@@ -22,7 +24,9 @@ const OutlinedButton = ({
 			value={value}
 		>
 			{text}
-			<LinkToIcon className={`${styles.icon} ${iconClassName ?? ''}`} />
+			{isIconDisplayed && (
+				<LinkToIcon className={`${styles.icon} ${iconClassName ?? ''}`} />
+			)}
 		</button>
 	)
 }
