@@ -16,14 +16,14 @@ import styles from './index.module.scss'
 const ServiceDetailPage = () => {
 	const router = useRouter()
 	const frameRef = useRef<HTMLIFrameElement>(null)
-	const { serviceName } = router.query
+	const { name } = router.query
 	const [idxBack, setIdxBack] = useState(0)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [isInfoSheetOpen, setIsInfoSheetOpen] = useState(false)
-	// if (typeof serviceName === 'undefined') {
+	// if (typeof name === 'undefined') {
 	// 	return <NotFoundPage />
 	// }
-	const title = serviceName?.toString().replace(/-/g, ' ').toUpperCase() ?? ''
+	const title = name?.toString().replace(/-/g, ' ').toUpperCase() ?? ''
 
 	useEffect(() => {
 		const frame = frameRef.current

@@ -6,7 +6,7 @@ import AgendaSection from '@/containers/_beranda/agendaSection/AgendaSection'
 import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
 import InformationSection from '@/containers/_beranda/informationSection/InformationSection'
 import NewsSection from '@/containers/_beranda/newsSection/NewsSection'
-import ServiceSection from '@/containers/_beranda/serviceSection/ServiceSection'
+import ServiceClusterSection from '@/containers/_beranda/serviceClusterSection/ServiceClusterSection'
 import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHeader'
 import styles from '@/styles/Home.module.scss'
 
@@ -27,7 +27,7 @@ function HomePage() {
 			<StaticSearchHeader />
 			<main className={styles.wrapper}>
 				<Separator />
-				<ServiceSection />
+				<ServiceClusterSection />
 				<Separator />
 				<InformationSection />
 				<Separator />

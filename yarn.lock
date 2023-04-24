@@ -1968,6 +1968,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-table@npm:^8.8.5":
+  version: 8.8.5
+  resolution: "@tanstack/react-table@npm:8.8.5"
+  dependencies:
+    "@tanstack/table-core": 8.8.5
+  peerDependencies:
+    react: ">=16"
+    react-dom: ">=16"
+  checksum: 6c396b1a175699b8ebca56e81230194b03d94df5a83bde542a643363dfa40065e8fa795ef57bb8d540134d717538c420d7013e3d3cf7b8a93a0680d0d6192765
+  languageName: node
+  linkType: hard
+
+"@tanstack/table-core@npm:8.8.5":
+  version: 8.8.5
+  resolution: "@tanstack/table-core@npm:8.8.5"
+  checksum: 7bbf00635e57294dd5bd12d82efb273d3b68c47b905a1d7f2fdabe83d9c10314e67d24f918b570ba8fecf80a120008359c52682cdd917d9de26eeece31c43a7d
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -2014,6 +2033,13 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: e60b153664572116dfea673c5bda7778dbff150498f44f998e34b5886d8afc47f16799280e4b6e241c0472aef1bc36add771c569c68fc5125fc2ae519a3eb9ac
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.194":
+  version: 4.14.194
+  resolution: "@types/lodash@npm:4.14.194"
+  checksum: 113f34831c461469d91feca2dde737f88487732898b4d25e9eb23b087bb193985f864d1e1e0f3b777edc5022e460443588b6000a3b2348c966f72d17eedc35ea
   languageName: node
   linkType: hard
 
@@ -2906,7 +2932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.24.0":
+"date-fns@npm:^2.24.0, date-fns@npm:^2.29.3":
   version: 2.29.3
   resolution: "date-fns@npm:2.29.3"
   checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
@@ -3820,7 +3846,9 @@ __metadata:
     "@reach/portal": ^0.18.0
     "@react-spring/web": ^9.7.1
     "@svgr/webpack": ^7.0.0
+    "@tanstack/react-table": ^8.8.5
     "@types/dompurify": ^3.0.1
+    "@types/lodash": ^4.14.194
     "@types/node": 18.15.10
     "@types/react": 18.0.29
     "@types/react-dom": 18.0.11
@@ -3828,6 +3856,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.56.0
     "@typescript-eslint/parser": ^5.56.0
     axios: ^1.3.4
+    date-fns: ^2.29.3
     dompurify: ^3.0.1
     eslint: ^8.36.0
     eslint-config-next: 13.2.4
@@ -3840,8 +3869,11 @@ __metadata:
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-react: ^7.32.2
     eslint-plugin-react-hooks: ^4.6.0
+    highcharts: ^10.3.3
+    highcharts-react-official: ^3.2.0
     html-react-parser: ^3.0.15
     https: ^1.0.0
+    lodash: ^4.17.21
     material-symbols: ^0.5.2
     next: 13.2.4
     path: ^0.12.7
@@ -3854,6 +3886,7 @@ __metadata:
     react-paginate: ^8.1.4
     react-router-dom: ^6.9.0
     sass: ^1.60.0
+    swiper: ^9.2.0
     swr: ^2.1.1
     typescript: 5.0.2
     typescript-plugin-css-modules: ^5.0.0
@@ -4187,6 +4220,23 @@ __metadata:
   dependencies:
     function-bind: ^1.1.1
   checksum: b9ad53d53be4af90ce5d1c38331e712522417d017d5ef1ebd0507e07c2fbad8686fffb8e12ddecd4c39ca9b9b47431afbb975b8abf7f3c3b82c98e9aad052792
+  languageName: node
+  linkType: hard
+
+"highcharts-react-official@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "highcharts-react-official@npm:3.2.0"
+  peerDependencies:
+    highcharts: ">=6.0.0"
+    react: ">=16.8.0"
+  checksum: c6716f7d5c501a5240b1be1b16a1fe5605e8c7fc565215905dcbdd25d12bf7a760cc4202852254224f76533b5b62be3caafa201eb9b50f6e104d0d57600a2e94
+  languageName: node
+  linkType: hard
+
+"highcharts@npm:^10.3.3":
+  version: 10.3.3
+  resolution: "highcharts@npm:10.3.3"
+  checksum: f40690109486fdada407cdc94f257dd869ebbcdd0c7ac4c7b85021c087523b4c32ea88725dce5f1b490c9669573240e17622c4765366ed4c38ff2b2503f092e9
   languageName: node
   linkType: hard
 
@@ -4857,6 +4907,13 @@ __metadata:
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
   checksum: ad580b4bdbb7ca1f7abf7e1bce63a9a0b98e370cf40194b03380a46b4ed799c9573029599caebc1b14e3f24b111aef72b96674a56cfa105e0f5ac70546cdc005
+  languageName: node
+  linkType: hard
+
+"lodash@npm:^4.17.21":
+  version: 4.17.21
+  resolution: "lodash@npm:4.17.21"
+  checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
   languageName: node
   linkType: hard
 
@@ -6249,6 +6306,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ssr-window@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "ssr-window@npm:4.0.2"
+  checksum: df182600927f4f3225224cf8c02338ea637c9750519505bbfb9a9236741a2a7ec088386fb948bca7b447b8303d9109e7dc7672e3de041c79ac2a0e03665af7d2
+  languageName: node
+  linkType: hard
+
 "ssri@npm:^9.0.0":
   version: 9.0.1
   resolution: "ssri@npm:9.0.1"
@@ -6453,6 +6517,15 @@ __metadata:
   bin:
     svgo: bin/svgo
   checksum: 381ba14aa782e71ab7033227634a3041c11fa3e2769aeaf0df43a08a615de61925108e34f55af6e7c5146f4a3109e78deabb4fa9d687e36d45d1f848b4e23d17
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "swiper@npm:9.2.0"
+  dependencies:
+    ssr-window: ^4.0.2
+  checksum: c0152bd2d08e01934583d66730218b8e3eecb124119161454ffbf9ac42a132fb9d32331a700e0688854f77846fa289f54b98e247bda639f0622cc39bc9c499bc
   languageName: node
   linkType: hard
 

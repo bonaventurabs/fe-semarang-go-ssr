@@ -20,3 +20,9 @@ export const slugToTitle = (str: string, separator?: string) => {
 		.replaceAll(separator, ' ')
 		.replace(/^(.)|\s+(.)/g, (c) => c.toUpperCase())
 }
+
+export const titleCase = (title: string) =>
+	title
+		.split(/ /g)
+		.map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
+		.join(' ')

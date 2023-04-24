@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import notFoundImg from '@/assets/images/not-found-2.png'
 import AgendaCard from '@/components/agendaCard/AgendaCard'
-import DatePicker from '@/components/datePicker/DatePicker'
+import DateSlider from '@/components/dateSlider/DateSlider'
 import Separator from '@/components/separator/Separator'
 import Header from '@/containers/header/Header'
 
@@ -66,7 +66,7 @@ const AgendaPage = () => {
 			<main className={styles.pageWrapper}>
 				<Separator />
 				<section className={styles.agendaSection}>
-					<DatePicker value={dateValue} onChange={handleDateChange} />
+					<DateSlider value={dateValue} onChange={handleDateChange} />
 					<div className={styles.cardWrapper}>
 						{/* TODO: Loading/skeleton */}
 						<Suspense fallback={<p>Loading...</p>}>

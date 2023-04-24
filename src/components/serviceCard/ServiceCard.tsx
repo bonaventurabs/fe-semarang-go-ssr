@@ -18,6 +18,7 @@ interface ServiceCardProps {
 	to?: UrlObject | string
 	url: string
 	isImageDisplayed?: boolean
+	isOrgDisplayed?: boolean
 }
 
 const ServiceCard = ({
@@ -28,6 +29,7 @@ const ServiceCard = ({
 	to,
 	url,
 	isImageDisplayed = true,
+	isOrgDisplayed = true,
 }: ServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
 	const slug = slugify(title)
@@ -56,9 +58,11 @@ const ServiceCard = ({
 				<div className={styles.textWrapper}>
 					<h4 className={styles.title}>{title}</h4>
 					<p className={styles.description}>{desc}</p>
-					<div className={styles.orgWrapper}>
-						<span className={styles.org}>{org}</span>
-					</div>
+					{isOrgDisplayed && (
+						<div className={styles.orgWrapper}>
+							<span className={styles.org}>{org}</span>
+						</div>
+					)}
 				</div>
 			</div>
 		</Link>

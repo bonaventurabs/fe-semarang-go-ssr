@@ -8,6 +8,10 @@ export function removeProtocol(url: string) {
 	return url.replace(/^https?:\/\//, '')
 }
 
+export function isProtocolExist(url: string) {
+	return url.startsWith('http://') || url.startsWith('https://')
+}
+
 export function isValidUrl(url: string) {
 	const pattern = new RegExp(
 		'^([a-zA-Z]+:\\/\\/)?' + // protocol

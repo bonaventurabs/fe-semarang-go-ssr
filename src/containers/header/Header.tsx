@@ -1,27 +1,32 @@
 import { useState, useEffect, useCallback } from 'react'
 
 import { type Url } from 'next/dist/shared/lib/router/router'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import Dialog from '@/components/dialog/Dialog'
-import { BackIcon, InfoIcon } from '@/components/icon/SVGIcon'
+import { BackIcon, InfoIcon, SearchIcon } from '@/components/icon/SVGIcon'
 
 import styles from './Header.module.scss'
 
 const Header = ({
 	title,
+	subTitle,
 	backTo,
 	isBackButtonDisplayed = true,
 	isInfoButtonDisplayed = false,
 	onInfoButtonClick,
 	shouldConfirmLeave = false,
+	isSearchButtonDisplayed = false,
 }: {
 	title?: string
+	subTitle?: string
 	backTo?: Url | number
 	isBackButtonDisplayed?: boolean
 	isInfoButtonDisplayed?: boolean
 	onInfoButtonClick?: React.MouseEventHandler
 	shouldConfirmLeave?: boolean
+	isSearchButtonDisplayed?: boolean
 }) => {
 	const router = useRouter()
 	const [isBackConfirmDialogOpen, setIsBackConfirmDialogOpen] = useState(false)
@@ -86,8 +91,16 @@ const Header = ({
 				)}
 				{shouldConfirmLeave && backConfirmDialog()}
 				{/* {shouldConfirmLeave && <LeaveConfirmDialog shouldConfirmLeave />} */}
-				{title && <h3>{title}</h3>}
+				<div className={styles.titleWrapper}>
+					{title && <h3>{title}</h3>}
+					{subTitle && <p>{subTitle}</p>}
+				</div>
 			</div>
+			{isSearchButtonDisplayed && (
+				<Link href="/pencarian">
+					<SearchIcon className={`${styles.icon} ${styles.iconSearch}`} />
+				</Link>
+			)}
 			{isInfoButtonDisplayed && (
 				<InfoIcon className={styles.icon} onClick={onInfoButtonClick} />
 			)}

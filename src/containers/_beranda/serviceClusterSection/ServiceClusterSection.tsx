@@ -6,13 +6,13 @@ import {
 	CustomEducationIcon,
 	CustomCitizenshipIcon,
 	CustomTradeIcon,
-	CustomTransportationIcon,
-	CustomTourismIcon,
 	CustomAllIcon,
-	CustomPermissionIcon,
+	CustomBusinessIcon,
+	CustomManufacturingIcon,
+	CustomVillageIcon,
 } from '@/components/icon/SVGIcon'
 
-import styles from './ServiceSection.module.scss'
+import styles from './ServiceClusterSection.module.scss'
 
 const SVGIconCard = ({
 	name,
@@ -43,44 +43,44 @@ interface ServiceIconProps {
 	to: Url
 }
 
-const ServiceSection = () => {
+const ServiceClusterSection = () => {
 	const title = 'Seluruh Layanan'
 	const columnCount = 4
 	const data: ServiceIconProps[] = [
 		{
 			name: 'Kesehatan',
 			icon: CustomHealthIcon,
-			to: '/',
+			to: '/layanan/kesehatan',
 		},
 		{
 			name: 'Pendidikan',
 			icon: CustomEducationIcon,
-			to: '/',
+			to: '/layanan/pendidikan',
 		},
 		{
-			name: 'Kependudukan',
+			name: 'Sosial',
 			icon: CustomCitizenshipIcon,
-			to: '/',
+			to: '/layanan/sosial',
+		},
+		{
+			name: 'Ketenagakerjaan',
+			icon: CustomBusinessIcon,
+			to: '/layanan/naker',
 		},
 		{
 			name: 'UMKM',
 			icon: CustomTradeIcon,
-			to: '/',
+			to: '/layanan/umkm',
 		},
 		{
-			name: 'Transportasi',
-			icon: CustomTransportationIcon,
-			to: '/',
+			name: 'Pembangunan',
+			icon: CustomManufacturingIcon,
+			to: '/layanan/pembangunan',
 		},
 		{
-			name: 'Pariwisata',
-			icon: CustomTourismIcon,
-			to: '/',
-		},
-		{
-			name: 'Perizinan',
-			icon: CustomPermissionIcon,
-			to: '/',
+			name: 'Desa',
+			icon: CustomVillageIcon,
+			to: '/layanan/desa',
 		},
 		{
 			name: 'Lihat Semua',
@@ -110,4 +110,4 @@ const ServiceSection = () => {
 	)
 }
 
-export default ServiceSection
+export default ServiceClusterSection
