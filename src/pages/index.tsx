@@ -4,7 +4,8 @@ import Separator from '@/components/separator/Separator'
 import AboutSemarangGoSection from '@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
 import AgendaSection from '@/containers/_beranda/agendaSection/AgendaSection'
 import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
-import InformationSection from '@/containers/_beranda/informationSection/InformationSection'
+import IntroGuideline from '@/containers/_beranda/introGuideline/IntroGuideline'
+import MainFeatureSection from '@/containers/_beranda/mainFeatureSection/MainFeatureSection'
 import NewsSection from '@/containers/_beranda/newsSection/NewsSection'
 import ServiceClusterSection from '@/containers/_beranda/serviceClusterSection/ServiceClusterSection'
 import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHeader'
@@ -24,12 +25,13 @@ function HomePage() {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
+			<IntroGuideline />
 			<StaticSearchHeader />
 			<main className={styles.wrapper}>
 				<Separator />
-				<ServiceClusterSection />
+				<ServiceClusterSection id="service" />
 				<Separator />
-				<InformationSection />
+				<MainFeatureSection />
 				<Separator />
 				<CityIndeksCluster />
 				<Separator />

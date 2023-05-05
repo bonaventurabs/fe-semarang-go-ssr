@@ -22,6 +22,7 @@ interface navItemProps {
 	icon: React.FC<React.SVGProps<SVGSVGElement>>
 	activeIcon: React.FC<React.SVGProps<SVGSVGElement>>
 	text: string
+	id?: string
 }
 
 function NavItemLink({ item, ...props }: { item: navItemProps }) {
@@ -29,7 +30,7 @@ function NavItemLink({ item, ...props }: { item: navItemProps }) {
 	const isActive = router.pathname === item.to
 
 	return (
-		<li className={styles.navItem}>
+		<li className={styles.navItem} id={item.id}>
 			<Link href={item.to} {...props}>
 				<>
 					{isActive ? (
@@ -59,30 +60,35 @@ const NavBar = () => {
 			icon: HomeIcon,
 			activeIcon: CustomHomeIcon,
 			text: 'Beranda',
+			id: 'home',
 		},
 		{
 			to: '/berita',
 			icon: NewsIcon,
 			activeIcon: CustomNewsIcon,
 			text: 'Berita',
+			id: 'news',
 		},
 		{
 			to: '/indeks-kota-cerdas',
 			icon: SmartCityIcon,
 			activeIcon: CustomSmartCityIcon,
 			text: 'Smart City',
+			id: 'smartCity',
 		},
 		{
 			to: '/agenda',
 			icon: AgendaIcon,
 			activeIcon: CustomAgendaIcon,
 			text: 'Agenda',
+			id: 'agenda',
 		},
 		{
 			to: '/lapor',
 			icon: ReportIcon,
 			activeIcon: CustomReportIcon,
 			text: 'Lapor',
+			id: 'report',
 		},
 	]
 

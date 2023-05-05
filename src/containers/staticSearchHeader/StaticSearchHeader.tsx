@@ -17,7 +17,7 @@ const StaticSearchHeader = () => {
 					draggable={false}
 				/>
 			</Link>
-			<Link href="/pencarian" className={styles.searchWrapper}>
+			<Link href="/pencarian" className={styles.searchWrapper} id="search">
 				<SearchBar placeholder="Cari layanan dan informasi..." disabled />
 			</Link>
 		</header>

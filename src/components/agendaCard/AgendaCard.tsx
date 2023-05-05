@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
 import dynamic from 'next/dynamic'
+import ContentLoader from 'react-content-loader'
 
 import styles from './AgendaCard.module.scss'
 import { CategoryIcon, DateIcon, LocationIcon, TimeIcon } from '../icon/SVGIcon'
@@ -135,3 +136,21 @@ const AgendaCard = ({
 }
 
 export default AgendaCard
+
+export const AgendaCardSkeleton = ({ ...props }) => (
+	<ContentLoader
+		speed={2}
+		style={{ width: '100%', height: 125 }}
+		backgroundColor="#f3f3f3"
+		foregroundColor="#ecebeb"
+		uniqueKey="agenda-card-skeleton"
+		{...props}
+	>
+		<rect x="13" y="11" rx="8" ry="8" width="70" height="30" />
+		<rect x="13" y="47" rx="3" ry="3" width="381" height="14" />
+		<circle cx="26" cy="82" r="13" />
+		<rect x="53" y="76" rx="3" ry="3" width="178" height="10" />
+		<circle cx="26" cy="112" r="13" />
+		<rect x="53" y="107" rx="3" ry="3" width="178" height="10" />
+	</ContentLoader>
+)

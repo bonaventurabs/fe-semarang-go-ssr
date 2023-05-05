@@ -19,6 +19,7 @@ interface ServiceCardProps {
 	url: string
 	isImageDisplayed?: boolean
 	isOrgDisplayed?: boolean
+	cluster?: string
 }
 
 const ServiceCard = ({
@@ -30,10 +31,11 @@ const ServiceCard = ({
 	url,
 	isImageDisplayed = true,
 	isOrgDisplayed = true,
+	cluster,
 }: ServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
 	const slug = slugify(title)
-	to ??= `/layanan/${slug}`
+	to ??= `/layanan/${cluster ?? 'semua'}/${slug}`
 
 	useEffect(() => {
 		async function checkProtocol() {

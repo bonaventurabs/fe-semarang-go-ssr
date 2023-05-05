@@ -6,7 +6,7 @@ import { Raleway, Montserrat } from 'next/font/google'
 import Layout from '@/containers/layout/Layout'
 import styles from '@/styles/Home.module.scss'
 
-const raleway = Raleway({ subsets: ['cyrillic'] })
+const raleway = Raleway({ subsets: ['latin'] })
 const montserrat = Montserrat({ subsets: ['cyrillic'] })
 
 export default function App({ Component, pageProps }: AppProps) {

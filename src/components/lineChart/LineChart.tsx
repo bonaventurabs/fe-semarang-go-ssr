@@ -8,6 +8,7 @@ import {
 	maxScreenWidth,
 	colorPrimaryRedAlt,
 	colorMonoWhite,
+	colorMonoDarkGrey,
 	fontFamily,
 } from './LineChart.module.scss'
 
@@ -137,6 +138,7 @@ const LineChart = <T extends object>({
 			animation: true,
 			useHTML: true,
 			backgroundColor: colorMonoWhite,
+			borderColor: colorMonoDarkGrey,
 			borderWidth: 1,
 			borderRadius: 15,
 			shadow: {

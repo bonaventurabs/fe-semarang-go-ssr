@@ -43,7 +43,7 @@ interface ServiceIconProps {
 	to: Url
 }
 
-const ServiceClusterSection = () => {
+const ServiceClusterSection = ({ id }: { id?: string }) => {
 	const title = 'Seluruh Layanan'
 	const columnCount = 4
 	const data: ServiceIconProps[] = [
@@ -89,7 +89,7 @@ const ServiceClusterSection = () => {
 		},
 	]
 	return (
-		<section className={styles.serviceSection}>
+		<section className={styles.serviceSection} id={id}>
 			<h3>{title}</h3>
 			<div
 				className={styles.grid}

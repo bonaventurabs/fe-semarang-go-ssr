@@ -126,6 +126,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 			</div>
 			<div className={styles.sliderWrapper}>
 				<Swiper
+					initialSlide={new Date().getDay() - 1}
 					spaceBetween={10}
 					effect="slide"
 					slidesPerView="auto"
