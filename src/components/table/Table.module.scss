@@ -1,0 +1,31 @@
+@import '../../styles/variables';
+@import '../../styles/fonts';
+
+.table-wrapper {
+	width: 100%;
+	background: $color-mono-white;
+	border: 1px solid $color-mono-dark-grey;
+	border-radius: 8px;
+	text-align: center;
+	border-collapse: separate;
+	border-spacing: 0 0.625em;
+
+	.head {
+		width: 100%;
+	}
+
+	.head-font {
+		@include font-md-extra-bold;
+		color: $color-mono-black;
+	}
+
+	.body-font {
+		@include font-md-regular;
+		color: $color-mono-black;
+		white-space: nowrap;
+	}
+
+	.dark-body-bg {
+		background: $color-mono-light-grey;
+	}
+}
