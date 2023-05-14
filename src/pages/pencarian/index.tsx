@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
+import Head from 'next/head'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 
 import Separator from '@/components/separator/Separator'
-import NotFoundSection from '@/containers/_pencarian/notFoundSection/NotFoundSection'
 import PopularSearchSection from '@/containers/_pencarian/popularSearchSection/PopularSearchSection'
 import SearchHeader from '@/containers/_pencarian/searchHeader/SearchHeader'
 import SearchResultSection from '@/containers/_pencarian/searchResultSection/SearchResultSection'
@@ -31,9 +31,18 @@ const SearchPage = () => {
 	const handleResetSearch = (e: React.MouseEvent<HTMLSpanElement>) => {
 		void router.replace(router.pathname, undefined, { shallow: true })
 	}
+	const [query, setQuery] = React.useState<string | null>(
+		searchParams.get(search.params.query),
+	)
+	useEffect(() => {
+		setQuery(searchParams.get(search.params.query))
+	}, [searchParams])
 
 	return (
 		<>
+			<Head>
+				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+			</Head>
 			<SearchHeader
 				name="q"
 				value={searchParams.get(search.params.query) ?? ''}
@@ -44,15 +53,10 @@ const SearchPage = () => {
 			<main className={styles.wrapper}>
 				<Separator />
 				{(() => {
-					if (!searchParams.get(search.params.query)) {
+					if (!query || query === '') {
 						return <PopularSearchSection />
 					} else {
-						return searchParams.get(search.params.query)?.toLowerCase() ===
-							'semarang' ? (
-							<SearchResultSection />
-						) : (
-							<NotFoundSection />
-						)
+						return <SearchResultSection query={query} />
 					}
 				})()}
 			</main>

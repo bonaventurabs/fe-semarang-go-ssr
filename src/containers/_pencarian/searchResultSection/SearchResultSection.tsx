@@ -1,67 +1,73 @@
+import { useState } from 'react'
+
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
-import newsImg from '@/assets/images/news-1.png'
-import serviceImg1 from '@/assets/images/service-1.png'
+// import newsImg from '@/assets/images/news-1.png'
+// import serviceImg1 from '@/assets/images/service-1.png'
 import serviceImg2 from '@/assets/images/service-2.png'
-import serviceImg3 from '@/assets/images/service-3.png'
+// import serviceImg3 from '@/assets/images/service-3.png'
 import AgendaCard from '@/components/agendaCard/AgendaCard'
 import IndexCard from '@/components/indexCard/IndexCard'
 import NewsCard from '@/components/newsCard/NewsCard'
 import Separator from '@/components/separator/Separator'
 import ServiceCard from '@/components/serviceCard/ServiceCard'
+import { ENDPOINT_PATH } from '@/interfaces'
 import * as search from '@/models/search'
+import { apiFetcher } from '@/services/api'
 
 import styles from './SearchResult.module.scss'
+import NotFoundSection from '../notFoundSection/NotFoundSection'
 
-const serviceData = [
-	{
-		title: 'Ambulan Hebat',
-		desc: 'Aplikasi Ambulan Hebat yang dikelola oleh Dinas Kesehatan Kota Semarang',
-		org: 'Dinas Kesehatan',
-		image: serviceImg1,
-		// url: 'ambulanhebat.semarangkota.go.id',
-		// url: 'ppebalinusra.menlhk.go.id',
-		url: 'dapodik.semarangkota.go.id',
-	},
-	{
-		title: 'Sistem Informasi GIS Kesehatan Lingkungan',
-		desc: 'Aplikasi Sistem Informasi GIS Kesehatan Lingkungan yang dikelola oleh Dinas Lingkungan Kota Semarang',
-		org: 'Dinas Lingkungan',
-		image: serviceImg2,
-		url: 'dlh.semarangkota.go.id',
-	},
-	{
-		title: 'E-Puskesmas',
-		desc: 'Aplikasi E-Puskesmas yang dikelola oleh Dinas Kesehatan Kota Semarang',
-		org: 'Dinas Kesehatan',
-		image: serviceImg3,
-		url: 'epuskesmas.semarangkota.go.id',
-	},
-]
+// const serviceData = [
+// 	{
+// 		title: 'Ambulan Hebat',
+// 		desc: 'Aplikasi Ambulan Hebat yang dikelola oleh Dinas Kesehatan Kota Semarang',
+// 		org: 'Dinas Kesehatan',
+// 		image: serviceImg1,
+// 		// url: 'ambulanhebat.semarangkota.go.id',
+// 		// url: 'ppebalinusra.menlhk.go.id',
+// 		url: 'dapodik.semarangkota.go.id',
+// 	},
+// 	{
+// 		title: 'Sistem Informasi GIS Kesehatan Lingkungan',
+// 		desc: 'Aplikasi Sistem Informasi GIS Kesehatan Lingkungan yang dikelola oleh Dinas Lingkungan Kota Semarang',
+// 		org: 'Dinas Lingkungan',
+// 		image: serviceImg2,
+// 		url: 'dlh.semarangkota.go.id',
+// 	},
+// 	{
+// 		title: 'E-Puskesmas',
+// 		desc: 'Aplikasi E-Puskesmas yang dikelola oleh Dinas Kesehatan Kota Semarang',
+// 		org: 'Dinas Kesehatan',
+// 		image: serviceImg3,
+// 		url: 'epuskesmas.semarangkota.go.id',
+// 	},
+// ]
 
-const newsData = [
-	{
-		title: 'Pelaksanaan PPDB jalur afirmasi untuk siswa inklusi',
-		date: new Date('2023-02-07'),
-		tag: 'Pendidikan',
-		image: newsImg,
-	},
-	{
-		title:
-			'Kembali Gelar Pelayanan Akhir Pekan, Ita Dorong Masyarakat Gencarkan Urban Farming',
-		date: new Date('2023-02-06'),
-		tag: 'Bisnis & UMKM',
-		image: newsImg,
-	},
-	{
-		title:
-			'TINGKATKAN MUTU PENDIDIKAN, PEMKOT SEMARANG DAN TANOTO FOUNDATION LAKUKAN AUDIENS',
-		date: new Date('2023-02-05'),
-		tag: 'Pendidikan',
-		image: newsImg,
-	},
-]
+// const newsData = [
+// 	{
+// 		title: 'Pelaksanaan PPDB jalur afirmasi untuk siswa inklusi',
+// 		date: new Date('2023-02-07'),
+// 		tag: 'Pendidikan',
+// 		image: newsImg,
+// 	},
+// 	{
+// 		title:
+// 			'Kembali Gelar Pelayanan Akhir Pekan, Ita Dorong Masyarakat Gencarkan Urban Farming',
+// 		date: new Date('2023-02-06'),
+// 		tag: 'Bisnis & UMKM',
+// 		image: newsImg,
+// 	},
+// 	{
+// 		title:
+// 			'TINGKATKAN MUTU PENDIDIKAN, PEMKOT SEMARANG DAN TANOTO FOUNDATION LAKUKAN AUDIENS',
+// 		date: new Date('2023-02-05'),
+// 		tag: 'Pendidikan',
+// 		image: newsImg,
+// 	},
+// ]
 
 const agendaData = [
 	{
@@ -190,10 +196,14 @@ const FilterButton = ({
 	)
 }
 
-const SearchResultSection = () => {
+const SearchResultSection = ({ query }: { query: string }) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
-
+	const [isServiceFound, setIsServiceFound] = useState(true)
+	const [isNewsFound, setIsNewsFound] = useState(true)
+	const [isAgendaFound, setIsAgendaFound] = useState(true)
+	const [isIndexFound, setIsIndexFound] = useState(true)
+	// const [isAllFound, setIsAllFound] = useState(false)
 	const handleSearchTypeClick = (e: React.MouseEvent) => {
 		const value = e.currentTarget.getAttribute('value')
 		if (value && value !== '') {
@@ -217,119 +227,207 @@ const SearchResultSection = () => {
 		searchParams.get(search.params.type) !== null &&
 		searchParams.get(search.params.type) !== ''
 
-	const ServiceSearchResult = () => {
+	const ServiceSearchResult = ({
+		showAll,
+		limit,
+	}: {
+		showAll: boolean
+		limit?: number
+	}) => {
+		const { data } = useSWR<search.ServiceSearchListResponseData>(
+			`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
+			apiFetcher,
+		)
+		if (!data || data.status !== 200) {
+			setIsServiceFound(false)
+			if (showAll) return <NotFoundSection />
+			return <div />
+		}
 		return (
-			<section className={styles.resultSection}>
-				<div className={styles.titleWrapper}>
-					<div className={styles.title}>
-						<h3>{!isTypeSelected ? 'Layanan' : 'Hasil Pencarian'}</h3>
-						<span>
-							<b>{serviceData.length}</b> layanan ditemukan
-						</span>
+			<>
+				<section className={styles.resultSection}>
+					<div className={styles.titleWrapper}>
+						<div className={styles.title}>
+							<h3>{!isTypeSelected ? 'Layanan' : 'Hasil Pencarian'}</h3>
+							<span>
+								<b>{data.searchResult.length}</b> layanan ditemukan
+							</span>
+						</div>
+						{!isTypeSelected ? (
+							<button
+								value={searchCategory.service.value}
+								className={styles.viewAllButton}
+								onClick={handleSearchTypeClick}
+							>
+								Lihat Semua
+							</button>
+						) : (
+							<div />
+						)}
 					</div>
-					{!isTypeSelected ? (
-						<button
-							value={searchCategory.service.value}
-							className={styles.viewAllButton}
-							onClick={handleSearchTypeClick}
-						>
-							Lihat Semua
-						</button>
-					) : (
-						<div />
-					)}
-				</div>
-				<div className={styles.serviceContentWrapper}>
-					{serviceData.map((value, index) => (
-						<ServiceCard
-							key={index}
-							image={value.image}
-							title={value.title}
-							desc={value.desc}
-							org={value.org}
-							url={value.url}
-						/>
-					))}
-				</div>
-			</section>
+					<div className={styles.serviceContentWrapper}>
+						{(limit
+							? data.searchResult.slice(0, limit)
+							: data.searchResult
+						).map((value, index) => (
+							<ServiceCard
+								key={index}
+								image={serviceImg2}
+								title={value.title}
+								desc={value.body}
+								org="Kota Semarang"
+								url={value.url}
+							/>
+						))}
+					</div>
+				</section>
+				<Separator />
+			</>
 		)
 	}
 
-	const NewsSearchResult = () => {
+	const NewsSearchResult = ({
+		showAll,
+		limit,
+	}: {
+		showAll: boolean
+		limit?: number
+	}) => {
+		const { data } = useSWR<search.NewsSearchListResponseData>(
+			`${ENDPOINT_PATH.GET_NEWS_SEARCH}?query=${query}`,
+			apiFetcher,
+		)
+		if (!data || data.status !== 200) {
+			setIsNewsFound(false)
+			if (showAll) return <NotFoundSection />
+			return <div />
+		}
 		return (
-			<section className={styles.resultSection}>
-				<div className={styles.titleWrapper}>
-					<div className={styles.title}>
-						<h3>{!isTypeSelected ? 'Berita' : 'Hasil Pencarian'}</h3>
-						<span>
-							<b>{serviceData.length}</b> berita/artikel ditemukan
-						</span>
+			<>
+				<section className={styles.resultSection}>
+					<div className={styles.titleWrapper}>
+						<div className={styles.title}>
+							<h3>{!isTypeSelected ? 'Berita' : 'Hasil Pencarian'}</h3>
+							<span>
+								<b>{data.searchResult.length}</b> berita/artikel ditemukan
+							</span>
+						</div>
+						{!isTypeSelected ? (
+							<button
+								value={searchCategory.news.value}
+								className={styles.viewAllButton}
+								onClick={handleSearchTypeClick}
+							>
+								Lihat Semua
+							</button>
+						) : (
+							<div />
+						)}
 					</div>
-					{!isTypeSelected ? (
-						<button
-							value={searchCategory.news.value}
-							className={styles.viewAllButton}
-							onClick={handleSearchTypeClick}
-						>
-							Lihat Semua
-						</button>
-					) : (
-						<div />
-					)}
-				</div>
-				<div className={styles.newsContentWrapper}>
-					{newsData.map((value, index) => (
-						<NewsCard
-							key={index}
-							type="M"
-							image={value.image}
-							title={value.title}
-							date={value.date}
-							tag={value.tag}
-						/>
-					))}
-				</div>
-			</section>
+					<div className={styles.newsContentWrapper}>
+						{(limit
+							? data.searchResult.slice(0, limit)
+							: data.searchResult
+						).map((value, index) => (
+							<NewsCard
+								key={index}
+								type="M"
+								image={value.thumbnail}
+								title={value.headline}
+								date={new Date(value.postDate)}
+								tag={value.category ?? 'lainnya'}
+								slug={value.slug}
+							/>
+						))}
+					</div>
+				</section>
+				<Separator />
+			</>
 		)
 	}
 
-	const AgendaSearchResult = () => {
+	const AgendaSearchResult = ({
+		showAll,
+		limit,
+	}: {
+		showAll: boolean
+		limit?: number
+	}) => {
+		// const { data } = useSWR<search.ServiceSearchListResponseData>(
+		// 	`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
+		// 	apiFetcher,
+		// )
+		// if (!data || data.status !== 200) {
+		// 	setIsServiceFound(false)
+		// 	if (showAll) return <NotFoundSection />
+		// 	return <div />
+		// }
+		if (!query.toLocaleLowerCase('semarang') || agendaData.length === 0) {
+			setIsAgendaFound(false)
+			if (showAll) return <NotFoundSection />
+			return <div />
+		}
 		return (
-			<section className={styles.resultSection}>
-				<div className={styles.titleWrapper}>
-					<div className={styles.title}>
-						<h3>{!isTypeSelected ? 'Kegiatan' : 'Hasil Pencarian'}</h3>
-						<span>
-							<b>{agendaData.length}</b> kegiatan ditemukan
-						</span>
+			<>
+				<section className={styles.resultSection}>
+					<div className={styles.titleWrapper}>
+						<div className={styles.title}>
+							<h3>{!isTypeSelected ? 'Kegiatan' : 'Hasil Pencarian'}</h3>
+							<span>
+								<b>{agendaData.length}</b> kegiatan ditemukan
+							</span>
+						</div>
+						{!isTypeSelected ? (
+							<button
+								value={searchCategory.agenda.value}
+								className={styles.viewAllButton}
+								onClick={handleSearchTypeClick}
+							>
+								Lihat Semua
+							</button>
+						) : (
+							<div />
+						)}
 					</div>
-					{!isTypeSelected ? (
-						<button
-							value={searchCategory.agenda.value}
-							className={styles.viewAllButton}
-							onClick={handleSearchTypeClick}
-						>
-							Lihat Semua
-						</button>
-					) : (
-						<div />
-					)}
-				</div>
-				<div className={styles.agendaContentWrapper}>
-					{agendaData.map((value, index) => (
-						<AgendaCard
-							key={index}
-							title={value.title}
-							time={value.time}
-							location={value.location}
-						/>
-					))}
-				</div>
-			</section>
+					<div className={styles.agendaContentWrapper}>
+						{(limit ? agendaData.slice(0, limit) : agendaData).map(
+							(value, index) => (
+								<AgendaCard
+									key={index}
+									title={value.title}
+									time={value.time}
+									location={value.location}
+								/>
+							),
+						)}
+					</div>
+				</section>
+				<Separator />
+			</>
 		)
 	}
 
-	const IndexSearchResult = () => {
+	const IndexSearchResult = ({
+		showAll,
+		limit,
+	}: {
+		showAll: boolean
+		limit?: number
+	}) => {
+		// const { data } = useSWR<search.ServiceSearchListResponseData>(
+		// 	`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
+		// 	apiFetcher,
+		// )
+		// if (!data || data.status !== 200) {
+		// 	setIsServiceFound(false)
+		// 	if (showAll) return <NotFoundSection />
+		// 	return <div />
+		// }
+		if (!query.toLocaleLowerCase('semarang') || indexData.length === 0) {
+			setIsIndexFound(false)
+			if (showAll) return <NotFoundSection />
+			return <div />
+		}
 		return (
 			<section className={styles.resultSection}>
 				<div className={styles.titleWrapper}>
@@ -352,15 +450,18 @@ const SearchResultSection = () => {
 					)}
 				</div>
 				<div className={styles.indeksContentWrapper}>
-					{indexData.map((value, index) => (
-						<IndexCard
-							key={index}
-							title={value.title}
-							currentIndex={value.currentIndex}
-							targetIndex={value.targetIndex}
-							description={value.description}
-						/>
-					))}
+					{(limit ? indexData.slice(0, limit) : indexData).map(
+						(value, index) => (
+							<IndexCard
+								key={index}
+								title={value.title}
+								currentIndex={value.currentIndex}
+								targetIndex={value.targetIndex}
+								description={value.description}
+								tag="tag"
+							/>
+						),
+					)}
 				</div>
 			</section>
 		)
@@ -385,25 +486,31 @@ const SearchResultSection = () => {
 			{(() => {
 				switch (searchParams.get('type')) {
 					case searchCategory.service.value:
-						return <ServiceSearchResult />
+						return <ServiceSearchResult showAll />
 					case searchCategory.news.value:
-						return <NewsSearchResult />
+						return <NewsSearchResult showAll />
 					case searchCategory.agenda.value:
-						return <AgendaSearchResult />
+						return <AgendaSearchResult showAll />
 					case searchCategory.index.value:
-						return <IndexSearchResult />
+						return <IndexSearchResult showAll />
 					default:
-						return (
-							<>
-								<ServiceSearchResult />
-								<Separator />
-								<NewsSearchResult />
-								<Separator />
-								<AgendaSearchResult />
-								<Separator />
-								<IndexSearchResult />
-							</>
-						)
+						if (
+							isServiceFound ||
+							isNewsFound ||
+							isAgendaFound ||
+							isIndexFound
+						) {
+							return (
+								<>
+									<ServiceSearchResult showAll={false} limit={3} />
+									<NewsSearchResult showAll={false} limit={3} />
+									<AgendaSearchResult showAll={false} limit={3} />
+									<IndexSearchResult showAll={false} limit={3} />
+								</>
+							)
+						} else {
+							return <NotFoundSection />
+						}
 				}
 			})()}
 		</>

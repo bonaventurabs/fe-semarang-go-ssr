@@ -15,7 +15,7 @@ const Tag = ({ text }: { text: string }) => {
 }
 
 interface IndexCardProps {
-	id: string
+	id?: string
 	title: string
 	currentIndex: number
 	targetIndex: number

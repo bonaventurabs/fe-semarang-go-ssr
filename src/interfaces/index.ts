@@ -7,4 +7,9 @@ export enum ENDPOINT_PATH {
 	GET_SERVICE = '/app',
 	GET_SERVICE_CLUSTER = '/cluster',
 	GET_SERVICE_ORG = '/dinas',
+	GET_SEARCH = '/search',
+	GET_SERVICE_SEARCH = '/app/search',
+	GET_SERVICE_SEARCH_HIGHLIGHT = '/app/searchHighlight',
+	GET_NEWS_SEARCH = '/news/search',
+	GET_NEWS_SEARCH_HIGHLIGHT = '/news/searchHighlight',
 }
