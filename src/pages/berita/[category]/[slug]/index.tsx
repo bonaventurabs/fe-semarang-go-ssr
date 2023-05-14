@@ -14,7 +14,7 @@ import {
 } from '@/models/news'
 import ErrorPage from '@/pages/_error'
 import { api } from '@/services/api'
-// import html from '@/utils/html'
+import html from '@/utils/html'
 
 import styles from './index.module.scss'
 interface NewsContentPageProps {
@@ -77,7 +77,7 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 							</span>
 						</div>
 					</div>
-					<div className={styles.textWrapper}>{content}</div>
+					<div className={styles.textWrapper}>{html(content)}</div>
 				</section>
 			</main>
 		</>
