@@ -50,6 +50,7 @@ const AgendaPage = () => {
 			<Header
 				title="Agenda Kegiatan Kota Semarang"
 				isBackButtonDisplayed={false}
+				isSearchButtonDisplayed
 			/>
 			<main className={styles.pageWrapper}>
 				<Separator />
@@ -66,6 +67,7 @@ const AgendaPage = () => {
 								)
 							} else if (
 								typeof data === 'undefined' ||
+								data.status !== 200 ||
 								data.data.length === 0
 							) {
 								return (

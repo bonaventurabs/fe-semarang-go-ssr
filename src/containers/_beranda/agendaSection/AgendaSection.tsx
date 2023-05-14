@@ -19,6 +19,8 @@ const AgendaSection = () => {
 		}?startDate=${toISOStringDate()}&endDate=${toISOStringDate()}`,
 		apiFetcher,
 	)
+	const isError =
+		typeof data === 'undefined' || data.status !== 200 || data.data.length === 0
 
 	return (
 		<div className={styles.agendaSection}>
@@ -29,7 +31,7 @@ const AgendaSection = () => {
 				</Link>
 			</div>
 			<div className={styles.cardWrapper}>
-				{typeof data === 'undefined' || data.data.length === 0 ? (
+				{isError ? (
 					<div className={styles.notFoundWrapper}>
 						<Image src={notFoundImg} alt="" />
 						<span>Tidak ada kegiatan hari ini!</span>

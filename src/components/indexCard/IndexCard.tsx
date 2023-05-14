@@ -43,14 +43,18 @@ const IndexCard = ({
 					<IndexIcon />
 					<div className={styles.textWrapper}>
 						<span className={styles.valueType}>Indeks</span>
-						<span className={styles.value}>{currentIndex}</span>
+						<span className={styles.value}>
+							{currentIndex.toLocaleString('id-ID')}
+						</span>
 					</div>
 				</div>
 				<div className={styles.index}>
 					<TargetIcon />
 					<div className={styles.textWrapper}>
 						<span className={styles.valueType}>Target Indeks</span>
-						<span className={styles.value}>{targetIndex}</span>
+						<span className={styles.value}>
+							{targetIndex.toLocaleString('id-ID')}
+						</span>
 					</div>
 				</div>
 			</div>

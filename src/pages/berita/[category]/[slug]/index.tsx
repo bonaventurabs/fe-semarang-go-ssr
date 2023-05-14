@@ -17,6 +17,7 @@ import { api } from '@/services/api'
 import html from '@/utils/html'
 
 import styles from './index.module.scss'
+
 interface NewsContentPageProps {
 	data: NewsResponseData
 	error?: ErrorResponseData
@@ -43,13 +44,8 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 		<>
 			<Head>
 				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-				{/* <meta
-					name="description"
-					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-				/> */}
+				<meta name="description" content={shortDescription} />
 				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header isBackButtonDisplayed />
 			<main className={styles.newsPage}>
@@ -117,7 +113,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		return {
 			props: {
 				error: {
-					status: 500,
+					status: 404,
 					data: 'Something went wrong',
 				},
 			},

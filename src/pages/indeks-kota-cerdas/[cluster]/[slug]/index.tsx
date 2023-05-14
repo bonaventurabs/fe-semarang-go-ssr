@@ -1,14 +1,21 @@
 import { useState } from 'react'
 
 import { type ColumnDef } from '@tanstack/react-table'
+import { AxiosError } from 'axios'
+import { type GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 
 import LineChart from '@/components/lineChart/LineChart'
 import Separator from '@/components/separator/Separator'
 import { Tab, Tabs } from '@/components/tab/Tab'
 import Table from '@/components/table/Table'
 import Header from '@/containers/header/Header'
+import { ENDPOINT_PATH } from '@/interfaces'
+import { cityIndexDesc, type CityIndexResponseData } from '@/models/cityIndex'
+import { type ErrorResponseData } from '@/models/error'
+import ErrorPage from '@/pages/_error'
+import { api } from '@/services/api'
+import { camelCaseToTitleCase } from '@/utils/string'
 
 import styles, { colorMonoWhite } from './index.module.scss'
 
@@ -17,52 +24,6 @@ interface Item {
 	value: number
 }
 
-const data = [
-	{
-		year: 2015,
-		value: 84392,
-	},
-	{
-		year: 2016,
-		value: 84392,
-	},
-	{
-		year: 2017,
-		value: 84392,
-	},
-	{
-		year: 2018,
-		value: 84392,
-	},
-	{
-		year: 2019,
-		value: 84392,
-	},
-	{
-		year: 2020,
-		value: 84392,
-	},
-	{
-		year: 2021,
-		value: 90000,
-	},
-	{
-		year: 2022,
-		value: 100102,
-	},
-	{
-		year: 2023,
-		value: 84392,
-	},
-	{
-		year: 2024,
-		value: 84392,
-	},
-	{
-		year: 2025,
-		value: 84392,
-	},
-]
 const columns: Array<ColumnDef<Item>> = [
 	{
 		accessorKey: 'year',
@@ -78,10 +39,17 @@ const columns: Array<ColumnDef<Item>> = [
 	},
 ]
 
-const CityIndexContentPage = () => {
-	const router = useRouter()
-	const { cluster, id } = router.query
+interface CityIndexContentPageProps {
+	data: CityIndexResponseData
+	error?: ErrorResponseData
+}
+
+const CityIndexContentPage = ({ data, error }: CityIndexContentPageProps) => {
 	const [activeTab, setActiveTab] = useState(0)
+	if (error) {
+		return <ErrorPage statusCode={error.status} />
+	}
+
 	const handleTabChange = (
 		e: React.MouseEvent<HTMLButtonElement>,
 		value: string | number,
@@ -89,23 +57,21 @@ const CityIndexContentPage = () => {
 		setActiveTab(typeof value === 'string' ? parseInt(value) : value)
 	}
 	const pageTitle = 'Indeks Kota'
-	const title = 'Indeks Pembangunan Manusia (IPM)'
-	const desc =
-		'Indeks Pembangunan Manusia (IPM) adalah pengukuran perbandingan dari harapan hidup, melek huruf, pendidikan dan standar hidup.'
-	const yearData = 84392
-	const targetData = 84392
+	const title = camelCaseToTitleCase(data.data[0].title)
+	const desc = cityIndexDesc[data.data[0].title]
+	const yearData = data.data[0].data['2022']
+	const targetData = data.data[0].data['2023']
+	const dataPerYear = Object.entries(data.data[0].data).map((item) => ({
+		year: parseInt(item[0]),
+		value: item[1],
+	}))
 	return (
 		<>
 			<Head>
 				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-				<meta
-					name="description"
-					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-				/>
-				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
+				<meta name="description" content={desc} />
+				<meta name="keywords" content={pageTitle} />
 				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header title={pageTitle} isBackButtonDisplayed />
 			<main className={styles.pageWrapper}>
@@ -143,7 +109,7 @@ const CityIndexContentPage = () => {
 								case 0:
 									return (
 										<LineChart
-											data={data}
+											data={dataPerYear}
 											title="Perkembangan Indeks per Tahun"
 											chartTitle={title}
 											xAxisTitle="Tahun"
@@ -155,7 +121,7 @@ const CityIndexContentPage = () => {
 								case 1:
 									return (
 										<Table
-											defaultData={data}
+											defaultData={dataPerYear}
 											columns={columns}
 											showNavigation
 											showIndex
@@ -169,8 +135,8 @@ const CityIndexContentPage = () => {
 											chartTitle=""
 											xAxisTitle=""
 											yAxisTitle=""
-											xAxisKey={[]}
-											yAxisKey={[]}
+											xAxisKey=""
+											yAxisKey=""
 										/>
 									)
 							}
@@ -181,4 +147,43 @@ const CityIndexContentPage = () => {
 		</>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { slug } = context.params as {
+		cluster: string
+		slug: string
+	}
+	try {
+		const res = await api.get(`${ENDPOINT_PATH.GET_CITY_INDEX}/${slug}`)
+		const data = res.data as CityIndexResponseData
+
+		return {
+			props: {
+				data: {
+					...data,
+				},
+			},
+		}
+	} catch (error: unknown) {
+		if (error instanceof AxiosError) {
+			return {
+				props: {
+					error: {
+						status: error.response?.status,
+						data: error.message,
+					},
+				},
+			}
+		}
+		return {
+			props: {
+				error: {
+					status: 404,
+					data: 'Something went wrong',
+				},
+			},
+		}
+	}
+}
+
 export default CityIndexContentPage

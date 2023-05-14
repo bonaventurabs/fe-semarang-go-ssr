@@ -26,3 +26,9 @@ export const titleCase = (title: string) =>
 		.split(/ /g)
 		.map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
 		.join(' ')
+
+export const camelCaseToTitleCase = (camelCase: string) =>
+	camelCase
+		.split(/(?=[A-Z])/)
+		.map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
+		.join(' ')
