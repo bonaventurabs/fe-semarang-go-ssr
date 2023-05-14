@@ -1,58 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 
-import newsImg from '@/assets/images/news-1.png'
+import useSWR from 'swr'
+
 import NewsCard from '@/components/newsCard/NewsCard'
 import Pagination from '@/components/pagination/Pagination'
-import { type newsCategoryType } from '@/models/news'
+import { ENDPOINT_PATH } from '@/interfaces'
+import { type NewsListResponseData, type newsCategoryType } from '@/models/news'
+import { apiFetcher } from '@/services/api'
 
 import styles from './OtherNewsSection.module.scss'
-
-let newsData = [
-	{
-		title: 'Pelaksanaan PPDB jalur afirmasi untuk siswa inklusi',
-		date: new Date('2023-02-07'),
-		tag: 'pendidikan',
-		image: newsImg,
-	},
-	{
-		title:
-			'Kembali Gelar Pelayanan Akhir Pekan, Ita Dorong Masyarakat Gencarkan Urban Farming',
-		date: new Date('2023-02-06'),
-		tag: 'bisnis-umkm',
-		image: newsImg,
-	},
-	{
-		title:
-			'TINGKATKAN MUTU PENDIDIKAN, PEMKOT SEMARANG DAN TANOTO FOUNDATION LAKUKAN AUDIENS',
-		date: new Date('2023-02-05'),
-		tag: 'pendidikan',
-		image: newsImg,
-	},
-	{
-		title: 'YUK BUNDA, TES IVA DETEKSI KANKER SERVIKS',
-		date: new Date('2023-02-02'),
-		tag: 'kesehatan',
-		image: newsImg,
-	},
-	{
-		title: 'Penyakit Pasca Banjir',
-		date: new Date('2023-01-12'),
-		tag: 'kesehatan',
-		image: newsImg,
-	},
-	{
-		title: 'Peranan Dinas Kesehatan Kota Semarang dalam Penanganan Banjir',
-		date: new Date('2023-01-07'),
-		tag: 'kesehatan',
-		image: newsImg,
-	},
-	{
-		title: 'Pembukaan HKN 2022 "Bangkit Indonesiaku, Sehat Negeriku"',
-		date: new Date('2022-10-21'),
-		tag: 'kesehatan',
-		image: newsImg,
-	},
-]
 
 interface OtherNewsSectionProps {
 	isTagDisplayed?: boolean
@@ -64,21 +20,20 @@ interface OtherNewsSectionProps {
 const OtherNewsSection = ({
 	isTagDisplayed = true,
 	pagination = false,
-	itemsPerPage = 4,
+	itemsPerPage = 10,
 	newsCategory,
 }: OtherNewsSectionProps) => {
 	const title = 'Berita Lainnya'
-	const [itemOffset, setItemOffset] = useState<number>(0)
+	const [pageIndex, setPageIndex] = useState(1)
+	const firstPageOffset = 3
 
-	if (newsCategory !== undefined) {
-		newsData = newsData.filter((el) => el.tag === newsCategory)
-	}
-	const endOffset = pagination ? itemOffset + itemsPerPage : newsData.length
-	const currentItems = newsData.slice(itemOffset, endOffset)
+	const { data } = useSWR<NewsListResponseData>(
+		`${ENDPOINT_PATH.GET_NEWS}?page=${pageIndex}&limit=${itemsPerPage}`,
+		apiFetcher,
+	)
 
 	const handlePageClick = (event: { selected: number }) => {
-		const newOffset = (event.selected * itemsPerPage) % newsData.length
-		setItemOffset(newOffset)
+		setPageIndex(event.selected + 1)
 	}
 
 	const paginationRef = useRef<null | HTMLDivElement>(null)
@@ -88,38 +43,42 @@ const OtherNewsSection = ({
 	}
 
 	useEffect(() => {
-		if (pagination) {
+		if (pagination && pageIndex > 1) {
 			scrollToBottom()
 		}
-	}, [itemOffset, pagination])
+	}, [pageIndex, pagination])
 
 	return (
-		<section className={styles.otherNewsSection}>
+		<section className={styles.otherNewsSection} ref={paginationRef}>
 			<div className={styles.title}>
 				<h3>{title}</h3>
 			</div>
 			<div className={styles.contentWrapper}>
-				{currentItems.map((value, index) => (
-					<NewsCard
-						key={index}
-						type="M"
-						image={value.image}
-						title={value.title}
-						date={value.date}
-						tag={value.tag}
-						isTagDisplayed={isTagDisplayed}
-					/>
-				))}
+				{typeof data !== 'undefined' &&
+					(pageIndex === 1
+						? data.data.slice(-(data.data.length - firstPageOffset))
+						: data.data
+					).map((value, index) => (
+						<NewsCard
+							key={index}
+							type="M"
+							image={value.thumbnail}
+							title={value.headline}
+							date={new Date(value.postDate)}
+							tag={value.category}
+							slug={value.slug}
+							isTagDisplayed={isTagDisplayed}
+						/>
+					))}
 			</div>
 			{pagination && (
 				<Pagination
-					totalItem={newsData.length}
 					itemsPerPage={itemsPerPage}
 					onPageChange={handlePageClick}
 					className={styles.pagination}
+					pageCount={data?.totalPage}
 				/>
 			)}
-			<div ref={paginationRef} />
 		</section>
 	)
 }

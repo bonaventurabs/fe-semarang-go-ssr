@@ -43,11 +43,17 @@
 		row-gap: 8px;
 		white-space: pre-wrap;
 
+		img,
+		a {
+			display: none;
+		}
+
 		p {
 			margin: 0;
 		}
 
-		p span {
+		p,
+		span {
 			@include font-sm-regular;
 			color: $color-mono-darker-grey;
 			margin: 0;

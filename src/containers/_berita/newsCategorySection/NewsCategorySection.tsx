@@ -1,5 +1,7 @@
 import { type Url } from 'next/dist/shared/lib/router/router'
 import Link from 'next/link'
+import { Navigation, Scrollbar } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 import {
 	CustomEducationIcon,
@@ -11,6 +13,11 @@ import {
 } from '@/components/icon/SVGIcon'
 
 import styles from './NewsCategorySection.module.scss'
+
+// Import Swiper styles
+import 'swiper/scss'
+import 'swiper/scss/pagination'
+import 'swiper/scss/scrollbar'
 
 interface NewsCategoryCardProps {
 	title: string
@@ -81,7 +88,7 @@ const NewsCategorySection = () => {
 			<div className={styles.titleCard}>
 				<h3>{title}</h3>
 			</div>
-			<div className={styles.contentWrapper}>
+			{/* <div className={styles.contentWrapper}>
 				{data.map((el, index) => (
 					<NewsCategoryCard
 						key={index}
@@ -91,7 +98,27 @@ const NewsCategorySection = () => {
 						to={el.to}
 					/>
 				))}
-			</div>
+			</div> */}
+			<Swiper
+				modules={[Navigation, Scrollbar]}
+				slidesPerView="auto"
+				spaceBetween={10}
+				effect="slide"
+				className={styles.contentWrapper}
+				scrollbar={{ draggable: true, dragSize: 100 }}
+			>
+				{data.map((el, index) => (
+					<SwiperSlide key={index} style={{ width: 'fit-content' }}>
+						<NewsCategoryCard
+							key={index}
+							title={el.title}
+							Icon={el.icon}
+							description={el.description}
+							to={el.to}
+						/>
+					</SwiperSlide>
+				))}
+			</Swiper>
 		</section>
 	)
 }

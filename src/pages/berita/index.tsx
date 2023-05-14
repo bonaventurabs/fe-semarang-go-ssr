@@ -24,7 +24,7 @@ const NewsPage = () => {
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Header title="Berita Kota Semarang" isBackButtonDisplayed={false} />
+			<Header title="Berita dan Pengumuman" isBackButtonDisplayed={false} />
 			<main className={styles.pageWrapper}>
 				<Separator />
 				<GuideSection
@@ -32,9 +32,9 @@ const NewsPage = () => {
 					text="Dapatkan informasi terkini dan terpercaya terkait Kota Semarang"
 				/>
 				<Separator />
-				<RecentNewsSection />
-				<Separator />
 				<NewsCategorySection />
+				<Separator />
+				<RecentNewsSection />
 				<Separator />
 				<OtherNewsSection />
 				<Separator />

@@ -81,17 +81,6 @@ const MainFeatureSection = () => {
 			<div className={styles.titleCard}>
 				<h3>{title}</h3>
 			</div>
-			{/* <div className={styles.contentWrapper}>
-				{data.map((el, index) => (
-					<MainFeatureCard
-						key={index}
-						title={el.title}
-						Icon={el.icon}
-						description={el.description}
-						to={el.to}
-					/>
-				))}
-			</div> */}
 			<Swiper
 				modules={[Navigation, Scrollbar]}
 				slidesPerView="auto"

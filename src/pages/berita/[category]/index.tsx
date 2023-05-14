@@ -43,7 +43,7 @@ const NewsCategoryPage = () => {
 				<Separator />
 				<OtherNewsSection
 					pagination
-					itemsPerPage={3}
+					itemsPerPage={5}
 					newsCategory={category as newsCategoryType}
 				/>
 			</main>

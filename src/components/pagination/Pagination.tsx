@@ -8,21 +8,23 @@ import { NextIcon, PrevIcon } from '../icon/SVGIcon'
 interface Props {
 	onPageChange?: (selectedItem: { selected: number }) => void
 	onPageActive?: (selectedItem: { selected: number }) => void
-	totalItem: number
+	totalItem?: number
 	itemsPerPage: number
 	className?: string
 	ref?: React.LegacyRef<React.Component<ReactPaginateProps, unknown>>
+	pageCount?: number
 }
 
 const Pagination = ({
 	onPageChange,
 	onPageActive,
-	totalItem,
+	totalItem = 10,
 	itemsPerPage,
 	className,
 	ref,
+	pageCount,
 }: Props) => {
-	const pageCount = Math.ceil(totalItem / itemsPerPage)
+	pageCount ??= Math.ceil(totalItem / itemsPerPage)
 	return (
 		<ReactPaginate
 			onPageChange={onPageChange}
