@@ -20,14 +20,24 @@ const ReportServiceCard = ({
 	description,
 	to,
 	Icon,
+	url,
+	openInApp = true,
 }: {
 	title: string
 	description: string
-	to: Url
+	to?: Url
 	Icon: React.FC<React.SVGProps<SVGSVGElement>> | StaticImageData
+	url: string
+	openInApp?: boolean
 }) => {
+	to ??= `/layanan/semua/'id'?url=${url}&title=${title}`
 	return (
-		<Link className={styles.reportServiceCard} href={to}>
+		<Link
+			className={styles.reportServiceCard}
+			href={openInApp ? to : url}
+			rel={openInApp ? undefined : 'noopener noreferrer'}
+			target={openInApp ? undefined : '_blank'}
+		>
 			{typeof Icon === 'function' ? (
 				<Icon className={styles.icon} />
 			) : (
@@ -63,16 +73,17 @@ const SocialMediaCard = ({
 const ReportPage = () => {
 	const reportServiceData = [
 		{
-			title: 'Sapa Mba Ita',
+			title: 'Sapa Mbak Ita',
 			description: 'Formulir pengaduan Sapa Mba Ita',
-			to: '/',
 			icon: sapaImg,
+			url: 'https://sapambakita.semarangkota.go.id/',
 		},
 		{
 			title: 'Lapor.go.id',
 			description: 'Lapor kejadian dan keluhan terkait pelayanan publik',
-			to: '/',
 			icon: ReportIcon,
+			url: 'https://www.lapor.go.id/',
+			openInApp: false,
 		},
 	]
 
@@ -107,10 +118,6 @@ const ReportPage = () => {
 					name="description"
 					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
 				/>
-				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
-				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header title="Lapor Kota Semarang" isBackButtonDisplayed={false} />
 			<main className={styles.pageWrapper}>
@@ -130,8 +137,9 @@ const ReportPage = () => {
 								key={index}
 								title={el.title}
 								description={el.description}
-								to={el.to}
 								Icon={el.icon}
+								url={el.url}
+								openInApp={el.openInApp}
 							/>
 						))}
 					</div>
