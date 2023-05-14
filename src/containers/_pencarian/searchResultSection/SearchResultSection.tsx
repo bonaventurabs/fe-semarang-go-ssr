@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
@@ -223,6 +223,14 @@ const SearchResultSection = ({ query }: { query: string }) => {
 			)
 		}
 	}
+
+	useEffect(() => {
+		setIsServiceFound(true)
+		setIsNewsFound(true)
+		setIsAgendaFound(true)
+		setIsIndexFound(true)
+	}, [query])
+
 	const isTypeSelected =
 		searchParams.get(search.params.type) !== null &&
 		searchParams.get(search.params.type) !== ''
@@ -242,6 +250,8 @@ const SearchResultSection = ({ query }: { query: string }) => {
 			setIsServiceFound(false)
 			if (showAll) return <NotFoundSection />
 			return <div />
+		} else {
+			setIsServiceFound(true)
 		}
 		return (
 			<>
@@ -301,6 +311,8 @@ const SearchResultSection = ({ query }: { query: string }) => {
 			setIsNewsFound(false)
 			if (showAll) return <NotFoundSection />
 			return <div />
+		} else {
+			setIsNewsFound(true)
 		}
 		return (
 			<>
@@ -362,10 +374,12 @@ const SearchResultSection = ({ query }: { query: string }) => {
 		// 	if (showAll) return <NotFoundSection />
 		// 	return <div />
 		// }
-		if (!query.toLocaleLowerCase('semarang') || agendaData.length === 0) {
+		if (query.toLocaleLowerCase() !== 'semarang' || agendaData.length === 0) {
 			setIsAgendaFound(false)
 			if (showAll) return <NotFoundSection />
 			return <div />
+		} else {
+			setIsAgendaFound(true)
 		}
 		return (
 			<>
@@ -423,10 +437,12 @@ const SearchResultSection = ({ query }: { query: string }) => {
 		// 	if (showAll) return <NotFoundSection />
 		// 	return <div />
 		// }
-		if (!query.toLocaleLowerCase('semarang') || indexData.length === 0) {
+		if (query.toLocaleLowerCase() !== 'semarang' || indexData.length === 0) {
 			setIsIndexFound(false)
 			if (showAll) return <NotFoundSection />
 			return <div />
+		} else {
+			setIsNewsFound(true)
 		}
 		return (
 			<section className={styles.resultSection}>
@@ -494,25 +510,20 @@ const SearchResultSection = ({ query }: { query: string }) => {
 					case searchCategory.index.value:
 						return <IndexSearchResult showAll />
 					default:
-						if (
-							isServiceFound ||
-							isNewsFound ||
-							isAgendaFound ||
-							isIndexFound
-						) {
-							return (
-								<>
-									<ServiceSearchResult showAll={false} limit={3} />
-									<NewsSearchResult showAll={false} limit={3} />
-									<AgendaSearchResult showAll={false} limit={3} />
-									<IndexSearchResult showAll={false} limit={3} />
-								</>
-							)
-						} else {
-							return <NotFoundSection />
-						}
+						return <div />
 				}
 			})()}
+			{!isTypeSelected &&
+			(isServiceFound || isNewsFound || isAgendaFound || isIndexFound) ? (
+				<>
+					<ServiceSearchResult showAll={false} limit={3} />
+					<NewsSearchResult showAll={false} limit={3} />
+					<AgendaSearchResult showAll={false} limit={3} />
+					<IndexSearchResult showAll={false} limit={3} />
+				</>
+			) : (
+				<NotFoundSection />
+			)}
 		</>
 	)
 }
