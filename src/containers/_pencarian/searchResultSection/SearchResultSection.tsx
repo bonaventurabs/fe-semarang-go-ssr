@@ -510,20 +510,25 @@ const SearchResultSection = ({ query }: { query: string }) => {
 					case searchCategory.index.value:
 						return <IndexSearchResult showAll />
 					default:
-						return <div />
+						if (
+							isServiceFound ||
+							isNewsFound ||
+							isAgendaFound ||
+							isIndexFound
+						) {
+							return (
+								<>
+									<ServiceSearchResult showAll={false} limit={3} />
+									<NewsSearchResult showAll={false} limit={3} />
+									<AgendaSearchResult showAll={false} limit={3} />
+									<IndexSearchResult showAll={false} limit={3} />
+								</>
+							)
+						} else {
+							return <NotFoundSection />
+						}
 				}
 			})()}
-			{!isTypeSelected &&
-			(isServiceFound || isNewsFound || isAgendaFound || isIndexFound) ? (
-				<>
-					<ServiceSearchResult showAll={false} limit={3} />
-					<NewsSearchResult showAll={false} limit={3} />
-					<AgendaSearchResult showAll={false} limit={3} />
-					<IndexSearchResult showAll={false} limit={3} />
-				</>
-			) : (
-				<NotFoundSection />
-			)}
 		</>
 	)
 }
