@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 
-import { slugify } from '@/utils/string'
 import { checkHTTPS } from '@/utils/url'
 
 import styles from './ServiceCard.module.scss'
@@ -20,6 +19,7 @@ interface ServiceCardProps {
 	isImageDisplayed?: boolean
 	isOrgDisplayed?: boolean
 	cluster?: string
+	id?: string
 }
 
 const ServiceCard = ({
@@ -32,10 +32,12 @@ const ServiceCard = ({
 	isImageDisplayed = true,
 	isOrgDisplayed = true,
 	cluster,
+	id,
 }: ServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
-	const slug = slugify(title)
-	to ??= `/layanan/${cluster ?? 'semua'}/${slug}`
+	to ??= `/layanan/${cluster ?? 'semua'}/${
+		id ?? 'id'
+	}?url=https://${url}&title=${title}`
 
 	useEffect(() => {
 		async function checkProtocol() {

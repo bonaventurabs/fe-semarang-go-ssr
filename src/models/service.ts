@@ -7,3 +7,24 @@ export const clusterMap = new Map<string, string>([
 	['pembangunan', 'Pembangunan'],
 	['desa', 'Desa'],
 ])
+
+export interface ServiceType {
+	_id: string
+	name: string
+	domain: string
+	tagId: string
+	clusterId: string[]
+	thumbnails: string
+	isPublic: boolean
+	description: string
+}
+
+export interface ServiceResponseData {
+	status: number
+	data: ServiceType
+}
+
+export interface ServiceListResponseData {
+	status: number
+	data: ServiceType[]
+}

@@ -15,6 +15,7 @@ const data = [
 		org: 'Dinas Kesehatan',
 		image: serviceImg1,
 		url: 'ambulanhebat.semarangkota.go.id',
+		_id: '642623d5277d40b9d8644bb2',
 	},
 	{
 		title: 'Sistem Informasi GIS Kesehatan Lingkungan',
@@ -29,6 +30,7 @@ const data = [
 		org: 'Dinas Kesehatan',
 		image: serviceImg3,
 		url: 'epuskesmas.semarangkota.go.id',
+		_id: '642623d5277d40b9d8644bca',
 	},
 ]
 
@@ -74,6 +76,7 @@ const ServiceSection = ({
 					url={item.url}
 					isImageDisplayed
 					isOrgDisplayed={typeof opd === 'undefined'}
+					id={item._id}
 				/>
 			))}
 			{pagination && (

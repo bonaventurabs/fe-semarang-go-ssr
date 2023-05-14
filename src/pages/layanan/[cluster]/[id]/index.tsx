@@ -2,13 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 
 import Head from 'next/head'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
+import useSWR from 'swr'
 
 import BottomSheet from '@/components/bottomSheet/BottomSheet'
 import OutlinedButton from '@/components/outlinedButton/OutlinedButton'
 import SnackBar from '@/components/snackBar/SnackBar'
 import Header from '@/containers/header/Header'
 import LoadingSection from '@/containers/loadingSection/LoadingSection'
+import { ENDPOINT_PATH } from '@/interfaces'
+import { type ServiceResponseData } from '@/models/service'
+import ErrorPage from '@/pages/_error'
+import { apiFetcher } from '@/services/api'
 import { slugify } from '@/utils/string'
 
 import styles from './index.module.scss'
@@ -16,14 +22,19 @@ import styles from './index.module.scss'
 const ServiceDetailPage = () => {
 	const router = useRouter()
 	const frameRef = useRef<HTMLIFrameElement>(null)
-	const { name } = router.query
+	const searchParams = useSearchParams()
+	const { id } = router.query as { id: string }
 	const [idxBack, setIdxBack] = useState(0)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [isInfoSheetOpen, setIsInfoSheetOpen] = useState(false)
-	// if (typeof name === 'undefined') {
-	// 	return <NotFoundPage />
-	// }
-	const title = name?.toString().replace(/-/g, ' ').toUpperCase() ?? ''
+
+	const url = searchParams.get('url')
+	const title = searchParams.get('title')
+	const { data } = useSWR<ServiceResponseData>(
+		`${ENDPOINT_PATH.GET_SERVICE}/${id}`,
+		apiFetcher,
+	)
+	const isError = data?.status !== 200 && url === null && title === null
 
 	useEffect(() => {
 		const frame = frameRef.current
@@ -48,7 +59,14 @@ const ServiceDetailPage = () => {
 		}
 	}, [isLoaded])
 
-	const data = {
+	if (isError) {
+		return <ErrorPage statusCode={data?.status} />
+	}
+
+	const extUrl = url ?? (data && 'https://'.concat(data.data.domain)) ?? '/'
+	const extTitle = title ?? data?.data.name ?? 'Kota Semarang'
+
+	const staticData = {
 		title: 'Ambulan Hebat',
 		link: 'https://ambulanhebat.semarangkota.go.id/',
 		description:
@@ -68,20 +86,20 @@ const ServiceDetailPage = () => {
 				initialDrawerDistanceTop={325}
 			>
 				<div className={styles.serviceModal}>
-					<h3 className={styles.title}>{data.title}</h3>
-					<p className={styles.description}>{data.description}</p>
+					<h3 className={styles.title}>{staticData.title}</h3>
+					<p className={styles.description}>{staticData.description}</p>
 					<div className={styles.adminWrapper}>
 						<span className={styles.adminTag}>Dikelola oleh</span>
-						<h3 className={styles.title}>{data.admin.name}</h3>
+						<h3 className={styles.title}>{staticData.admin.name}</h3>
 					</div>
-					<p className={styles.description}>{data.admin.description}</p>
+					<p className={styles.description}>{staticData.admin.description}</p>
 					<OutlinedButton
 						text="Lihat Selengkapnya"
 						className={styles.button}
 						isIconDisplayed={false}
 						onClick={async () => {
 							setIsInfoSheetOpen(false)
-							await router.push(`/layanan/OPD/${slugify(data.title)}`)
+							await router.push(`/layanan/OPD/${slugify(staticData.title)}`)
 						}}
 					/>
 				</div>
@@ -98,7 +116,7 @@ const ServiceDetailPage = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header
-				title={title}
+				title={title ?? data?.data.name}
 				backTo={idxBack === 0 ? -1 : -idxBack}
 				isBackButtonDisplayed
 				isInfoButtonDisplayed
@@ -108,7 +126,7 @@ const ServiceDetailPage = () => {
 			<SnackBar
 				open
 				message={
-					<Link href={data.link} rel="noopener noreferrer" target="_blank">
+					<Link href={extUrl} rel="noopener noreferrer" target="_blank">
 						<u>Buka layanan di halaman baru</u>
 					</Link>
 				}
@@ -116,13 +134,13 @@ const ServiceDetailPage = () => {
 			<main className={styles.pageWrapper}>
 				{!isLoaded && <LoadingSection />}
 				<iframe
-					id={title}
-					name={title}
-					title={`Layanan ${title}`}
+					id={extTitle}
+					name={extTitle}
+					title={`Layanan ${extTitle}`}
 					ref={frameRef}
 					is="x-frame-bypass"
 					loading="lazy"
-					src={data.link}
+					src={extUrl}
 					sandbox="allow-scripts allow-same-origin allow-downloads allow-popups"
 				></iframe>
 			</main>

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
-import { slugify } from '@/utils/string'
 import { checkHTTPS } from '@/utils/url'
 
 import styles from './MainServiceCard.module.scss'
@@ -15,6 +14,7 @@ interface MainServiceCardProps {
 	description: string
 	url: string | UrlObject
 	cluster?: string
+	id?: string
 }
 
 const MainServiceCard = ({
@@ -23,10 +23,12 @@ const MainServiceCard = ({
 	description,
 	url,
 	cluster,
+	id,
 }: MainServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
-	const slug = slugify(title)
-	const to = `/layanan/${cluster ?? 'semua'}/${slug}`
+	const to = `/layanan/${cluster ?? 'semua'}/${id ?? 'id'}?url=https://${
+		url as string
+	}&title=${title}`
 
 	useEffect(() => {
 		async function checkProtocol() {
