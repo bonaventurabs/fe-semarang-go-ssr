@@ -14,6 +14,7 @@ interface MainServiceCardProps {
 	title: string
 	description: string
 	url: string | UrlObject
+	cluster?: string
 }
 
 const MainServiceCard = ({
@@ -21,10 +22,11 @@ const MainServiceCard = ({
 	title,
 	description,
 	url,
+	cluster,
 }: MainServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
 	const slug = slugify(title)
-	const to = `/layanan/${slug}`
+	const to = `/layanan/${cluster ?? 'semua'}/${slug}`
 
 	useEffect(() => {
 		async function checkProtocol() {
