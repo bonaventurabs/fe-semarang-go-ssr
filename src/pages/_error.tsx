@@ -9,13 +9,13 @@ import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHead
 
 import styles from './_error.module.scss'
 
-// interface State {
-// 	status: string
-// 	title: string
-// 	message: string
-// }
-
-function ErrorPage({ statusCode }: { statusCode: number }) {
+function ErrorPage({
+	statusCode,
+	errorMessage,
+}: {
+	statusCode?: number
+	errorMessage?: string
+}) {
 	const router = useRouter()
 	const status = (() => {
 		if (statusCode === 404) {
@@ -27,7 +27,9 @@ function ErrorPage({ statusCode }: { statusCode: number }) {
 		}
 	})()
 	const message = (() => {
-		if (statusCode === 404) {
+		if (errorMessage) {
+			return errorMessage
+		} else if (statusCode === 404) {
 			return 'Maaf, halaman yang Anda coba akses tidak tersedia!'
 		} else if (statusCode === 500) {
 			return 'Maaf, terjadi kesalahan pada server!'

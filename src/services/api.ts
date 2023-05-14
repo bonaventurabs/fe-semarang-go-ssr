@@ -8,6 +8,7 @@ export const mocksApi = axios.create({
 
 export const api = axios.create({
 	baseURL: process.env.NEXT_PUBLIC_API,
+	timeout: 10000,
 })
 
 export const mockFetcher: BareFetcher = async (resource: string) =>

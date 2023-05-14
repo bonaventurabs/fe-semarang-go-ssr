@@ -1,5 +1,5 @@
-import DOMPurify from 'dompurify'
 import parse from 'html-react-parser'
+import DOMPurify from 'isomorphic-dompurify'
 
 // export function replaceNode() {}
 

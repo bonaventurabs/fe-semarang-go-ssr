@@ -27,6 +27,7 @@ const AgendaPage = () => {
 			dateValue,
 		)}&endDate=${toISOStringDate(dateValue)}`,
 		apiFetcher,
+		{ revalidateOnFocus: false },
 	)
 
 	const handleDateChange = (date: Date | null) => {

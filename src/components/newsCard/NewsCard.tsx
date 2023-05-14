@@ -14,10 +14,10 @@ interface NewsCardProps {
 	title: string
 	date: Date
 	image: string | StaticImageData
-	tag: string
+	tag?: string
 	description?: string
 	to?: Url
-	slug?: string
+	slug: string
 	isImageDisplayed?: boolean
 	isTagDisplayed?: boolean
 }
@@ -34,13 +34,24 @@ const NewsCard = ({
 	isImageDisplayed = true,
 	isTagDisplayed = true,
 }: NewsCardProps) => {
-	slug ??= slugify(title)
+	if (typeof tag === 'undefined' || tag === '') {
+		tag = 'lainnya'
+	}
 	to ??= `/berita/${slugify(tag)}/${slug}`
 	switch (type) {
 		case 'XL':
 			return (
 				<Link href={to} draggable={false} className={styles.xlNewsCard}>
-					{isImageDisplayed && <Image src={image} draggable={false} alt="" />}
+					{isImageDisplayed && (
+						<Image
+							loader={() => image as string}
+							src={image}
+							draggable={false}
+							alt={description ?? ''}
+							width={600}
+							height={400}
+						/>
+					)}
 					<div className={styles.textWrapper}>
 						<div className={styles.tagDateWrapper}>
 							{isTagDisplayed && (
@@ -64,7 +75,16 @@ const NewsCard = ({
 		case 'M':
 			return (
 				<Link href={to} draggable={false} className={styles.mNewsCard}>
-					{isImageDisplayed && <Image src={image} draggable={false} alt="" />}
+					{isImageDisplayed && (
+						<Image
+							loader={() => image as string}
+							src={image}
+							draggable={false}
+							alt={description ?? ''}
+							width={100}
+							height={100}
+						/>
+					)}
 					<div className={styles.textWrapper}>
 						<h4 className={styles.title}>{title}</h4>
 						<div className={styles.tagDateWrapper}>
