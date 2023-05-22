@@ -26,12 +26,12 @@
 .loader-container {
 	width: 100%;
 	max-width: inherit;
-	height: 100%;
+	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	position: absolute;
-	background: rgba($color: $color-mono-white, $alpha: 0.8);
+	// background: rgba($color: $color-mono-white, $alpha: 0.8);
 	z-index: 12;
 }
 

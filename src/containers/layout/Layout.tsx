@@ -3,6 +3,8 @@ import React, { type PropsWithChildren, useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 
+import Overlay from '@/components/overlay/Overlay'
+
 import LoadingSection from '../loadingSection/LoadingSection'
 
 const NavBar = dynamic(async () => await import('../navBar/NavBar'), {
@@ -32,11 +34,9 @@ function Loading() {
 	}, [router.pathname, router.events])
 
 	return (
-		loading && (
-			// <Overlay open={loading}>
+		<Overlay open={loading} preventScroll>
 			<LoadingSection />
-			// </Overlay>
-		)
+		</Overlay>
 	)
 }
 

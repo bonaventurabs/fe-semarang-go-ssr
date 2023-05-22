@@ -119,7 +119,11 @@ const ReportPage = () => {
 					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
 				/>
 			</Head>
-			<Header title="Lapor Kota Semarang" isBackButtonDisplayed={false} />
+			<Header
+				title="Lapor Kota Semarang"
+				isBackButtonDisplayed={false}
+				isSearchButtonDisplayed
+			/>
 			<main className={styles.pageWrapper}>
 				<Separator />
 				<GuideSection

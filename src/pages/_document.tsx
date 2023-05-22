@@ -45,7 +45,6 @@ export default function Document() {
 					color="#5bbad5"
 				/> */}
 				<link rel="shortcut icon" href="/favicon.ico" />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<meta
 					name="google-site-verification"
 					content="AWaM9w5tpE709w65CwoYp-JJZ1hhjXMRjp4L7tjuVB8"

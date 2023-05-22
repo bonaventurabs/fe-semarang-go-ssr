@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { set, get } from 'idb-keyval'
 import dynamic from 'next/dynamic'
 import {
 	type CallBackProps,
@@ -7,8 +8,6 @@ import {
 	type Step,
 	type TooltipRenderProps,
 } from 'react-joyride'
-
-import { getLocalStorage, setLocalStorage } from '@/utils/localStorage'
 
 import styles from './IntroGuideline.module.scss'
 
@@ -121,9 +120,17 @@ const steps: Step[] = [
 ]
 
 const IntroGuideline = () => {
-	const [enabled, setEnabled] = useState(
-		getLocalStorage('previouslyVisited')?.toString() !== 'true',
-	)
+	const [enabled, setEnabled] = useState<boolean | undefined>(false)
+
+	useEffect(() => {
+		void get<boolean>('previoslyVisited').then((value) => {
+			if (typeof value === 'undefined') {
+				setEnabled(true)
+			} else {
+				setEnabled(!value)
+			}
+		})
+	}, [])
 
 	const handleJoyrideCallback = (data: CallBackProps) => {
 		const { status } = data
@@ -131,7 +138,7 @@ const IntroGuideline = () => {
 
 		if (finishedStatuses.includes(status)) {
 			setEnabled(false)
-			setLocalStorage('previouslyVisited', 'true')
+			void set('previoslyVisited', true)
 		}
 	}
 
