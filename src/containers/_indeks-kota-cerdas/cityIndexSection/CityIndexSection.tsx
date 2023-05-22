@@ -24,6 +24,7 @@ interface Props {
 const CityIndexSection = ({ cluster, pagination }: Props) => {
 	const itemsPerPage = 10
 	const [, setPageIndex] = useState(1)
+	const currentYear = new Date().getFullYear() - 1
 
 	const { data } = useSWR<CityIndexListResponseData>(
 		`${ENDPOINT_PATH.GET_CITY_INDEX}/cluster/${cluster}`,
@@ -43,8 +44,8 @@ const CityIndexSection = ({ cluster, pagination }: Props) => {
 					id={index.toString()}
 					key={index}
 					title={camelCaseToTitleCase(item.title)}
-					currentIndex={item.data['2022']}
-					targetIndex={item.data['2023']}
+					currentIndex={item.data[currentYear]}
+					targetIndex={item.data[currentYear + 1]}
 					description={cityIndexDesc[item.title]}
 					tag={getKey(clusterBEMap, item.cluster)}
 					isTagDisplayed={false}

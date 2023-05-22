@@ -12,4 +12,8 @@ export enum ENDPOINT_PATH {
 	GET_SERVICE_SEARCH_HIGHLIGHT = '/app/searchHighlight',
 	GET_NEWS_SEARCH = '/news/search',
 	GET_NEWS_SEARCH_HIGHLIGHT = '/news/searchHighlight',
+	GET_AGENDA_SEARCH = '/agenda/search',
+	GET_AGENDA_SEARCH_HIGHLIGHT = '/agenda/searchHighlight',
+	GET_CITY_INDEX_SEARCH = '/index/search',
+	GET_CITY_INDEX_SEARCH_HIGHLIGHT = '/index/searchHighlight',
 }

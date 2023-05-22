@@ -1,4 +1,5 @@
 export interface AgendaType {
+	ID: number
 	title: string
 	scheduleDate: string
 	scheduleTime: string

@@ -44,7 +44,11 @@ const AgendaSection = () => {
 								key={index}
 								title={element.title}
 								time={
-									new Date(element.scheduleDate + 'T' + element.scheduleTime)
+									new Date(
+										element.scheduleDate.split('T')[0] +
+											'T' +
+											element.scheduleTime,
+									)
 								}
 								location={element.location}
 							/>

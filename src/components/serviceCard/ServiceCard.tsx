@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 
-import { checkHTTPS } from '@/utils/url'
+import { checkHTTPS, removeProtocol } from '@/utils/url'
 
 import styles from './ServiceCard.module.scss'
 
@@ -35,6 +35,7 @@ const ServiceCard = ({
 	id,
 }: ServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
+	url = removeProtocol(url)
 	to ??= `/layanan/${cluster ?? 'semua'}/${
 		id ?? 'id'
 	}?url=https://${url}&title=${title}`

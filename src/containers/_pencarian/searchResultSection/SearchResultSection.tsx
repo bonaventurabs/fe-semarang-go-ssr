@@ -1,132 +1,20 @@
-import { useEffect, useState } from 'react'
-
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 
-// import newsImg from '@/assets/images/news-1.png'
-// import serviceImg1 from '@/assets/images/service-1.png'
-import serviceImg2 from '@/assets/images/service-2.png'
-// import serviceImg3 from '@/assets/images/service-3.png'
-import AgendaCard from '@/components/agendaCard/AgendaCard'
-import IndexCard from '@/components/indexCard/IndexCard'
-import NewsCard from '@/components/newsCard/NewsCard'
 import Separator from '@/components/separator/Separator'
-import ServiceCard from '@/components/serviceCard/ServiceCard'
 import { ENDPOINT_PATH } from '@/interfaces'
 import * as search from '@/models/search'
 import { apiFetcher } from '@/services/api'
 
+import {
+	AgendaSearchResult,
+	IndexSearchResult,
+	NewsSearchResult,
+	ServiceSearchResult,
+} from './SearchResult'
 import styles from './SearchResult.module.scss'
 import NotFoundSection from '../notFoundSection/NotFoundSection'
-
-// const serviceData = [
-// 	{
-// 		title: 'Ambulan Hebat',
-// 		desc: 'Aplikasi Ambulan Hebat yang dikelola oleh Dinas Kesehatan Kota Semarang',
-// 		org: 'Dinas Kesehatan',
-// 		image: serviceImg1,
-// 		// url: 'ambulanhebat.semarangkota.go.id',
-// 		// url: 'ppebalinusra.menlhk.go.id',
-// 		url: 'dapodik.semarangkota.go.id',
-// 	},
-// 	{
-// 		title: 'Sistem Informasi GIS Kesehatan Lingkungan',
-// 		desc: 'Aplikasi Sistem Informasi GIS Kesehatan Lingkungan yang dikelola oleh Dinas Lingkungan Kota Semarang',
-// 		org: 'Dinas Lingkungan',
-// 		image: serviceImg2,
-// 		url: 'dlh.semarangkota.go.id',
-// 	},
-// 	{
-// 		title: 'E-Puskesmas',
-// 		desc: 'Aplikasi E-Puskesmas yang dikelola oleh Dinas Kesehatan Kota Semarang',
-// 		org: 'Dinas Kesehatan',
-// 		image: serviceImg3,
-// 		url: 'epuskesmas.semarangkota.go.id',
-// 	},
-// ]
-
-// const newsData = [
-// 	{
-// 		title: 'Pelaksanaan PPDB jalur afirmasi untuk siswa inklusi',
-// 		date: new Date('2023-02-07'),
-// 		tag: 'Pendidikan',
-// 		image: newsImg,
-// 	},
-// 	{
-// 		title:
-// 			'Kembali Gelar Pelayanan Akhir Pekan, Ita Dorong Masyarakat Gencarkan Urban Farming',
-// 		date: new Date('2023-02-06'),
-// 		tag: 'Bisnis & UMKM',
-// 		image: newsImg,
-// 	},
-// 	{
-// 		title:
-// 			'TINGKATKAN MUTU PENDIDIKAN, PEMKOT SEMARANG DAN TANOTO FOUNDATION LAKUKAN AUDIENS',
-// 		date: new Date('2023-02-05'),
-// 		tag: 'Pendidikan',
-// 		image: newsImg,
-// 	},
-// ]
-
-const agendaData = [
-	{
-		title: 'Upacara Hari Perhubungan Nasional Tahun 2022 Tk. Kita Semarang',
-		time: new Date('2022-11-08T07:30:00'),
-		location: 'Halaman Kantor Dinas Perhubungan Kota Semarang',
-	},
-	{
-		title:
-			'Rapat Badan Anggaran DPRD Kota Semarang Pembahasan Raperda tentang Perubahanan APBD Kota Semarang TA. 2022',
-		time: new Date('2022-11-08T09:00:00'),
-		location: 'Ballroom Quest Hotel Semarang',
-	},
-]
-
-const indexData = [
-	{
-		title: 'Indeks Pembangunan Manusia (IPM)',
-		currentIndex: 84392,
-		targetIndex: 84882,
-		description:
-			'Indeks Pembangunan Manusia (IPM) adalah pengukuran perbandingan dari harapan hidup, melek huruf, pendidikan dan standar hidup.',
-	},
-	{
-		title: 'Tingkat Keatifan Budaya Lokal',
-		currentIndex: 17,
-		targetIndex: 18,
-		description:
-			'Tingkat Kearifan Budaya Lokal merupakan indikator bagian dari budaya suatu masyarakat yang tidak dapat dipisahkan dari bahasa masyarakat itu sendiri.',
-	},
-	{
-		title: 'Tingkat Keatifan Budaya Lokal',
-		currentIndex: 17,
-		targetIndex: 18,
-		description:
-			'Tingkat Kearifan Budaya Lokal merupakan indikator bagian dari budaya suatu masyarakat yang tidak dapat dipisahkan dari bahasa masyarakat itu sendiri.',
-	},
-	{
-		title: 'Tingkat Pengangguran Terbuka (TPT)',
-		currentIndex: 8.39,
-		targetIndex: 9.38,
-		description:
-			'Tingkat Pengangguran Terbuka (TPT) adalah persentase jumlah pengangguran terhadap jumlah angkatan kerja.',
-	},
-	{
-		title: 'Indeks Pembangunan Gender (IPG)',
-		currentIndex: 96.45,
-		targetIndex: 97.58,
-		description:
-			'Indeks Pembangunan Gender (IPG) adalah indikator yang menggambarkan perbandingan (rasio) capaian antara IPM Perempuan dengan IPM Laki-laki.',
-	},
-	{
-		title: 'Angka Kemiskinan',
-		currentIndex: 3.62,
-		targetIndex: 3.41,
-		description:
-			'Angka Kemiskinan menunjukkan persentase penduduk miskin terhadap jumlah penduduk dalam suatu wilayah.',
-	},
-]
 
 const searchCategory = {
 	service: {
@@ -199,11 +87,6 @@ const FilterButton = ({
 const SearchResultSection = ({ query }: { query: string }) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
-	const [isServiceFound, setIsServiceFound] = useState(true)
-	const [isNewsFound, setIsNewsFound] = useState(true)
-	const [isAgendaFound, setIsAgendaFound] = useState(true)
-	const [isIndexFound, setIsIndexFound] = useState(true)
-	// const [isAllFound, setIsAllFound] = useState(false)
 	const handleSearchTypeClick = (e: React.MouseEvent) => {
 		const value = e.currentTarget.getAttribute('value')
 		if (value && value !== '') {
@@ -224,262 +107,99 @@ const SearchResultSection = ({ query }: { query: string }) => {
 		}
 	}
 
-	useEffect(() => {
-		setIsServiceFound(true)
-		setIsNewsFound(true)
-		setIsAgendaFound(true)
-		setIsIndexFound(true)
-	}, [query])
-
-	const isTypeSelected =
-		searchParams.get(search.params.type) !== null &&
-		searchParams.get(search.params.type) !== ''
-
-	const ServiceSearchResult = ({
-		showAll,
-		limit,
-	}: {
-		showAll: boolean
-		limit?: number
-	}) => {
+	const AllServiceResult = () => {
 		const { data } = useSWR<search.ServiceSearchListResponseData>(
 			`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
 		if (!data || data.status !== 200) {
-			setIsServiceFound(false)
-			if (showAll) return <NotFoundSection />
-			return <div />
-		} else {
-			setIsServiceFound(true)
+			return <NotFoundSection />
 		}
-		return (
-			<>
-				<section className={styles.resultSection}>
-					<div className={styles.titleWrapper}>
-						<div className={styles.title}>
-							<h3>{!isTypeSelected ? 'Layanan' : 'Hasil Pencarian'}</h3>
-							<span>
-								<b>{data.searchResult.length}</b> layanan ditemukan
-							</span>
-						</div>
-						{!isTypeSelected ? (
-							<button
-								value={searchCategory.service.value}
-								className={styles.viewAllButton}
-								onClick={handleSearchTypeClick}
-							>
-								Lihat Semua
-							</button>
-						) : (
-							<div />
-						)}
-					</div>
-					<div className={styles.serviceContentWrapper}>
-						{(limit
-							? data.searchResult.slice(0, limit)
-							: data.searchResult
-						).map((value, index) => (
-							<ServiceCard
-								key={index}
-								image={serviceImg2}
-								title={value.title}
-								desc={value.body}
-								org="Kota Semarang"
-								url={value.url}
-							/>
-						))}
-					</div>
-				</section>
-				<Separator />
-			</>
-		)
+		return <ServiceSearchResult showAll data={data.searchResult} />
 	}
 
-	const NewsSearchResult = ({
-		showAll,
-		limit,
-	}: {
-		showAll: boolean
-		limit?: number
-	}) => {
+	const AllNewsResult = () => {
 		const { data } = useSWR<search.NewsSearchListResponseData>(
 			`${ENDPOINT_PATH.GET_NEWS_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
 		if (!data || data.status !== 200) {
-			setIsNewsFound(false)
-			if (showAll) return <NotFoundSection />
-			return <div />
-		} else {
-			setIsNewsFound(true)
+			return <NotFoundSection />
+		}
+		return <NewsSearchResult showAll data={data.searchResult} />
+	}
+
+	const AllAgendaResult = () => {
+		const { data } = useSWR<search.AgendaSearchListResponseData>(
+			`${ENDPOINT_PATH.GET_AGENDA_SEARCH}?query=${query}`,
+			apiFetcher,
+		)
+		if (!data || data.status !== 200) {
+			return <NotFoundSection />
+		}
+		return <AgendaSearchResult showAll data={data.searchResult} />
+	}
+
+	const AllIndexResult = () => {
+		const { data } = useSWR<search.CityIndexSearchListResponseData>(
+			`${ENDPOINT_PATH.GET_CITY_INDEX_SEARCH}?query=${query}`,
+			apiFetcher,
+		)
+		if (!data || data.status !== 200) {
+			return <NotFoundSection />
+		}
+		return <IndexSearchResult showAll data={data.searchResult} />
+	}
+
+	const SearchAllResult = ({ limit }: { limit?: number }) => {
+		const { data } = useSWR<search.SearchResponseData>(
+			`${ENDPOINT_PATH.GET_SEARCH}?query=${query}`,
+			apiFetcher,
+		)
+		if (!data || data.status !== 200) {
+			return <NotFoundSection />
 		}
 		return (
 			<>
-				<section className={styles.resultSection}>
-					<div className={styles.titleWrapper}>
-						<div className={styles.title}>
-							<h3>{!isTypeSelected ? 'Berita' : 'Hasil Pencarian'}</h3>
-							<span>
-								<b>{data.searchResult.length}</b> berita/artikel ditemukan
-							</span>
-						</div>
-						{!isTypeSelected ? (
-							<button
-								value={searchCategory.news.value}
-								className={styles.viewAllButton}
-								onClick={handleSearchTypeClick}
-							>
-								Lihat Semua
-							</button>
-						) : (
-							<div />
-						)}
-					</div>
-					<div className={styles.newsContentWrapper}>
-						{(limit
-							? data.searchResult.slice(0, limit)
-							: data.searchResult
-						).map((value, index) => (
-							<NewsCard
-								key={index}
-								type="M"
-								image={value.thumbnail}
-								title={value.headline}
-								date={new Date(value.postDate)}
-								tag={value.category ?? 'lainnya'}
-								slug={value.slug}
-							/>
-						))}
-					</div>
-				</section>
-				<Separator />
+				{data.applications !== null && (
+					<>
+						<ServiceSearchResult
+							data={data.applications}
+							showAll={false}
+							limit={limit}
+							onViewAllClick={handleSearchTypeClick}
+						/>
+						<Separator />
+					</>
+				)}
+				{data.news !== null && (
+					<>
+						<NewsSearchResult
+							data={data.news}
+							showAll={false}
+							limit={limit}
+							onViewAllClick={handleSearchTypeClick}
+						/>
+						<Separator />
+					</>
+				)}
+				{data.agendas.length > 0 && (
+					<>
+						<AgendaSearchResult
+							data={data.agendas}
+							showAll={false}
+							limit={limit}
+							onViewAllClick={handleSearchTypeClick}
+						/>
+						<Separator />
+					</>
+				)}
+				<IndexSearchResult
+					showAll={false}
+					limit={limit}
+					onViewAllClick={handleSearchTypeClick}
+				/>
 			</>
-		)
-	}
-
-	const AgendaSearchResult = ({
-		showAll,
-		limit,
-	}: {
-		showAll: boolean
-		limit?: number
-	}) => {
-		// const { data } = useSWR<search.ServiceSearchListResponseData>(
-		// 	`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
-		// 	apiFetcher,
-		// )
-		// if (!data || data.status !== 200) {
-		// 	setIsServiceFound(false)
-		// 	if (showAll) return <NotFoundSection />
-		// 	return <div />
-		// }
-		if (query.toLocaleLowerCase() !== 'semarang' || agendaData.length === 0) {
-			setIsAgendaFound(false)
-			if (showAll) return <NotFoundSection />
-			return <div />
-		} else {
-			setIsAgendaFound(true)
-		}
-		return (
-			<>
-				<section className={styles.resultSection}>
-					<div className={styles.titleWrapper}>
-						<div className={styles.title}>
-							<h3>{!isTypeSelected ? 'Kegiatan' : 'Hasil Pencarian'}</h3>
-							<span>
-								<b>{agendaData.length}</b> kegiatan ditemukan
-							</span>
-						</div>
-						{!isTypeSelected ? (
-							<button
-								value={searchCategory.agenda.value}
-								className={styles.viewAllButton}
-								onClick={handleSearchTypeClick}
-							>
-								Lihat Semua
-							</button>
-						) : (
-							<div />
-						)}
-					</div>
-					<div className={styles.agendaContentWrapper}>
-						{(limit ? agendaData.slice(0, limit) : agendaData).map(
-							(value, index) => (
-								<AgendaCard
-									key={index}
-									title={value.title}
-									time={value.time}
-									location={value.location}
-								/>
-							),
-						)}
-					</div>
-				</section>
-				<Separator />
-			</>
-		)
-	}
-
-	const IndexSearchResult = ({
-		showAll,
-		limit,
-	}: {
-		showAll: boolean
-		limit?: number
-	}) => {
-		// const { data } = useSWR<search.ServiceSearchListResponseData>(
-		// 	`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
-		// 	apiFetcher,
-		// )
-		// if (!data || data.status !== 200) {
-		// 	setIsServiceFound(false)
-		// 	if (showAll) return <NotFoundSection />
-		// 	return <div />
-		// }
-		if (query.toLocaleLowerCase() !== 'semarang' || indexData.length === 0) {
-			setIsIndexFound(false)
-			if (showAll) return <NotFoundSection />
-			return <div />
-		} else {
-			setIsNewsFound(true)
-		}
-		return (
-			<section className={styles.resultSection}>
-				<div className={styles.titleWrapper}>
-					<div className={styles.title}>
-						<h3>{!isTypeSelected ? 'Indeks' : 'Hasil Pencarian'}</h3>
-						<span>
-							<b>{indexData.length}</b> indeks ditemukan
-						</span>
-					</div>
-					{!isTypeSelected ? (
-						<button
-							value={searchCategory.index.value}
-							className={styles.viewAllButton}
-							onClick={handleSearchTypeClick}
-						>
-							Lihat Semua
-						</button>
-					) : (
-						<div />
-					)}
-				</div>
-				<div className={styles.indeksContentWrapper}>
-					{(limit ? indexData.slice(0, limit) : indexData).map(
-						(value, index) => (
-							<IndexCard
-								key={index}
-								title={value.title}
-								currentIndex={value.currentIndex}
-								targetIndex={value.targetIndex}
-								description={value.description}
-								tag="tag"
-							/>
-						),
-					)}
-				</div>
-			</section>
 		)
 	}
 
@@ -502,31 +222,15 @@ const SearchResultSection = ({ query }: { query: string }) => {
 			{(() => {
 				switch (searchParams.get('type')) {
 					case searchCategory.service.value:
-						return <ServiceSearchResult showAll />
+						return <AllServiceResult />
 					case searchCategory.news.value:
-						return <NewsSearchResult showAll />
+						return <AllNewsResult />
 					case searchCategory.agenda.value:
-						return <AgendaSearchResult showAll />
+						return <AllAgendaResult />
 					case searchCategory.index.value:
-						return <IndexSearchResult showAll />
+						return <AllIndexResult />
 					default:
-						if (
-							isServiceFound ||
-							isNewsFound ||
-							isAgendaFound ||
-							isIndexFound
-						) {
-							return (
-								<>
-									<ServiceSearchResult showAll={false} limit={3} />
-									<NewsSearchResult showAll={false} limit={3} />
-									<AgendaSearchResult showAll={false} limit={3} />
-									<IndexSearchResult showAll={false} limit={3} />
-								</>
-							)
-						} else {
-							return <NotFoundSection />
-						}
+						return <SearchAllResult limit={3} />
 				}
 			})()}
 		</>

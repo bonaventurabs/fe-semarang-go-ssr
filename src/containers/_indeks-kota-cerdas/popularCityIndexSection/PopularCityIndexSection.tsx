@@ -19,6 +19,7 @@ const PopularCityIndexSection = () => {
 		apiFetcher,
 	)
 	const totalItem = 5
+	const currentYear = new Date().getFullYear() - 1
 	return (
 		<section className={styles.section}>
 			<h3>Indeks Populer</h3>
@@ -26,8 +27,8 @@ const PopularCityIndexSection = () => {
 				<IndexCard
 					key={index}
 					title={camelCaseToTitleCase(item.title)}
-					currentIndex={item.data['2022']}
-					targetIndex={item.data['2023']}
+					currentIndex={item.data[currentYear]}
+					targetIndex={item.data[currentYear + 1]}
 					description={cityIndexDesc[item.title]}
 					tag={getKey(clusterBEMap, item.cluster)}
 					isTagDisplayed

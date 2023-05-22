@@ -83,7 +83,9 @@ const AgendaPage = () => {
 										title={element.title}
 										time={
 											new Date(
-												element.scheduleDate + 'T' + element.scheduleTime,
+												element.scheduleDate.split('T')[0] +
+													'T' +
+													element.scheduleTime,
 											)
 										}
 										location={element.location}
