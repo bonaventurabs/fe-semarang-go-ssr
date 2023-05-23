@@ -123,7 +123,7 @@ const IntroGuideline = () => {
 	const [enabled, setEnabled] = useState<boolean | undefined>(false)
 
 	useEffect(() => {
-		void get<boolean>('previoslyVisited').then((value) => {
+		void get<boolean>('previouslyVisited').then((value) => {
 			if (typeof value === 'undefined') {
 				setEnabled(true)
 			} else {
@@ -138,7 +138,7 @@ const IntroGuideline = () => {
 
 		if (finishedStatuses.includes(status)) {
 			setEnabled(false)
-			void set('previoslyVisited', true)
+			void set('previouslyVisited', true)
 		}
 	}
 
