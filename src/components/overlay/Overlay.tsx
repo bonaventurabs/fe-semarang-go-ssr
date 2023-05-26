@@ -7,38 +7,39 @@ interface OverlayProps {
 	children?: ReactNode
 	blur?: boolean
 	preventScroll?: boolean
+	resetScroll?: boolean
 }
 
-function Overlay({ open, children, blur, preventScroll }: OverlayProps) {
-	// lock window scrolling
+function Overlay({
+	open,
+	children,
+	blur,
+	preventScroll,
+	resetScroll,
+}: OverlayProps) {
 	function lockScroll(e: { preventDefault: () => void }) {
 		e.preventDefault()
 	}
 
-	if (typeof document !== 'undefined') {
+	useEffect(() => {
 		const { body, documentElement } = document
 		let { scrollTop } = document.documentElement
 		if (preventScroll) {
-			// eslint-disable-next-line react-hooks/rules-of-hooks
-			useEffect(() => {
-				if (open) {
-					// document.body.classList.add(styles.stopScrolling)
-					// eslint-disable-next-line react-hooks/exhaustive-deps
-					scrollTop = documentElement.scrollTop
-					body.style.top = `-${scrollTop}px`
-					body.classList.add(styles.stopScrolling)
-					document.addEventListener('mousewheel touchmove', lockScroll)
-				} else {
-					// document.body.classList.remove(styles.stopScrolling)
-					scrollTop = parseInt(body.style.top)
-					body.classList.remove(styles.stopScrolling)
-					documentElement.scrollTop = -scrollTop
-					body.style.removeProperty('top')
-					document.removeEventListener('mousewheel touchmove', lockScroll)
-				}
-			}, [open])
+			if (open) {
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+				scrollTop = documentElement.scrollTop
+				body.style.top = `-${scrollTop}px`
+				body.classList.add(styles.stopScrolling)
+				document.addEventListener('mousewheel touchmove', lockScroll)
+			} else {
+				scrollTop = parseInt(body.style.top)
+				body.classList.remove(styles.stopScrolling)
+				if (!resetScroll) documentElement.scrollTop = -scrollTop
+				body.style.removeProperty('top')
+				document.removeEventListener('mousewheel touchmove', lockScroll)
+			}
 		}
-	}
+	}, [open, preventScroll, resetScroll])
 
 	return (
 		<div

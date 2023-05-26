@@ -34,7 +34,7 @@ function Loading() {
 	}, [router.pathname, router.events])
 
 	return (
-		<Overlay open={loading} preventScroll>
+		<Overlay open={loading} preventScroll resetScroll>
 			<LoadingSection />
 		</Overlay>
 	)
