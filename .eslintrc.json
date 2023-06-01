@@ -139,7 +139,7 @@
 				}
 			}
 		],
-		"linebreak-style": ["error", "unix"],
+		"linebreak-style": ["warn", "unix"],
 		"eqeqeq": ["error", "always", { "null": "ignore" }],
 		"camelcase": ["error", { "properties": "never" }],
 		"quotes": [

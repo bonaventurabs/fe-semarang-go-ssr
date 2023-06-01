@@ -85,7 +85,7 @@ const ServiceClusterSection = ({ id }: { id?: string }) => {
 		{
 			name: 'Lihat Semua',
 			icon: CustomAllIcon,
-			to: '/layanan',
+			to: '/layanan/OPD',
 		},
 	]
 	return (

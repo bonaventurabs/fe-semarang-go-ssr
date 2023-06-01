@@ -1,87 +1,62 @@
 import { useState } from 'react'
 
-import serviceImg1 from '@/assets/images/service-1.png'
-import serviceImg2 from '@/assets/images/service-2.png'
-import serviceImg3 from '@/assets/images/service-3.png'
+import semarangLogo from '@/assets/images/semarang-logo.png'
 import Pagination from '@/components/pagination/Pagination'
 import ServiceCard from '@/components/serviceCard/ServiceCard'
+import {
+	GetServiceListByCluster,
+	GetServiceListByOPD,
+} from '@/services/service'
 
 import styles from './ServiceSection.module.scss'
 
-const data = [
-	{
-		title: 'Ambulan Hebat',
-		desc: 'Aplikasi Ambulan Hebat yang dikelola oleh Dinas Kesehatan Kota Semarang',
-		org: 'Dinas Kesehatan',
-		image: serviceImg1,
-		url: 'ambulanhebat.semarangkota.go.id',
-		_id: '642623d5277d40b9d8644bb2',
-	},
-	{
-		title: 'Sistem Informasi GIS Kesehatan Lingkungan',
-		desc: 'Aplikasi Sistem Informasi GIS Kesehatan Lingkungan yang dikelola oleh Dinas Lingkungan Kota Semarang',
-		org: 'Dinas Lingkungan',
-		image: serviceImg2,
-		url: 'dlh.semarangkota.go.id',
-	},
-	{
-		title: 'E-Puskesmas',
-		desc: 'Aplikasi E-Puskesmas yang dikelola oleh Dinas Kesehatan Kota Semarang',
-		org: 'Dinas Kesehatan',
-		image: serviceImg3,
-		url: 'epuskesmas.semarangkota.go.id',
-		_id: '642623d5277d40b9d8644bca',
-	},
-]
-
 interface ServiceSectionProps {
 	title: string
-	opd?: string
-	cluster?: string
+	opdID?: string
+	clusterID?: string
 	pagination: boolean
 	itemsPerPage?: number
 }
 
 const ServiceSection = ({
 	title,
-	opd,
-	cluster,
+	opdID,
+	clusterID,
 	pagination,
 	itemsPerPage = 4,
 }: ServiceSectionProps) => {
-	// TODO: data fetching
-	const [itemOffset, setItemOffset] = useState<number>(0)
-	const endOffset = pagination ? itemOffset + itemsPerPage : data.length
-	const currentItems = data.slice(itemOffset, endOffset)
+	const [page, setPage] = useState<number>(1)
+	const { data } = opdID
+		? GetServiceListByOPD(opdID, page, itemsPerPage)
+		: GetServiceListByCluster(clusterID, page, itemsPerPage)
 
 	const handlePageClick = (event: { selected: number }) => {
-		const newOffset = (event.selected * itemsPerPage) % data.length
-		setItemOffset(newOffset)
+		setPage(event.selected + 1)
 	}
 	return (
 		<section className={styles.serviceSection}>
 			<div className={styles.titleWrapper}>
 				<h3>{title}</h3>
 				<span className={styles.totalService}>
-					<b>{data.length}</b> layanan ditemukan
+					<b>{data?.data.length}</b> layanan ditemukan
 				</span>
 			</div>
-			{currentItems.map((item, index) => (
+			{data?.data.map((item, index) => (
 				<ServiceCard
 					key={index}
-					image={item.image}
-					title={item.title}
-					desc={item.desc}
-					org={item.org}
-					url={item.url}
+					image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
+					title={item.name}
+					desc={item.description}
+					org={item.tagId}
+					url={item.domain}
 					isImageDisplayed
-					isOrgDisplayed={typeof opd === 'undefined'}
+					isOrgDisplayed={typeof opdID === 'undefined'}
 					id={item._id}
 				/>
 			))}
 			{pagination && (
 				<Pagination
-					totalItem={data.length}
+					totalItem={data?.data.length}
 					itemsPerPage={itemsPerPage}
 					onPageChange={handlePageClick}
 					className={styles.pagination}

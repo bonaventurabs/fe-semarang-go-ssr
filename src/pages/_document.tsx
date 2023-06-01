@@ -20,7 +20,7 @@ export default function Document() {
 				<meta name="msapplication-TileColor" content="#fafafa" />
 				<meta name="msapplication-tap-highlight" content="no" />
 				<meta name="theme-color" content="#930d20" />
-
+				<link rel="icon" href="/favicon.ico" />
 				<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 				{/* <link rel="apple-touch-icon" sizes="152x152" href="/icon.png" />
 				<link rel="apple-touch-icon" sizes="180x180" href="/icon.png" />

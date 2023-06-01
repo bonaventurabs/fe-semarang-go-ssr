@@ -46,7 +46,7 @@
 		"sharp": "^0.32.1",
 		"swiper": "^9.2.0",
 		"swr": "^2.1.1",
-		"typescript": "5.0.2",
+		"typescript": "latest",
 		"validator": "^13.9.0"
 	},
 	"devDependencies": {

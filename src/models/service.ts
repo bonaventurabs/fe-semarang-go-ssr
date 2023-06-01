@@ -14,7 +14,7 @@ export interface ServiceType {
 	domain: string
 	tagId: string
 	clusterId: string[]
-	thumbnails: string
+	thumbnail: string
 	isPublic: boolean
 	description: string
 }
@@ -26,5 +26,26 @@ export interface ServiceResponseData {
 
 export interface ServiceListResponseData {
 	status: number
+	data: ServiceType[]
+}
+
+export interface ServiceOPDType {
+	_id: string
+	name: string
+	userCount: number
+	appCount: number
+}
+
+export interface ServiceOPDListResponseData {
+	status: number
+	currentPage: number
+	totalPage: number
+	data: ServiceOPDType[]
+}
+
+export interface ServiceListPaginationResponseData {
+	status: number
+	currentPage: number
+	totalPage: number
 	data: ServiceType[]
 }

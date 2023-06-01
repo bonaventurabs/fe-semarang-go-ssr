@@ -13,6 +13,7 @@ interface Props {
 	className?: string
 	ref?: React.LegacyRef<React.Component<ReactPaginateProps, unknown>>
 	pageCount?: number
+	initialPage?: number
 }
 
 const Pagination = ({
@@ -23,10 +24,12 @@ const Pagination = ({
 	className,
 	ref,
 	pageCount,
+	initialPage,
 }: Props) => {
 	pageCount ??= Math.ceil(totalItem / itemsPerPage)
 	return (
 		<ReactPaginate
+			initialPage={initialPage}
 			onPageChange={onPageChange}
 			onPageActive={onPageActive}
 			pageRangeDisplayed={3}

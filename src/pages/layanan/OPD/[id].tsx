@@ -5,11 +5,10 @@ import Separator from '@/components/separator/Separator'
 import OPDSection from '@/containers/_layanan/opdSection/OPDSection'
 import ServiceSection from '@/containers/_layanan/serviceSection/ServiceSection'
 import Header from '@/containers/header/Header'
-import { slugToTitle } from '@/utils/string'
 
 import styles from './index.module.scss'
 
-const data = {
+const staticData = {
 	title: 'Dinas Pekerjaan Umum',
 	telp: '02476433969',
 	email: 'dpu.smgkota@gmail.com',
@@ -21,8 +20,12 @@ const data = {
 
 const OPDServicePage = () => {
 	const router = useRouter()
-	const { name } = router.query
-	const title = slugToTitle(name?.toString() ?? '')
+	const { id } = router.query
+	// const { data, error } = GetOPDByID(id as string)
+
+	// if (error) {
+	// 	return <ErrorPage />
+	// }
 	return (
 		<>
 			<Head>
@@ -33,22 +36,21 @@ const OPDServicePage = () => {
 				/>
 				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
 				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header title="Dinas" isBackButtonDisplayed />
 			<main className={styles.pageWrapper}>
 				<Separator />
 				<OPDSection
-					title={title}
-					description={data.description}
-					telp={data.telp}
-					email={data.email}
-					address={data.address}
-					url={data.url}
+					title={staticData.title}
+					description={staticData.description}
+					telp={staticData.telp}
+					email={staticData.email}
+					address={staticData.address}
+					url={staticData.url}
 				/>
 				<Separator />
-				<ServiceSection title="Layanan" opd={name?.toString()} pagination />
+				<ServiceSection title="Layanan" opdID={id?.toString()} pagination />
 			</main>
 		</>
 	)
