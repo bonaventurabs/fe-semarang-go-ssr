@@ -14,7 +14,7 @@ export const api = axios.create({
 export const mockFetcher: BareFetcher = async (resource: string) =>
 	await mocksApi.get(resource).then((res) => res.data)
 
-export const apiFetcher: any = async (resource: string) =>
+export const apiFetcher = async (resource: string) =>
 	await api.get(resource).then((res) => res.data)
 
 api.interceptors.request.use(

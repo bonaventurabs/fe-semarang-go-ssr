@@ -59,7 +59,7 @@ const OPDServiceSearchResult = ({
 	return (
 		<section className={styles.searchByOpdSection} ref={topElRef}>
 			<span className={styles.totalOpd}>
-				<b>{data?.data.length}</b> dinas ditemukan
+				<b>{data?.totalData}</b> dinas ditemukan
 			</span>
 			{data?.data.map((item, index) => (
 				<OPDServicesCard

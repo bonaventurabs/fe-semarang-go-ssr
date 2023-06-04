@@ -9,12 +9,12 @@ import { checkHTTPS, isProtocolExist } from '@/utils/url'
 import styles from './OPDSection.module.scss'
 
 interface OPDSectionProps {
-	title: string
+	title?: string
 	description?: string
-	telp: string
-	email: string
-	url: string | UrlObject
-	address: string
+	telp?: string
+	email?: string
+	url?: string | UrlObject
+	address?: string
 }
 
 const OPDSection = ({
@@ -34,7 +34,7 @@ const OPDSection = ({
 	useEffect(() => {
 		async function checkProtocol() {
 			setExternalUrl(
-				(await checkHTTPS(url))
+				(await checkHTTPS(url as string))
 					? `http://${url as string}`
 					: `https://${url as string}`,
 			)
@@ -46,28 +46,36 @@ const OPDSection = ({
 
 	return (
 		<section className={styles.opdSection}>
-			<h3>{title}</h3>
-			<p>{description}</p>
+			{title && <h3>{title}</h3>}
+			{description && <p>{description}</p>}
 			<div className={styles.contentWrapper}>
-				<a href={`tel:${telp}`} className={styles.contenItem}>
-					<CallIcon />
-					<p>{telp}</p>
-				</a>
-				<a href={`mailto:${email}`} className={styles.contenItem}>
-					<MailIcon />
-					<p>{email}</p>
-				</a>
-				<div className={styles.contenItem}>
-					<LocationIcon />
-					<p>{address}</p>
-				</div>
+				{telp && (
+					<a href={`tel:${telp}`} className={styles.contenItem}>
+						<CallIcon />
+						<p>{telp}</p>
+					</a>
+				)}
+				{email && (
+					<a href={`mailto:${email}`} className={styles.contenItem}>
+						<MailIcon />
+						<p>{email}</p>
+					</a>
+				)}
+				{address && (
+					<div className={styles.contenItem}>
+						<LocationIcon />
+						<p>{address}</p>
+					</div>
+				)}
 			</div>
-			<OutlinedButton
-				className={styles.button}
-				text="Buka Situs Resmi"
-				onClick={() => openInNewTab(externalUrl)}
-				isIconDisplayed
-			/>
+			{url && (
+				<OutlinedButton
+					className={styles.button}
+					text="Buka Situs Resmi"
+					onClick={() => openInNewTab(externalUrl)}
+					isIconDisplayed
+				/>
+			)}
 		</section>
 	)
 }

@@ -1,17 +1,27 @@
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
 import Separator from '@/components/separator/Separator'
 import AboutSemarangGoSection from '@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
 import AgendaSection from '@/containers/_beranda/agendaSection/AgendaSection'
 import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
-import IntroGuideline from '@/containers/_beranda/introGuideline/IntroGuideline'
 import MainFeatureSection from '@/containers/_beranda/mainFeatureSection/MainFeatureSection'
 import NewsSection from '@/containers/_beranda/newsSection/NewsSection'
 import ServiceClusterSection from '@/containers/_beranda/serviceClusterSection/ServiceClusterSection'
 import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHeader'
+import useMapData from '@/hooks/useMapData'
 import styles from '@/styles/Home.module.scss'
 
+const IntroGuideline = dynamic(
+	async () =>
+		await import('@/containers/_beranda/introGuideline/IntroGuideline'),
+	{
+		ssr: false,
+	},
+)
+
 function HomePage() {
+	useMapData()
 	return (
 		<>
 			<Head>

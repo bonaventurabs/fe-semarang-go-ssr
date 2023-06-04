@@ -1,7 +1,10 @@
 import useSWR from 'swr'
 
 import { ENDPOINT_PATH } from '@/interfaces'
-import { type ServiceListPaginationResponseData } from '@/models/service'
+import {
+	type ServiceClusterListResponseData,
+	type ServiceListPaginationResponseData,
+} from '@/models/service'
 
 import { apiFetcher } from './api'
 
@@ -18,6 +21,20 @@ export function GetServiceListByOPD(
 	const { data, isLoading, error, mutate } =
 		useSWR<ServiceListPaginationResponseData>(
 			`${ENDPOINT_PATH.GET_SERVICE}?${params.toString()}`,
+			apiFetcher,
+		)
+	return {
+		data,
+		isLoading,
+		error,
+		mutate,
+	}
+}
+
+export function GetServiceClusterList() {
+	const { data, isLoading, error, mutate } =
+		useSWR<ServiceClusterListResponseData>(
+			`${ENDPOINT_PATH.GET_SERVICE_CLUSTER}}`,
 			apiFetcher,
 		)
 	return {

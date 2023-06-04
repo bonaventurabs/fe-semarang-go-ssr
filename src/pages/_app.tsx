@@ -3,6 +3,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { Raleway, Montserrat } from 'next/font/google'
 import Head from 'next/head'
+import { RecoilRoot } from 'recoil'
 
 import Layout from '@/containers/layout/Layout'
 import styles from '@/styles/Home.module.scss'
@@ -21,11 +22,13 @@ export default function App({ Component, pageProps }: AppProps) {
 					--montserrat-font: ${montserrat.style.fontFamily};
 				}
 			`}</style>
-			<main className={styles.app}>
-				<Layout>
-					<Component classN {...pageProps} />
-				</Layout>
-			</main>
+			<RecoilRoot>
+				<main className={styles.app}>
+					<Layout>
+						<Component classN {...pageProps} />
+					</Layout>
+				</main>
+			</RecoilRoot>
 		</>
 	)
 }

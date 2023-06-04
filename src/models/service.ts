@@ -8,6 +8,16 @@ export const clusterMap = new Map<string, string>([
 	['desa', 'Desa'],
 ])
 
+export const clusterBEMap: Record<string, string[]> = {
+	kesehatan: ['kesehatan'],
+	pendidikan: ['pendidikan'],
+	sosial: ['sosial', 'tentram dan lind masy', 'pemb-anak perempuan'],
+	naker: ['naker'],
+	umkm: ['UMKM'],
+	pembangunan: ['perkim', 'perec Pembgn', 'PU'],
+	desa: ['pemb masy desa'],
+}
+
 export interface ServiceType {
 	_id: string
 	name: string
@@ -36,8 +46,20 @@ export interface ServiceOPDType {
 	appCount: number
 }
 
+export interface ServiceClusterType {
+	_id: string
+	name: string
+	appCount: number
+}
+
+export interface ServiceOPDResponseData {
+	status: number
+	data: ServiceOPDType
+}
+
 export interface ServiceOPDListResponseData {
 	status: number
+	totalData: number
 	currentPage: number
 	totalPage: number
 	data: ServiceOPDType[]
@@ -45,7 +67,13 @@ export interface ServiceOPDListResponseData {
 
 export interface ServiceListPaginationResponseData {
 	status: number
+	totalData: number
 	currentPage: number
 	totalPage: number
 	data: ServiceType[]
+}
+
+export interface ServiceClusterListResponseData {
+	status: number
+	data: ServiceClusterType[]
 }

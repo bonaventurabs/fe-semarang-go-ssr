@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { set, get } from 'idb-keyval'
+import localforage from 'localforage'
 import dynamic from 'next/dynamic'
 import {
 	type CallBackProps,
@@ -121,24 +121,30 @@ const steps: Step[] = [
 
 const IntroGuideline = () => {
 	const [enabled, setEnabled] = useState<boolean | undefined>(false)
+	const [firstVisit, setFirstVisit] = useState<boolean | undefined>(true)
 
 	useEffect(() => {
-		void get<boolean>('previouslyVisited').then((value) => {
-			if (typeof value === 'undefined') {
-				setEnabled(true)
-			} else {
-				setEnabled(!value)
-			}
-		})
-	}, [])
+		if (firstVisit) {
+			void localforage.getItem('previouslyVisited').then((value) => {
+				if (value === null || value === false) {
+					setEnabled(true)
+				}
+			})
+		}
+	}, [enabled, firstVisit])
 
 	const handleJoyrideCallback = (data: CallBackProps) => {
 		const { status } = data
-		const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED]
+		const finishedStatuses: string[] = [
+			STATUS.FINISHED,
+			STATUS.SKIPPED,
+			STATUS.ERROR,
+		]
 
 		if (finishedStatuses.includes(status)) {
 			setEnabled(false)
-			void set('previouslyVisited', true)
+			setFirstVisit(false)
+			void localforage.setItem('previouslyVisited', true)
 		}
 	}
 

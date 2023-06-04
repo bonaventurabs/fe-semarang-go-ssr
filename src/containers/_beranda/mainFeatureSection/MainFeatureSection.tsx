@@ -49,7 +49,7 @@ const MainFeatureSection = () => {
 			title: 'Layanan Publik',
 			icon: CustomAllIcon,
 			description: 'Temukan berbagai layanan digital publik',
-			to: '/layanan',
+			to: '/layanan/OPD',
 		},
 		{
 			title: 'Berita Kota',

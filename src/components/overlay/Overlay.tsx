@@ -8,6 +8,7 @@ interface OverlayProps {
 	blur?: boolean
 	preventScroll?: boolean
 	resetScroll?: boolean
+	style?: React.CSSProperties
 }
 
 function Overlay({
@@ -16,6 +17,7 @@ function Overlay({
 	blur,
 	preventScroll,
 	resetScroll,
+	style,
 }: OverlayProps) {
 	function lockScroll(e: { preventDefault: () => void }) {
 		e.preventDefault()
@@ -45,6 +47,7 @@ function Overlay({
 		<div
 			className={`${styles.overlayWrapper} ${blur ? styles.blur : ''}`.trim()}
 			hidden={!open}
+			style={style}
 		>
 			{children}
 		</div>

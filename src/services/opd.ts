@@ -1,7 +1,10 @@
 import useSWR from 'swr'
 
 import { ENDPOINT_PATH } from '@/interfaces'
-import { type ServiceOPDListResponseData } from '@/models/service'
+import {
+	type ServiceOPDListResponseData,
+	type ServiceOPDResponseData,
+} from '@/models/service'
 
 import { apiFetcher } from './api'
 
@@ -29,7 +32,7 @@ export function GetOPDList(
 }
 
 export function GetOPDByID(id: string) {
-	const { data, isLoading, error, mutate } = useSWR<ServiceOPDListResponseData>(
+	const { data, isLoading, error, mutate } = useSWR<ServiceOPDResponseData>(
 		`${ENDPOINT_PATH.GET_SERVICE_ORG}/${id}`,
 		apiFetcher,
 	)

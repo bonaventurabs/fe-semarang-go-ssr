@@ -5,6 +5,8 @@ import Separator from '@/components/separator/Separator'
 import OPDSection from '@/containers/_layanan/opdSection/OPDSection'
 import ServiceSection from '@/containers/_layanan/serviceSection/ServiceSection'
 import Header from '@/containers/header/Header'
+import ErrorPage from '@/pages/_error'
+import { GetOPDByID } from '@/services/opd'
 
 import styles from './index.module.scss'
 
@@ -21,11 +23,11 @@ const staticData = {
 const OPDServicePage = () => {
 	const router = useRouter()
 	const { id } = router.query
-	// const { data, error } = GetOPDByID(id as string)
+	const { data, error } = GetOPDByID(id as string)
 
-	// if (error) {
-	// 	return <ErrorPage />
-	// }
+	if (error) {
+		return <ErrorPage />
+	}
 	return (
 		<>
 			<Head>
@@ -42,7 +44,7 @@ const OPDServicePage = () => {
 			<main className={styles.pageWrapper}>
 				<Separator />
 				<OPDSection
-					title={staticData.title}
+					title={data?.data.name}
 					description={staticData.description}
 					telp={staticData.telp}
 					email={staticData.email}
