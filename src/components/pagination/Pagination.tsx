@@ -1,5 +1,3 @@
-// import classnames from 'classnames'
-
 import ReactPaginate, { type ReactPaginateProps } from 'react-paginate'
 
 import styles from './Pagination.module.scss'

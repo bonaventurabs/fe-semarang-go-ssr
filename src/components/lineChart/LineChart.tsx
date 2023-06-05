@@ -24,6 +24,7 @@ interface LineChartProps<T extends object> {
 	yAxisTitle: string
 	xAxisKey: keyof T
 	yAxisKey: keyof T
+	zoneValue?: number
 }
 
 const LineChart = <T extends object>({
@@ -34,6 +35,7 @@ const LineChart = <T extends object>({
 	yAxisTitle,
 	xAxisKey,
 	yAxisKey,
+	zoneValue,
 }: LineChartProps<T>) => {
 	const chartData = data.map((row) => ({
 		x: row[xAxisKey],
@@ -91,7 +93,6 @@ const LineChart = <T extends object>({
 			{
 				type: 'line',
 				name: chartTitle,
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				data: chartData as unknown as any[],
 				lineWidth: 2,
 				color: colorPrimaryRedAlt,
@@ -107,7 +108,7 @@ const LineChart = <T extends object>({
 				zoneAxis: 'x',
 				zones: [
 					{
-						value: new Date().getFullYear(),
+						value: zoneValue,
 					},
 					{
 						dashStyle: 'Dot',
@@ -150,6 +151,11 @@ const LineChart = <T extends object>({
 			shape: 'square',
 			hideDelay: 100,
 			outside: false,
+			pointFormatter: function () {
+				return `${this.series.name}: <b>${
+					this.y?.toLocaleString('id-ID') ?? ''
+				}</b>`
+			},
 		},
 		navigator: {
 			handles: {

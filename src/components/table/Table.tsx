@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import {
 	type ColumnDef,
@@ -13,6 +11,7 @@ import {
 import { titleCase } from '@/utils/string'
 
 import styles from './Table.module.scss'
+import { NextIcon, PrevIcon } from '../icon/SVGIcon'
 
 interface TableProps<T extends object> {
 	columns?: Array<ColumnDef<T>>
@@ -29,7 +28,7 @@ const Table = <T extends object>({
 	showNavigation = true,
 	showIndex = true,
 }: TableProps<T>) => {
-	const [data, setData] = useState(() => [...defaultData])
+	const [data] = useState(() => [...defaultData])
 	if (typeof columns === 'undefined') {
 		columns = data.reduce<Array<ColumnDef<T>>>((columns, row) => {
 			Object.keys(row as object).forEach((key) => {
@@ -61,9 +60,6 @@ const Table = <T extends object>({
 	// 		})
 	// 	}
 	// }, [showIndex, columns])
-
-	console.log('columns', columns)
-	console.log('data', data)
 
 	const table = useReactTable({
 		data,
@@ -139,59 +135,46 @@ const Table = <T extends object>({
 				) : null}
 			</table>
 			{showNavigation ? (
-				<>
-					<div className="h-2 mt-5" />
-					<div className="flex items-center gap-2">
-						<button
-							className="cursor-pointer rounded border p-1"
-							onClick={() => table.setPageIndex(0)}
-							disabled={!table.getCanPreviousPage()}
-						>
-							{'<<'}
-						</button>
-						<button
-							className="cursor-pointer rounded border p-1"
-							onClick={() => table.previousPage()}
-							disabled={!table.getCanPreviousPage()}
-						>
-							{'<'}
-						</button>
-						<button
-							className="cursor-pointer rounded border p-1"
-							onClick={() => table.nextPage()}
-							disabled={!table.getCanNextPage()}
-						>
-							{'>'}
-						</button>
-						<button
-							className="cursor-pointer rounded border p-1"
-							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-							disabled={!table.getCanNextPage()}
-						>
-							{'>>'}
-						</button>
-						<span className="flex cursor-pointer items-center gap-1">
-							<div>Page</div>
-							<strong>
-								{table.getState().pagination.pageIndex + 1} of{' '}
+				<div className={styles.pagination}>
+					<button
+						className={`${styles.arrow} ${styles.prev}`}
+						onClick={() => table.previousPage()}
+						disabled={!table.getCanPreviousPage()}
+					>
+						<PrevIcon />
+					</button>
+					<div className={styles.contentWrapper}>
+						<span className={styles.pageText}>
+							Halaman{' '}
+							<b>
+								{table.getState().pagination.pageIndex + 1} dari{' '}
 								{table.getPageCount()}
-							</strong>
+							</b>
 						</span>
-						<select
-							value={table.getState().pagination.pageSize}
-							onChange={(e) => {
-								table.setPageSize(Number(e.target.value))
-							}}
-						>
-							{[10, 20, 30, 40, 50].map((pageSize) => (
-								<option key={pageSize} value={pageSize}>
-									Show {pageSize}
-								</option>
-							))}
-						</select>
-						<div className="h-4" />
+						<div className={styles.pageSizeText}>
+							Tampilkan{' '}
+							<select
+								value={table.getState().pagination.pageSize}
+								onChange={(e) => {
+									table.setPageSize(Number(e.target.value))
+								}}
+							>
+								{[10, 20, 30, 40, 50].map((pageSize) => (
+									<option key={pageSize} value={pageSize}>
+										{pageSize}
+									</option>
+								))}
+							</select>
+						</div>
 					</div>
-				</>
+					<button
+						className={`${styles.arrow} ${styles.next}`}
+						onClick={() => table.nextPage()}
+						disabled={!table.getCanNextPage()}
+					>
+						<NextIcon />
+					</button>
+				</div>
 			) : null}
 		</>
 	)

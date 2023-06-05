@@ -59,8 +59,13 @@ const CityIndexContentPage = ({ data, error }: CityIndexContentPageProps) => {
 	const pageTitle = 'Indeks Kota'
 	const title = camelCaseToTitleCase(data.data[0].title)
 	const desc = cityIndexDesc[data.data[0].title]
-	const yearData = data.data[0].data['2022']
-	const targetData = data.data[0].data['2023']
+	const currentYear = new Date().getFullYear()
+	const yearData = data.data[0].data[currentYear]
+	const chartDataSize = 10
+	const targetData =
+		data.data[0].data[
+			Object.keys(data.data[0].data)[Object.keys(data.data[0].data).length - 1]
+		]
 	const dataPerYear = Object.entries(data.data[0].data).map((item) => ({
 		year: parseInt(item[0]),
 		value: item[1],
@@ -68,10 +73,8 @@ const CityIndexContentPage = ({ data, error }: CityIndexContentPageProps) => {
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-				<meta name="description" content={desc} />
+				<title>{title}</title>
 				<meta name="keywords" content={pageTitle} />
-				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
 			</Head>
 			<Header title={pageTitle} isBackButtonDisplayed />
 			<main className={styles.pageWrapper}>
@@ -109,13 +112,14 @@ const CityIndexContentPage = ({ data, error }: CityIndexContentPageProps) => {
 								case 0:
 									return (
 										<LineChart
-											data={dataPerYear}
+											data={dataPerYear.slice(-chartDataSize)}
 											title="Perkembangan Indeks per Tahun"
 											chartTitle={title}
 											xAxisTitle="Tahun"
 											yAxisTitle="Indeks"
 											xAxisKey="year"
 											yAxisKey="value"
+											zoneValue={currentYear}
 										/>
 									)
 								case 1:
