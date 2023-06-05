@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import Separator from '@/components/separator/Separator'
 import MainServiceSection from '@/containers/_layanan/mainServiceSection/MainServiceSection'
-import ServiceSection from '@/containers/_layanan/serviceSection/ServiceSection'
+import { ClusterServiceSection } from '@/containers/_layanan/serviceSection/ServiceSection'
 import Header from '@/containers/header/Header'
 import { clusterMap } from '@/models/service'
 import NotFoundPage from '@/pages/404'
@@ -28,7 +28,7 @@ const ServiceClusterPage = () => {
 				<Separator />
 				<MainServiceSection cluster={cluster.toString()} />
 				<Separator />
-				<ServiceSection
+				<ClusterServiceSection
 					title="Layanan Lainnya"
 					cluster={cluster.toString()}
 					pagination

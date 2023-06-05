@@ -1,60 +1,94 @@
+import { AxiosError } from 'axios'
+import { type GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
 import Separator from '@/components/separator/Separator'
 import OPDSection from '@/containers/_layanan/opdSection/OPDSection'
-import ServiceSection from '@/containers/_layanan/serviceSection/ServiceSection'
+import { OPDServiceSection } from '@/containers/_layanan/serviceSection/ServiceSection'
 import Header from '@/containers/header/Header'
+import { type ErrorResponseData } from '@/models/error'
+import { type OrgType } from '@/models/org'
 import ErrorPage from '@/pages/_error'
-import { GetOPDByID } from '@/services/opd'
+import { getServiceOrg } from '@/pages/api/service-org'
 
 import styles from './index.module.scss'
 
-const staticData = {
-	title: 'Dinas Pekerjaan Umum',
-	telp: '02476433969',
-	email: 'dpu.smgkota@gmail.com',
-	address: 'Jl. Pemuda No. 1, Semarang',
-	url: 'https://dpu.semarangkota.go.id/',
-	description:
-		'Dinas Pekerjaan Umum Kota Semarang adalah organisasi pemerintah daerah yang mempunyai tugas untuk melaksanakan urusan pemerintahan yang menjadi kewenangan daerah dan tugas pembantuan di bidang pekerjaan umum.',
+interface OPDServicePageProps {
+	data: OrgType
+	error?: ErrorResponseData
 }
 
-const OPDServicePage = () => {
+const OPDServicePage = ({ data, error }: OPDServicePageProps) => {
 	const router = useRouter()
 	const { id } = router.query
-	const { data, error } = GetOPDByID(id as string)
 
 	if (error) {
 		return <ErrorPage />
 	}
+
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-				<meta
-					name="description"
-					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-				/>
-				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
-				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<link rel="icon" href="/favicon.ico" />
+				<title>{data.name}</title>
+				<meta name="description" content={data.description} />
+				<meta name="keywords" content={data.name} />
+				<meta name="keywords" content="semarang" />
+				<meta name="keywords" content="dinas" />
 			</Head>
 			<Header title="Dinas" isBackButtonDisplayed />
 			<main className={styles.pageWrapper}>
 				<Separator />
 				<OPDSection
-					title={data?.data.name}
-					description={staticData.description}
-					telp={staticData.telp}
-					email={staticData.email}
-					address={staticData.address}
-					url={staticData.url}
+					title={data.name}
+					description={data.description}
+					telp={data.phone}
+					email={data.email}
+					address={data.address}
+					url={data.website}
 				/>
 				<Separator />
-				<ServiceSection title="Layanan" opdID={id?.toString()} pagination />
+				<OPDServiceSection
+					title="Layanan"
+					opdID={id?.toString() ?? ''}
+					pagination
+				/>
 			</main>
 		</>
 	)
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+	const { id } = context.params as {
+		id: string
+	}
+	try {
+		const data = getServiceOrg()
+
+		return {
+			props: {
+				data: data[id],
+			},
+		}
+	} catch (error: unknown) {
+		if (error instanceof AxiosError) {
+			return {
+				props: {
+					error: {
+						status: error.response?.status,
+						data: error.message,
+					},
+				},
+			}
+		}
+		return {
+			props: {
+				error:
+					error !== undefined
+						? JSON.parse(JSON.stringify(error))
+						: 'Unknown error',
+			},
+		}
+	}
 }
 export default OPDServicePage

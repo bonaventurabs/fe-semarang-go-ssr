@@ -1,12 +1,13 @@
 import useSWR from 'swr'
 
 import { ENDPOINT_PATH } from '@/interfaces'
+import { type OrgListResponseData } from '@/models/org'
 import {
 	type ServiceOPDListResponseData,
 	type ServiceOPDResponseData,
 } from '@/models/service'
 
-import { apiFetcher } from './api'
+import { apiFetcher, nextApiFetcher } from './api'
 
 export function GetOPDList(
 	query: string | null,
@@ -38,6 +39,20 @@ export function GetOPDByID(id: string) {
 	)
 	return {
 		data,
+		isLoading,
+		error,
+		mutate,
+	}
+}
+
+export function GetOPDDetails(orgId: string) {
+	const { data, isLoading, error, mutate } = useSWR<OrgListResponseData>(
+		`${ENDPOINT_PATH.GET_ORG_DETAILS}`,
+		nextApiFetcher,
+	)
+
+	return {
+		data: data?.data[orgId],
 		isLoading,
 		error,
 		mutate,

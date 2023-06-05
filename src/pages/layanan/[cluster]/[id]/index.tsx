@@ -15,7 +15,7 @@ import { ENDPOINT_PATH } from '@/interfaces'
 import { type ServiceResponseData } from '@/models/service'
 import ErrorPage from '@/pages/_error'
 import { apiFetcher } from '@/services/api'
-import { slugify } from '@/utils/string'
+import { GetOPDDetails } from '@/services/opd'
 
 import styles from './index.module.scss'
 
@@ -35,6 +35,7 @@ const ServiceDetailPage = () => {
 		apiFetcher,
 	)
 	const isError = data?.status !== 200 && url === null && title === null
+	const { data: opdDetails } = GetOPDDetails(data?.data.tagId ?? '')
 
 	useEffect(() => {
 		const frame = frameRef.current
@@ -66,17 +67,17 @@ const ServiceDetailPage = () => {
 	const extUrl = url ?? (data && 'https://'.concat(data.data.domain)) ?? '/'
 	const extTitle = title ?? data?.data.name ?? 'Kota Semarang'
 
-	const staticData = {
-		title: 'Ambulan Hebat',
-		link: 'https://ambulanhebat.semarangkota.go.id/',
-		description:
-			'Layanan Ambulance Hebat adalah layanan ambulan yang siap melayani keadaan gawat darurat 24 jam di Kota Semarang.',
-		admin: {
-			name: 'Dinas Kesehatan',
-			description:
-				'Dinas Kesehatan adalah organisasi pemerintah daerah di Kota Semarang yang membantu wali kota melaksanakan urusan pemerintah dalam bidang kesehatan yang meliputi kesehatan masyarakat, pencegahan dan pengendalian penyakit, pelayanan dan sumber daya kesehatan.',
-		},
-	}
+	// const staticData = {
+	// 	title: 'Ambulan Hebat',
+	// 	link: 'https://ambulanhebat.semarangkota.go.id/',
+	// 	description:
+	// 		'Layanan Ambulance Hebat adalah layanan ambulan yang siap melayani keadaan gawat darurat 24 jam di Kota Semarang.',
+	// 	admin: {
+	// 		name: 'Dinas Kesehatan',
+	// 		description:
+	// 			'Dinas Kesehatan adalah organisasi pemerintah daerah di Kota Semarang yang membantu wali kota melaksanakan urusan pemerintah dalam bidang kesehatan yang meliputi kesehatan masyarakat, pencegahan dan pengendalian penyakit, pelayanan dan sumber daya kesehatan.',
+	// 	},
+	// }
 
 	const infoSheet = () => {
 		return (
@@ -86,22 +87,24 @@ const ServiceDetailPage = () => {
 				initialDrawerDistanceTop={325}
 			>
 				<div className={styles.serviceModal}>
-					<h3 className={styles.title}>{staticData.title}</h3>
-					<p className={styles.description}>{staticData.description}</p>
+					<h3 className={styles.title}>{extTitle}</h3>
+					<p className={styles.description}>{data?.data.description}</p>
 					<div className={styles.adminWrapper}>
 						<span className={styles.adminTag}>Dikelola oleh</span>
-						<h3 className={styles.title}>{staticData.admin.name}</h3>
+						<h3 className={styles.title}>{opdDetails?.name}</h3>
 					</div>
-					<p className={styles.description}>{staticData.admin.description}</p>
-					<OutlinedButton
-						text="Lihat Selengkapnya"
-						className={styles.button}
-						isIconDisplayed={false}
-						onClick={async () => {
-							setIsInfoSheetOpen(false)
-							await router.push(`/layanan/OPD/${slugify(staticData.title)}`)
-						}}
-					/>
+					<p className={styles.description}>{opdDetails?.description}</p>
+					{data?.data.tagId && (
+						<OutlinedButton
+							text="Lihat Selengkapnya"
+							className={styles.button}
+							isIconDisplayed={false}
+							onClick={async () => {
+								setIsInfoSheetOpen(false)
+								await router.push(`/layanan/OPD/${data.data.tagId}`)
+							}}
+						/>
+					)}
 				</div>
 			</BottomSheet>
 		)
@@ -110,16 +113,13 @@ const ServiceDetailPage = () => {
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
+				<title>{title ?? data?.data.name}</title>
 			</Head>
 			<Header
 				title={title ?? data?.data.name}
 				backTo={idxBack === 0 ? -1 : -idxBack}
 				isBackButtonDisplayed
-				isInfoButtonDisplayed
+				isInfoButtonDisplayed={typeof data?.data !== 'undefined'}
 				shouldConfirmLeave
 				onInfoButtonClick={() => setIsInfoSheetOpen(true)}
 			/>

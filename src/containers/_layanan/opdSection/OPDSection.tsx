@@ -32,15 +32,17 @@ const OPDSection = ({
 	const [externalUrl, setExternalUrl] = useState(url as string)
 
 	useEffect(() => {
-		async function checkProtocol() {
-			setExternalUrl(
-				(await checkHTTPS(url as string))
-					? `http://${url as string}`
-					: `https://${url as string}`,
-			)
-		}
-		if (!isProtocolExist(url as string)) {
-			void checkProtocol()
+		if (url) {
+			async function checkProtocol() {
+				setExternalUrl(
+					(await checkHTTPS(url as string))
+						? `http://${url as string}`
+						: `https://${url as string}`,
+				)
+			}
+			if (!isProtocolExist(url as string)) {
+				void checkProtocol()
+			}
 		}
 	}, [externalUrl, url])
 

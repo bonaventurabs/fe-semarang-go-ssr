@@ -16,7 +16,6 @@ const ServicePage = () => {
 	const searchParams = useSearchParams()
 	const [query, setQuery] = useState<string | null>(searchParams.get('q'))
 
-	// create
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.value) {
 			const url = {
@@ -40,15 +39,11 @@ const ServicePage = () => {
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+				<title>Pencarian Layanan Publik berdasarkan Dinas</title>
 				<meta
 					name="description"
 					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
 				/>
-				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
-				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header title="Layanan Publik" />
 			<main className={styles.pageWrapper}>

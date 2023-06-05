@@ -11,11 +11,19 @@ export const api = axios.create({
 	timeout: 10000,
 })
 
+export const nextApi = axios.create({
+	baseURL: '/api',
+	timeout: 10000,
+})
+
 export const mockFetcher: BareFetcher = async (resource: string) =>
 	await mocksApi.get(resource).then((res) => res.data)
 
 export const apiFetcher = async (resource: string) =>
 	await api.get(resource).then((res) => res.data)
+
+export const nextApiFetcher = async (resource: string) =>
+	await nextApi.get(resource).then((res) => res.data)
 
 api.interceptors.request.use(
 	function (config) {
@@ -34,12 +42,10 @@ api.interceptors.response.use(
 	},
 	async function (error) {
 		// if ([401].includes(error.response.code)) {
-		// 	// TODO: status code menyesuaikan BE
 		// 	window.location.replace('/logout')
 		// 	// window.history.replaceState({}, '')
 		// 	return await Promise.reject(error)
 		// }
-		// TODO: mapping error mengikuti BE
 		return await Promise.reject(error.response)
 	},
 )
@@ -49,7 +55,15 @@ mocksApi.interceptors.response.use(
 		return response
 	},
 	async function (error) {
-		// TODO: mapping error mengikuti BE
 		return await Promise.reject(error)
+	},
+)
+
+nextApi.interceptors.response.use(
+	function (response) {
+		return response
+	},
+	async function (error) {
+		return await Promise.reject(error.response)
 	},
 )
