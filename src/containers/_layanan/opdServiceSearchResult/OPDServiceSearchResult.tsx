@@ -42,6 +42,12 @@ const OPDServiceSearchResult = ({
 		}
 	}, [page, pagination])
 
+	useEffect(() => {
+		if (query) {
+			setPage(1)
+		}
+	}, [query])
+
 	if (isLoading) {
 		return (
 			<section className={styles.searchByOpdSection}>
