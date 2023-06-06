@@ -3,12 +3,15 @@ import Head from 'next/head'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 
-import igImg from '@/assets/images/instagram.png'
 import guideImg from '@/assets/images/report-guide.png'
 import sapaImg from '@/assets/images/sapa-icon.png'
-import twitterImg from '@/assets/images/twitter.png'
-import waImg from '@/assets/images/whatsapp.png'
-import { MailIcon, ReportIcon } from '@/components/icon/SVGIcon'
+import {
+	CustomInstagram,
+	CustomMail,
+	CustomTwitter,
+	CustomWhatsapp,
+	ReportIcon,
+} from '@/components/icon/SVGIcon'
 import Separator from '@/components/separator/Separator'
 import GuideSection from '@/containers/guideSection/GuideSection'
 import Header from '@/containers/header/Header'
@@ -59,9 +62,16 @@ const SocialMediaCard = ({
 	Icon: React.FC<React.SVGProps<SVGSVGElement>> | StaticImageData | string
 }) => {
 	return (
-		<Link className={styles.socialMediaCard} href={to}>
+		<Link
+			className={styles.socialMediaCard}
+			href={to}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
 			{typeof Icon === 'function' ? (
-				<Icon className={styles.icon} />
+				<div className={styles.iconWrapper}>
+					<Icon className={styles.icon} />
+				</div>
 			) : (
 				<Image src={Icon} className={styles.icon} alt="" />
 			)}
@@ -90,37 +100,37 @@ const ReportPage = () => {
 	const socialMediaData = [
 		{
 			title: 'Instagram',
-			to: '/',
-			icon: igImg,
+			to: 'https://www.instagram.com/semarangpemkot/',
+			icon: CustomInstagram,
 		},
 		{
 			title: 'Twitter',
-			to: '/',
-			icon: twitterImg,
+			to: 'https://twitter.com/PemkotSmg',
+			icon: CustomTwitter,
 		},
 		{
 			title: 'Whatsapp',
-			to: '/',
-			icon: waImg,
+			to: 'https://api.whatsapp.com/send?phone=6281215000512&text=sapambakita%23nama%23judul%23lokasi%23isilaporan%23jeniskelamin(L%2FP)%23apakah%20difabel%3F(Y%2FN)',
+			icon: CustomWhatsapp,
 		},
 		{
 			title: 'Email',
-			to: '/',
-			icon: MailIcon,
+			to: 'mailto:semarangpemkot@semarangkota.go.id',
+			icon: CustomMail,
 		},
 	]
-
+	const title = 'Lapor Kota Semarang'
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+				<title>{title}</title>
 				<meta
 					name="description"
 					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
 				/>
 			</Head>
 			<Header
-				title="Lapor Kota Semarang"
+				title={title}
 				isBackButtonDisplayed={false}
 				isSearchButtonDisplayed
 			/>

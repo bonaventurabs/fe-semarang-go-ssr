@@ -52,12 +52,16 @@ import CustomHealthIcon from '@/assets/images/svgs/health_and_safety.svg'
 import CustomVillageIcon from '@/assets/images/svgs/holiday_village.svg'
 import CustomHomeIcon from '@/assets/images/svgs/home.svg'
 import CustomSmartCityIcon from '@/assets/images/svgs/insights.svg'
+import CustomInstagram from '@/assets/images/svgs/instagram.svg'
+import CustomMail from '@/assets/images/svgs/mail.svg'
 import CustomCitizenshipIcon from '@/assets/images/svgs/person.svg'
 import CustomManufacturingIcon from '@/assets/images/svgs/precision_manufacturing.svg'
 import CustomReportIcon from '@/assets/images/svgs/report.svg'
 import CustomEducationIcon from '@/assets/images/svgs/school.svg'
 import CustomTradeIcon from '@/assets/images/svgs/shopping_basket.svg'
 import CustomTourismIcon from '@/assets/images/svgs/signpost.svg'
+import CustomTwitter from '@/assets/images/svgs/twitter.svg'
+import CustomWhatsapp from '@/assets/images/svgs/whatsapp.svg'
 import CustomAllIcon from '@/assets/images/svgs/widgets.svg'
 
 export {
@@ -78,6 +82,10 @@ export {
 	CustomBusinessIcon,
 	CustomVillageIcon,
 	CustomManufacturingIcon,
+	CustomInstagram,
+	CustomTwitter,
+	CustomWhatsapp,
+	CustomMail,
 	SearchIcon,
 	CloseIcon,
 	BackIcon,
