@@ -3,18 +3,21 @@ import React, { useRef, useState, useEffect } from 'react'
 import styles from './Tab.module.scss'
 
 export const Tab = ({
+	name,
 	label,
 	active,
 	onClick,
 	value,
 }: {
+	name?: string
 	label: string
 	active?: boolean
-	onClick?: () => void
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
 	value?: string | number
 }) => {
 	return (
 		<button
+			name={name}
 			role="tab"
 			onClick={onClick}
 			className={active ? styles.activeTab : styles.tab}
@@ -55,6 +58,7 @@ export const Tabs = ({
 			key: child.props.value,
 			active: child.props.value === selectedTab,
 			onClick: handleClick,
+			value: child.props.value,
 		})
 	})
 

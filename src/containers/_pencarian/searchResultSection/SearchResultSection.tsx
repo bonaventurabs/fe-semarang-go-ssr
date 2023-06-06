@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react'
+
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import useSWR from 'swr'
 
 import Separator from '@/components/separator/Separator'
+import { Tab, Tabs } from '@/components/tab/Tab'
 import { ENDPOINT_PATH } from '@/interfaces'
 import * as search from '@/models/search'
 import { apiFetcher } from '@/services/api'
@@ -58,35 +61,44 @@ const searchCategoryData = [
 	},
 ]
 
-const FilterButton = ({
-	name,
-	type,
-	onClick,
-}: {
-	name?: string
-	type?: string
-	onClick?: React.MouseEventHandler
-}) => {
-	const searchParams = useSearchParams()
-	const isActive = (searchParams.get(search.params.type) ?? '') === type
-	return (
-		<button
-			className={
-				isActive
-					? `${styles.filterButton} ${styles.filterButtonActive} `
-					: `${styles.filterButton}`
-			}
-			value={type}
-			onClick={onClick}
-		>
-			{name}
-		</button>
-	)
-}
-
 const SearchResultSection = ({ query }: { query: string }) => {
 	const router = useRouter()
 	const searchParams = useSearchParams()
+	const [activeFilter, setActiveFilter] = useState(0)
+
+	useEffect(() => {
+		const type = searchParams.get(search.params.type)
+		if (type) {
+			setActiveFilter(
+				searchCategoryData.findIndex((item) => item.value === type),
+			)
+		}
+	}, [searchParams])
+
+	const handleFilterChange = (
+		e: React.MouseEvent<HTMLButtonElement>,
+		value: string | number,
+	) => {
+		setActiveFilter(typeof value === 'string' ? parseInt(value) : value)
+		const type = e.currentTarget.getAttribute('name')
+		if (type && type !== '') {
+			const url = {
+				pathname: router.pathname,
+				query: { ...router.query, type },
+			}
+			void router.replace(url, undefined, { shallow: true })
+		} else {
+			const { type, ...routerQuery } = router.query
+			void router.replace(
+				{
+					query: { ...routerQuery },
+				},
+				undefined,
+				{ shallow: true },
+			)
+		}
+	}
+
 	const handleSearchTypeClick = (e: React.MouseEvent) => {
 		const value = e.currentTarget.getAttribute('value')
 		if (value && value !== '') {
@@ -156,12 +168,18 @@ const SearchResultSection = ({ query }: { query: string }) => {
 			`${ENDPOINT_PATH.GET_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
-		if (!data || data.status !== 200) {
+		if (
+			!data ||
+			data.status !== 200 ||
+			(data.applications.length === 0 &&
+				data.news.length === 0 &&
+				data.agendas.length === 0)
+		) {
 			return <NotFoundSection />
 		}
 		return (
 			<>
-				{data.applications !== null && (
+				{data.applications.length > 0 && (
 					<>
 						<ServiceSearchResult
 							data={data.applications}
@@ -172,7 +190,7 @@ const SearchResultSection = ({ query }: { query: string }) => {
 						<Separator />
 					</>
 				)}
-				{data.news !== null && (
+				{data.news.length > 0 && (
 					<>
 						<NewsSearchResult
 							data={data.news}
@@ -206,16 +224,17 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	return (
 		<>
 			<section className={styles.searchCategorySection}>
-				<h3>Kategori Pencarian</h3>
-				<div className={styles.buttonWrapper}>
-					{searchCategoryData.map((value, index) => (
-						<FilterButton
-							key={index}
-							name={value.name}
-							type={value.value}
-							onClick={handleSearchTypeClick}
-						/>
-					))}
+				<div className={styles.filterWrapper}>
+					<Tabs selectedTab={activeFilter} onChange={handleFilterChange}>
+						{searchCategoryData.map((value, index) => (
+							<Tab
+								key={index}
+								label={value.name}
+								name={value.value}
+								value={index}
+							/>
+						))}
+					</Tabs>
 				</div>
 			</section>
 			<Separator />

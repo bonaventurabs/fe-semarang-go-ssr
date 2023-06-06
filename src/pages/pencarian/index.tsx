@@ -4,15 +4,17 @@ import Head from 'next/head'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 
+import SearchBar from '@/components/searchBar/SearchBar'
 import Separator from '@/components/separator/Separator'
 import PopularSearchSection from '@/containers/_pencarian/popularSearchSection/PopularSearchSection'
-import SearchHeader from '@/containers/_pencarian/searchHeader/SearchHeader'
 import SearchResultSection from '@/containers/_pencarian/searchResultSection/SearchResultSection'
+import Header from '@/containers/header/Header'
 import * as search from '@/models/search'
 
 import styles from './index.module.scss'
 
 const SearchPage = () => {
+	const title = 'Pencarian'
 	const router = useRouter()
 	const searchParams = useSearchParams()
 
@@ -41,17 +43,20 @@ const SearchPage = () => {
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+				<title>{title}</title>
 			</Head>
-			<SearchHeader
-				name="q"
-				value={searchParams.get(search.params.query) ?? ''}
-				onChange={handleSearch}
-				onReset={handleResetSearch}
-				// backTo="/"
-			/>
+			<Header title={title} />
 			<main className={styles.wrapper}>
 				<Separator />
+				<section className={styles.searchHeaderSection}>
+					<SearchBar
+						name="q"
+						placeholder="Cari layanan dan informasi publik..."
+						value={searchParams.get(search.params.query) ?? ''}
+						onChange={handleSearch}
+						onReset={handleResetSearch}
+					/>
+				</section>
 				{(() => {
 					if (!query || query === '') {
 						return <PopularSearchSection />

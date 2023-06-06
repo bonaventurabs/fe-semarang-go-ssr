@@ -19,6 +19,7 @@ import { toISOStringDate } from '@/utils/date'
 import styles from './index.module.scss'
 
 const AgendaPage = () => {
+	const title = 'Agenda Kegiatan Kota Semarang'
 	const [dateValue, setDateValue] = useState<Date | undefined | null>(
 		new Date(),
 	)
@@ -37,18 +38,11 @@ const AgendaPage = () => {
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
-				<meta
-					name="description"
-					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-				/>
-				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
-				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
-				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<link rel="icon" href="/favicon.ico" />
+				<title>Agenda</title>
+				<meta name="description" content={title} />
 			</Head>
 			<Header
-				title="Agenda Kegiatan Kota Semarang"
+				title={title}
 				isBackButtonDisplayed={false}
 				isSearchButtonDisplayed
 			/>

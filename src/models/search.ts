@@ -62,7 +62,7 @@ export interface CityIndexSearchListResponseData {
 
 export interface SearchResponseData {
 	status: number
-	applications: ServiceSearchType[] | null
-	news: NewsSearchType[] | null
+	applications: ServiceSearchType[]
+	news: NewsSearchType[]
 	agendas: AgendaSearchType[]
 }
