@@ -4,12 +4,15 @@ import React, {
 	useEffect,
 	useState,
 	useCallback,
+	useRef,
 } from 'react'
 
 import { endOfISOWeek, startOfISOWeek } from 'date-fns'
+import type SwiperCore from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import styles from './DateSlider.module.scss'
+import { NextButton, PrevButton } from '../button/Button'
 import DatePicker from '../datePicker/DatePicker'
 import { NextIcon, PrevIcon } from '../icon/SVGIcon'
 import 'swiper/scss'
@@ -87,7 +90,6 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	}, [date, weekTime])
 
 	const SelectedWeek = forwardRef(
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		({ onClick }: { onClick: any }, ref: LegacyRef<HTMLSpanElement>) => (
 			<span className={styles.selectedWeek} ref={ref} onClick={onClick}>
 				{`${startDate.getDate()} - ${endDate.toLocaleString('id-ID', {
@@ -113,6 +115,24 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		}
 	}, [date, onChange])
 
+	const swiperRef = useRef<SwiperCore>()
+	const [disabledPrev, setDisabledPrev] = useState<boolean | undefined>(
+		swiperRef.current?.isBeginning,
+	)
+	const [disabledNext, setDisabledNext] = useState<boolean | undefined>(
+		swiperRef.current?.isEnd,
+	)
+	const [buttonStyle, setButtonStyle] = useState({ opacity: 0 })
+	useEffect(() => {
+		if (swiperRef.current) {
+			swiperRef.current.update()
+			swiperRef.current.on('slideChange', () => {
+				setDisabledPrev(swiperRef.current?.isBeginning)
+				setDisabledNext(swiperRef.current?.isEnd)
+			})
+		}
+	}, [swiperRef])
+
 	return (
 		<div className={styles.dateComponent}>
 			<div className={styles.weeklyWrapper}>
@@ -124,7 +144,15 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 				/>
 				<NextIcon onClick={handleNextWeekClick} />
 			</div>
-			<div className={styles.sliderWrapper}>
+			<div
+				className={styles.sliderWrapper}
+				onMouseEnter={(e) => {
+					setButtonStyle({ opacity: 1 })
+				}}
+				onMouseLeave={(e) => {
+					setButtonStyle({ opacity: 0 })
+				}}
+			>
 				<Swiper
 					initialSlide={new Date().getDay() - 1}
 					spaceBetween={10}
@@ -135,6 +163,9 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 						520: {
 							spaceBetween: 20,
 						},
+					}}
+					onBeforeInit={(swiper) => {
+						swiperRef.current = swiper
 					}}
 				>
 					{Array.from({ length: 7 }, (_, i) => {
@@ -159,6 +190,20 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 						)
 					})}
 				</Swiper>
+				<div className={styles.buttonWrapper}>
+					<PrevButton
+						onClick={() => swiperRef.current?.slidePrev()}
+						disabled={disabledPrev}
+						className={styles.button}
+						style={buttonStyle}
+					/>
+					<NextButton
+						onClick={() => swiperRef.current?.slideNext()}
+						disabled={disabledNext}
+						className={styles.button}
+						style={buttonStyle}
+					/>
+				</div>
 			</div>
 		</div>
 	)

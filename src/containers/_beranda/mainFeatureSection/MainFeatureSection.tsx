@@ -1,13 +1,16 @@
+import { useEffect, useRef, useState } from 'react'
+
 import { type Url } from 'next/dist/shared/lib/router/router'
 import Link from 'next/link'
+import type SwiperCore from 'swiper'
 import { Navigation, Scrollbar } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
 // Import Swiper styles
 import 'swiper/scss'
 import 'swiper/scss/pagination'
 import 'swiper/scss/scrollbar'
 
+import { NextButton, PrevButton } from '@/components/button/Button'
 import {
 	CustomAgendaIcon,
 	CustomAllIcon,
@@ -76,30 +79,71 @@ const MainFeatureSection = () => {
 			to: '/lapor',
 		},
 	]
+	const swiperRef = useRef<SwiperCore>()
+	const [disabledPrev, setDisabledPrev] = useState<boolean | undefined>(true)
+	const [disabledNext, setDisabledNext] = useState<boolean | undefined>(false)
+	const [buttonStyle, setButtonStyle] = useState({ opacity: 0 })
+	useEffect(() => {
+		if (swiperRef.current) {
+			swiperRef.current.update()
+			swiperRef.current.on('slideChange', () => {
+				setDisabledPrev(swiperRef.current?.isBeginning)
+				setDisabledNext(swiperRef.current?.isEnd)
+			})
+		}
+	}, [swiperRef])
+
 	return (
 		<section className={styles.newsCategorySection}>
 			<div className={styles.titleCard}>
 				<h3>{title}</h3>
 			</div>
-			<Swiper
-				modules={[Navigation, Scrollbar]}
-				slidesPerView="auto"
-				spaceBetween={10}
-				effect="slide"
-				className={styles.contentWrapper}
-				scrollbar={{ draggable: true, dragSize: 100 }}
+			<div
+				className={styles.carouselContainer}
+				onMouseEnter={(e) => {
+					setButtonStyle({ opacity: 1 })
+				}}
+				onMouseLeave={(e) => {
+					setButtonStyle({ opacity: 0 })
+				}}
 			>
-				{data.map((el, index) => (
-					<SwiperSlide key={index} style={{ width: 'fit-content' }}>
-						<MainFeatureCard
-							title={el.title}
-							Icon={el.icon}
-							description={el.description}
-							to={el.to}
-						/>
-					</SwiperSlide>
-				))}
-			</Swiper>
+				<Swiper
+					modules={[Navigation, Scrollbar]}
+					slidesPerView="auto"
+					spaceBetween={10}
+					effect="slide"
+					className={styles.contentWrapper}
+					scrollbar={{ draggable: true, dragSize: 100 }}
+					onBeforeInit={(swiper) => {
+						swiperRef.current = swiper
+					}}
+				>
+					{data.map((el, index) => (
+						<SwiperSlide key={index} style={{ width: 'fit-content' }}>
+							<MainFeatureCard
+								title={el.title}
+								Icon={el.icon}
+								description={el.description}
+								to={el.to}
+							/>
+						</SwiperSlide>
+					))}
+				</Swiper>
+				<div className={styles.buttonWrapper}>
+					<PrevButton
+						onClick={() => swiperRef.current?.slidePrev()}
+						disabled={disabledPrev}
+						className={styles.button}
+						style={buttonStyle}
+					/>
+					<NextButton
+						onClick={() => swiperRef.current?.slideNext()}
+						disabled={disabledNext}
+						className={styles.button}
+						style={buttonStyle}
+					/>
+				</div>
+			</div>
 		</section>
 	)
 }
