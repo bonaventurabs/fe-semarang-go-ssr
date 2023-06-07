@@ -58,7 +58,7 @@
 
 	.disabled {
 		pointer-events: none;
-		fill: transparent;
+		fill: $color-mono-dark-grey;
 
 		&:hover {
 			background-color: transparent;
