@@ -24,7 +24,7 @@ const CityIndexClusterPage = () => {
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+				<title>{`Indeks ${clusterMap.get(cluster.toString()) ?? ''}`}</title>
 				<meta name="keywords" content={cluster.toString()} />
 			</Head>
 			<Header
@@ -34,7 +34,7 @@ const CityIndexClusterPage = () => {
 			/>
 			<main className={styles.pageWrapper}>
 				<Separator />
-				<CityIndexSection cluster={beCluster} pagination />
+				<CityIndexSection cluster={beCluster} pagination={false} />
 			</main>
 		</>
 	)

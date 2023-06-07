@@ -10,7 +10,7 @@
 	background: $color-mono-white;
 
 	width: 100%;
-	min-height: 100%;
+	flex-grow: 1;
 
 	.total-index {
 		@include font-sm-regular;

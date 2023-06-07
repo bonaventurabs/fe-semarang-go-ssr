@@ -125,6 +125,8 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	const [buttonStyle, setButtonStyle] = useState({ opacity: 0 })
 	useEffect(() => {
 		if (swiperRef.current) {
+			setDisabledPrev(swiperRef.current.isBeginning)
+			setDisabledNext(swiperRef.current.isEnd)
 			swiperRef.current.update()
 			swiperRef.current.on('slideChange', () => {
 				setDisabledPrev(swiperRef.current?.isBeginning)

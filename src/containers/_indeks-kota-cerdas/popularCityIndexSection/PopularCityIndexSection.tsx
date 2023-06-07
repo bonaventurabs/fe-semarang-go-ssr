@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 
-import IndexCard from '@/components/indexCard/IndexCard'
+import IndexCard, { IndexCardSkeleton } from '@/components/indexCard/IndexCard'
 import { ENDPOINT_PATH } from '@/interfaces'
 import {
 	cityIndexDesc,
@@ -14,12 +14,25 @@ import { camelCaseToTitleCase } from '@/utils/string'
 import styles from './PopularCityIndexSection.module.scss'
 
 const PopularCityIndexSection = () => {
-	const { data } = useSWR<CityIndexListResponseData>(
+	const { data, isLoading } = useSWR<CityIndexListResponseData>(
 		`${ENDPOINT_PATH.GET_CITY_INDEX}`,
 		apiFetcher,
 	)
 	const totalItem = 5
 	const currentYear = new Date().getFullYear() - 1
+
+	if (isLoading) {
+		return (
+			<section className={styles.section}>
+				<h3>Indeks Populer</h3>
+				<IndexCardSkeleton />
+				<IndexCardSkeleton />
+				<IndexCardSkeleton />
+				<IndexCardSkeleton />
+			</section>
+		)
+	}
+
 	return (
 		<section className={styles.section}>
 			<h3>Indeks Populer</h3>

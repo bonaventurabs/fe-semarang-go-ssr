@@ -12,6 +12,8 @@
 	background: $color-primary-light-red;
 	border-radius: 8px;
 	cursor: pointer;
+	transition: 0.2s ease-in-out;
+	color: $color-mono-dark-grey;
 
 	@media only screen and (min-width: $screen-sm) {
 		width: 80px;
@@ -19,13 +21,22 @@
 
 	&-active {
 		background: $color-primary-red-alt;
+		cursor: default;
+		color: $color-mono-white;
+	}
+
+	&:hover:not(&-active),
+	&[hover]:not(&-active) {
+		background-color: $color-mono-dark-grey;
+		color: $color-mono-white;
 	}
 
 	.date-wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		color: $color-mono-dark-grey;
+		color: inherit;
+		background-color: transparent;
 
 		.date {
 			@include font-sm-bold;
@@ -33,10 +44,6 @@
 
 		.day {
 			@include font-sm-regular;
-		}
-
-		&-active {
-			color: $color-mono-white;
 		}
 	}
 

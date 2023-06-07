@@ -1,5 +1,6 @@
 import { type Url } from 'next/dist/shared/lib/router/router'
 import Link from 'next/link'
+import ContentLoader from 'react-content-loader'
 
 import { titleCase } from '@/utils/string'
 
@@ -65,3 +66,27 @@ const IndexCard = ({
 }
 
 export default IndexCard
+
+export const IndexCardSkeleton = ({ ...props }) => (
+	<ContentLoader
+		speed={2}
+		style={{ width: '100%', height: props.isTagDisplayed ? 128 : 100 }}
+		backgroundColor="#f3f3f3"
+		foregroundColor="#ecebeb"
+		uniqueKey="opd-service-card-skeleton"
+		{...props}
+	>
+		<rect x="0" y="0" rx="8" ry="8" width="40%" height="20" />
+		<rect x="0" y="32" rx="8" ry="8" width="25" height="25" />
+		<rect x="50%" y="32" rx="8" ry="8" width="25" height="25" />
+		<rect x="37" y="32" rx="2" ry="2" width="60" height="10" />
+		<rect x="37" y="46" rx="2" ry="2" width="60" height="10" />
+		<rect x="56%" y="32" rx="2" ry="2" width="60" height="10" />
+		<rect x="56%" y="46" rx="2" ry="2" width="60" height="10" />
+		<rect x="0" y="68" rx="8" ry="8" width="100%" height="10" />
+		<rect x="0" y="83" rx="8" ry="8" width="100%" height="10" />
+		{props.isTagDisplayed && (
+			<rect x="0" y="102" rx="8" ry="8" width="80" height="26" />
+		)}
+	</ContentLoader>
+)

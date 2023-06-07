@@ -2,12 +2,14 @@
 @import '../../../styles/fonts';
 
 .page-wrapper {
+	display: flex;
+	flex-direction: column;
 	background-color: $color-mono-background;
 	position: relative;
 	max-width: inherit;
 	width: 100%;
 	margin: 0px auto;
-	height: fit-content;
+	min-height: calc(100vh - $header-height);
 	// fixed
 	// top: $header-height;
 
