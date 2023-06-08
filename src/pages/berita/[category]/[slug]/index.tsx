@@ -31,21 +31,11 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 	const { headline, thumbnail, shortDescription, content, postDate, category } =
 		data.data
 	const date = new Date(postDate)
-
-	// console.log('data', res.data)
-	// if (
-	// 	typeof category === 'undefined' ||
-	// 	!(category.toString() in newsCategoryTypeToTitle)
-	// ) {
-	// 	return <ErrorPage statusCode={404} />
-	// }
-
 	return (
 		<>
 			<Head>
-				<title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+				<title>{headline}</title>
 				<meta name="description" content={shortDescription} />
-				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
 			</Head>
 			<Header isBackButtonDisplayed />
 			<main className={styles.newsPage}>

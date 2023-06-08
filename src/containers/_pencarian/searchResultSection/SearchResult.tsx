@@ -6,6 +6,7 @@ import ServiceCard from '@/components/serviceCard/ServiceCard'
 import { cityIndexDesc, clusterBEMap } from '@/models/cityIndex'
 import type * as search from '@/models/search'
 import { getKey } from '@/utils/map'
+import { camelCaseToTitleCase } from '@/utils/string'
 
 import styles from './SearchResult.module.scss'
 import NotFoundSection from '../notFoundSection/NotFoundSection'
@@ -141,7 +142,7 @@ const AgendaSearchResult = ({
 				</div>
 				{!showAll ? (
 					<button
-						value="agenda"
+						value="kegiatan"
 						className={styles.viewAllButton}
 						onClick={onViewAllClick}
 					>
@@ -210,7 +211,7 @@ const IndexSearchResult = ({
 				{(limit ? data.slice(0, limit) : data).map((value, index) => (
 					<IndexCard
 						key={index}
-						title={value.title}
+						title={camelCaseToTitleCase(value.title)}
 						currentIndex={value.data[currentYear]}
 						targetIndex={value.data[currentYear + 1]}
 						description={cityIndexDesc[value.title]}

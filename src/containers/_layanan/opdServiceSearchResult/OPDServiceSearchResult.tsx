@@ -51,7 +51,9 @@ const OPDServiceSearchResult = ({
 	if (isLoading) {
 		return (
 			<section className={styles.searchByOpdSection}>
-				<div style={{ height: 20 }} />
+				<span className={styles.totalOpd}>
+					<b>{data?.totalData}</b> dinas ditemukan
+				</span>
 				<OPDServicesCardSkeleton />
 				<OPDServicesCardSkeleton />
 			</section>

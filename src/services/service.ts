@@ -6,7 +6,7 @@ import {
 	type ServiceListPaginationResponseData,
 } from '@/models/service'
 
-import { apiFetcher } from './api'
+import { apiFetcher, multiApiFetcher } from './api'
 
 export function GetServiceListByOPD(
 	opdID: string,
@@ -60,6 +60,33 @@ export function GetServiceListByCluster(
 			`${ENDPOINT_PATH.GET_SERVICE}?${params.toString()}`,
 			apiFetcher,
 		)
+	return {
+		data,
+		isLoading,
+		error,
+		mutate,
+	}
+}
+
+export function GetServiceListByMultipleCluster(
+	clusterID: string[] | undefined,
+	page: number,
+	sizePerPage: number,
+) {
+	const urls = []
+	for (const id of clusterID ?? []) {
+		if (id) {
+			const params = new URLSearchParams()
+			if (clusterID) params.append('cluster', id)
+			params.append('page', page.toString())
+			params.append('limit', sizePerPage.toString())
+			urls.push(`${ENDPOINT_PATH.GET_SERVICE}?${params.toString()}`)
+		}
+	}
+
+	const { data, isLoading, error, mutate } = useSWR<
+		ServiceListPaginationResponseData[]
+	>(urls.length > 0 ? urls : null, multiApiFetcher)
 	return {
 		data,
 		isLoading,

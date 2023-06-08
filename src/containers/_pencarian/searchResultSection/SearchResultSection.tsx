@@ -9,6 +9,7 @@ import { Tab, Tabs } from '@/components/tab/Tab'
 import { ENDPOINT_PATH } from '@/interfaces'
 import * as search from '@/models/search'
 import { apiFetcher } from '@/services/api'
+import { SearchAgenda, SearchCityIndex } from '@/services/search'
 
 import {
 	AgendaSearchResult,
@@ -120,47 +121,41 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	}
 
 	const AllServiceResult = () => {
-		const { data } = useSWR<search.ServiceSearchListResponseData>(
+		const { data, error } = useSWR<search.ServiceSearchListResponseData>(
 			`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
-		if (!data || data.status !== 200) {
+		if (error || data?.status !== 200) {
 			return <NotFoundSection />
 		}
 		return <ServiceSearchResult showAll data={data.searchResult} />
 	}
 
 	const AllNewsResult = () => {
-		const { data } = useSWR<search.NewsSearchListResponseData>(
+		const { data, error } = useSWR<search.NewsSearchListResponseData>(
 			`${ENDPOINT_PATH.GET_NEWS_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
-		if (!data || data.status !== 200) {
+		if (error || data?.status !== 200) {
 			return <NotFoundSection />
 		}
 		return <NewsSearchResult showAll data={data.searchResult} />
 	}
 
 	const AllAgendaResult = () => {
-		const { data } = useSWR<search.AgendaSearchListResponseData>(
-			`${ENDPOINT_PATH.GET_AGENDA_SEARCH}?query=${query}`,
-			apiFetcher,
-		)
-		if (!data || data.status !== 200) {
+		const { data, error } = SearchAgenda(query)
+		if (error || data.status !== 200) {
 			return <NotFoundSection />
 		}
-		return <AgendaSearchResult showAll data={data.searchResult} />
+		return <AgendaSearchResult showAll data={data.data} />
 	}
 
 	const AllIndexResult = () => {
-		const { data } = useSWR<search.CityIndexSearchListResponseData>(
-			`${ENDPOINT_PATH.GET_CITY_INDEX_SEARCH}?query=${query}`,
-			apiFetcher,
-		)
-		if (!data || data.status !== 200) {
+		const { data, error } = SearchCityIndex(query)
+		if (error || data?.status !== 200) {
 			return <NotFoundSection />
 		}
-		return <IndexSearchResult showAll data={data.searchResult} />
+		return <IndexSearchResult showAll data={data.data} />
 	}
 
 	const SearchAllResult = ({ limit }: { limit?: number }) => {
@@ -168,12 +163,14 @@ const SearchResultSection = ({ query }: { query: string }) => {
 			`${ENDPOINT_PATH.GET_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
+		const { data: indexData } = SearchCityIndex(query)
 		if (
 			!data ||
 			data.status !== 200 ||
 			(data.applications.length === 0 &&
 				data.news.length === 0 &&
-				data.agendas.length === 0)
+				data.agendas.length === 0 &&
+				indexData?.data?.length === 0)
 		) {
 			return <NotFoundSection />
 		}
@@ -213,6 +210,7 @@ const SearchResultSection = ({ query }: { query: string }) => {
 					</>
 				)}
 				<IndexSearchResult
+					data={indexData?.data}
 					showAll={false}
 					limit={limit}
 					onViewAllClick={handleSearchTypeClick}

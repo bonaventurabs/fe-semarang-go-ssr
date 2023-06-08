@@ -25,10 +25,10 @@ const PopularCityIndexSection = () => {
 		return (
 			<section className={styles.section}>
 				<h3>Indeks Populer</h3>
-				<IndexCardSkeleton />
-				<IndexCardSkeleton />
-				<IndexCardSkeleton />
-				<IndexCardSkeleton />
+				<IndexCardSkeleton isTagDisplayed />
+				<IndexCardSkeleton isTagDisplayed />
+				<IndexCardSkeleton isTagDisplayed />
+				<IndexCardSkeleton isTagDisplayed />
 			</section>
 		)
 	}

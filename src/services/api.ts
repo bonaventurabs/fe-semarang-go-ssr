@@ -25,6 +25,10 @@ export const apiFetcher = async (resource: string) =>
 export const nextApiFetcher = async (resource: string) =>
 	await nextApi.get(resource).then((res) => res.data)
 
+export async function multiApiFetcher(...urls: any[]) {
+	return await Promise.all(urls.map(async (url) => await apiFetcher(url)))
+}
+
 api.interceptors.request.use(
 	function (config) {
 		config.headers.Authorization = 'ytta'

@@ -38,6 +38,9 @@ const CityIndexSection = ({ cluster, pagination }: Props) => {
 	if (isLoading) {
 		return (
 			<section className={styles.section}>
+				<span className={styles.totalIndex}>
+					<b>{'  '}</b> indeks ditemukan
+				</span>
 				<IndexCardSkeleton isTagDisplayed={false} />
 				<IndexCardSkeleton isTagDisplayed={false} />
 				<IndexCardSkeleton isTagDisplayed={false} />

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { type GetServerSideProps, type InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -19,22 +20,22 @@ import { GetOPDDetails } from '@/services/opd'
 
 import styles from './index.module.scss'
 
-const ServiceDetailPage = () => {
+const ServiceDetailPage = ({
+	id,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter()
 	const frameRef = useRef<HTMLIFrameElement>(null)
 	const searchParams = useSearchParams()
-	const { id } = router.query as { id: string }
 	const [idxBack, setIdxBack] = useState(0)
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [isInfoSheetOpen, setIsInfoSheetOpen] = useState(false)
 
 	const url = searchParams.get('url')
 	const title = searchParams.get('title')
-	const { data } = useSWR<ServiceResponseData>(
+	const { data, error } = useSWR<ServiceResponseData>(
 		`${ENDPOINT_PATH.GET_SERVICE}/${id}`,
 		apiFetcher,
 	)
-	const isError = data?.status !== 200 && url === null && title === null
 	const { data: opdDetails } = GetOPDDetails(data?.data.tagId ?? '')
 
 	useEffect(() => {
@@ -60,8 +61,8 @@ const ServiceDetailPage = () => {
 		}
 	}, [isLoaded])
 
-	if (isError) {
-		return <ErrorPage statusCode={data?.status} />
+	if (error && (url === null || title === null)) {
+		return <ErrorPage statusCode={404} />
 	}
 
 	const extUrl = url ?? (data && 'https://'.concat(data.data.domain)) ?? '/'
@@ -148,4 +149,12 @@ const ServiceDetailPage = () => {
 		</>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps<{ id: string }> = async (
+	context,
+) => {
+	const { id } = context.params as { id: string }
+	return { props: { id } }
+}
+
 export default ServiceDetailPage
