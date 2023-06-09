@@ -7,13 +7,17 @@ import React, {
 	useRef,
 } from 'react'
 
-import { endOfISOWeek, startOfISOWeek } from 'date-fns'
+import endOfISOWeek from 'date-fns/endOfISOWeek'
+import startOfISOWeek from 'date-fns/startOfISOWeek'
+import { type Value } from 'react-calendar/dist/cjs/shared/types'
 import type SwiperCore from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import { useOutsideClick } from '@/hooks/useOutsideClick'
+
 import styles from './DateSlider.module.scss'
 import { NextButton, PrevButton } from '../button/Button'
-import DatePicker from '../datePicker/DatePicker'
+import Calendar from '../calendar/Calendar'
 import { NextIcon, PrevIcon } from '../icon/SVGIcon'
 import 'swiper/scss'
 
@@ -68,6 +72,16 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	const [startDate, setStartDate] = useState(startOfISOWeek(date ?? new Date()))
 	const [endDate, setEndDate] = useState(endOfISOWeek(date ?? new Date()))
 	const weekTime = 7 * 24 * 60 * 60 * 1000
+	const [showCalendar, setShowCalendar] = useState(false)
+
+	const handleCalendarInputChange = (
+		value: Value,
+		event: React.MouseEvent<HTMLButtonElement>,
+	) => {
+		if (date !== null) {
+			setDate(value as Date | null)
+		}
+	}
 
 	const handleDateClick = (date: Date) => {
 		setDate(date)
@@ -112,6 +126,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	useEffect(() => {
 		if (typeof date !== 'undefined') {
 			onChange(date)
+			setShowCalendar(false)
 		}
 	}, [date, onChange])
 
@@ -135,14 +150,20 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		}
 	}, [swiperRef])
 
+	const calendarRef = useRef(null)
+	useOutsideClick([], () => setShowCalendar(false))
+
 	return (
 		<div className={styles.dateComponent}>
 			<div className={styles.weeklyWrapper}>
 				<PrevIcon onClick={handlePrevWeekClick} />
-				<DatePicker
+				<SelectedWeek onClick={() => setShowCalendar((prev) => !prev)} />
+				<Calendar
+					ref={calendarRef}
+					className={showCalendar ? styles.calendar : styles.hide}
 					value={date}
-					onChange={setDate}
-					customInput={<SelectedWeek onClick={undefined} />}
+					onChange={handleCalendarInputChange}
+					onClickOutside={() => setShowCalendar(false)}
 				/>
 				<NextIcon onClick={handleNextWeekClick} />
 			</div>

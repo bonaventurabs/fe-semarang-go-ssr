@@ -32,3 +32,13 @@ export const camelCaseToTitleCase = (camelCase: string) =>
 		.split(/(?=[A-Z])/)
 		.map((word) => `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
 		.join(' ')
+
+export const toCamelCase = (str: string) =>
+	str
+		.replace(/\s(.)/g, function (a) {
+			return a.toUpperCase()
+		})
+		.replace(/\s/g, '')
+		.replace(/^(.)/, function (b) {
+			return b.toLowerCase()
+		})

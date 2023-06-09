@@ -216,6 +216,7 @@ const IndexSearchResult = ({
 						targetIndex={value.data[currentYear + 1]}
 						description={cityIndexDesc[value.title]}
 						tag={getKey(clusterBEMap, value.cluster)}
+						cluster={value.cluster}
 					/>
 				))}
 			</div>

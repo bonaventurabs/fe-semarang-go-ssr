@@ -1,6 +1,5 @@
 import { useEffect, type MutableRefObject } from 'react'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const useOutsideClick = <T extends Array<MutableRefObject<any>>>(
 	ref: T,
 	callback: () => void,
@@ -8,7 +7,6 @@ export const useOutsideClick = <T extends Array<MutableRefObject<any>>>(
 	useEffect(() => {
 		const handler = (event: MouseEvent | TouchEvent): void => {
 			// Check if the mouse click was within the element's ref.
-
 			if (ref.length === 0) return
 			const node = ref.find((x) => x.current?.contains(event.target as Node))
 

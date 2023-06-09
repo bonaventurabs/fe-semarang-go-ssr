@@ -2,7 +2,9 @@ import { type Url } from 'next/dist/shared/lib/router/router'
 import Link from 'next/link'
 import ContentLoader from 'react-content-loader'
 
-import { titleCase } from '@/utils/string'
+import { clusterBEMap } from '@/models/cityIndex'
+import { getKey } from '@/utils/map'
+import { titleCase, toCamelCase } from '@/utils/string'
 
 import styles from './IndexCard.module.scss'
 import { IndexIcon, TargetIcon } from '../icon/SVGIcon'
@@ -24,6 +26,7 @@ interface IndexCardProps {
 	tag: string
 	isTagDisplayed?: boolean
 	to?: Url
+	cluster?: string
 }
 
 const IndexCard = ({
@@ -35,9 +38,13 @@ const IndexCard = ({
 	tag,
 	isTagDisplayed = false,
 	to,
+	cluster,
 }: IndexCardProps) => {
+	to ??= `/indeks-kota-cerdas/${getKey(clusterBEMap, cluster)}/${toCamelCase(
+		title,
+	)}`
 	return (
-		<Link href={to ?? '/indeks-kota-cerdas'} className={styles.indexCard}>
+		<Link href={to} className={styles.indexCard}>
 			<h4 className={styles.title}>{title}</h4>
 			<div className={styles.indexWrapper}>
 				<div className={styles.index}>

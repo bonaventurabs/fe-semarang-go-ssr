@@ -63,9 +63,7 @@ const CityIndexSection = ({ cluster, pagination }: Props) => {
 					description={cityIndexDesc[item.title]}
 					tag={getKey(clusterBEMap, item.cluster)}
 					isTagDisplayed={false}
-					to={`/indeks-kota-cerdas/${getKey(clusterBEMap, item.cluster)}/${
-						item.title
-					}`}
+					cluster={item.cluster}
 				/>
 			))}
 			{pagination && (

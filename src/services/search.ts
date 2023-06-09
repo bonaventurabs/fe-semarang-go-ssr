@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import _ from 'lodash'
+import filter from 'lodash/filter'
+import includes from 'lodash/includes'
 import useSWR from 'swr'
 
 import { ENDPOINT_PATH } from '@/interfaces'
@@ -44,14 +45,14 @@ export function SearchCityIndex(query?: string) {
 		() =>
 			setFilteredData(
 				data
-					? _.filter(
+					? filter(
 							data.data,
 							(item) =>
-								_.includes(
+								includes(
 									camelCaseToTitleCase(item.title).toLowerCase(),
 									query?.toLowerCase() ?? '',
 								) ||
-								_.includes(
+								includes(
 									cityIndexDesc[item.title].toLowerCase(),
 									query?.toLowerCase() ?? '',
 								),

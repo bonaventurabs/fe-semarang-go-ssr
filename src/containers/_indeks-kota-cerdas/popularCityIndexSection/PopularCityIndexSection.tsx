@@ -46,9 +46,7 @@ const PopularCityIndexSection = () => {
 					tag={getKey(clusterBEMap, item.cluster)}
 					isTagDisplayed
 					id={index.toString()}
-					to={`/indeks-kota-cerdas/${getKey(clusterBEMap, item.cluster)}/${
-						item.title
-					}`}
+					cluster={item.cluster}
 				/>
 			))}
 		</section>

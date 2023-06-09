@@ -120,18 +120,29 @@ const steps: Step[] = [
 ]
 
 const IntroGuideline = () => {
+	const [isLocalStorage] = useState<boolean>(
+		typeof window.localStorage !== 'undefined',
+	)
 	const [enabled, setEnabled] = useState<boolean | undefined>(false)
 	const [firstVisit, setFirstVisit] = useState<boolean | undefined>(true)
+	const key = 'previouslyVisited'
 
 	useEffect(() => {
 		if (firstVisit) {
-			void localforage.getItem('previouslyVisited').then((value) => {
-				if (value === null || value === false) {
+			if (isLocalStorage) {
+				const value = window.localStorage.getItem(key) === 'true'
+				if (!value) {
 					setEnabled(true)
 				}
-			})
+			} else {
+				void localforage.getItem(key).then((value) => {
+					if (value === null || value === false) {
+						setEnabled(true)
+					}
+				})
+			}
 		}
-	}, [enabled, firstVisit])
+	}, [enabled, firstVisit, isLocalStorage])
 
 	const handleJoyrideCallback = (data: CallBackProps) => {
 		const { status } = data
@@ -144,7 +155,11 @@ const IntroGuideline = () => {
 		if (finishedStatuses.includes(status)) {
 			setEnabled(false)
 			setFirstVisit(false)
-			void localforage.setItem('previouslyVisited', true)
+			if (isLocalStorage) {
+				window.localStorage.setItem(key, 'true')
+			} else {
+				void localforage.setItem(key, true)
+			}
 		}
 	}
 

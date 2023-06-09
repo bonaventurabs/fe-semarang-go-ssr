@@ -2,7 +2,8 @@
 import { useEffect } from 'react'
 
 import localforage from 'localforage'
-import _ from 'lodash'
+import lodashGet from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import { atom, useRecoilState } from 'recoil'
 
 import { ENDPOINT_PATH } from '@/interfaces'
@@ -84,13 +85,13 @@ function useMapData() {
 			}
 		}
 
-		if (_.isEmpty(mapData)) {
+		if (isEmpty(mapData)) {
 			void fetchData()
 		}
 	}, [mapData, setMapData])
 
 	function get(key: keysType | string, to?: tosType, defaultValue?: any) {
-		return _.get(mapData, to ? [key, to] : key, defaultValue)
+		return lodashGet(mapData, to ? [key, to] : key, defaultValue)
 	}
 	function set(key: string, value: any) {
 		setMapData((prevMapData) => ({

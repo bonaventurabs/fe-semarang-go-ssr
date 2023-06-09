@@ -149,3 +149,17 @@
 		border-radius: 8px;
 	}
 }
+
+.calendar {
+	@include font-md-regular;
+	display: block;
+	position: absolute;
+	z-index: 12;
+	top: calc($header-height - 1em);
+	left: 50%;
+	transform: translate(-50%, 0);
+}
+
+.hide {
+	display: none;
+}
