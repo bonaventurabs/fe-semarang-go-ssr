@@ -50,6 +50,7 @@ const NewsCard = ({
 							alt={description ?? ''}
 							width={600}
 							height={400}
+							priority
 						/>
 					)}
 					<div className={styles.textWrapper}>

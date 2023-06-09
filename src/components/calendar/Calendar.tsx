@@ -54,9 +54,6 @@ const Calendar = ({
 		<CalendarLib
 			inputRef={ref}
 			className={`${styles.calendar} ${className ?? ''}`}
-			// tileClassName={({ activeStartDate, date: date1, view }) =>
-			// 	date1.getTime() === value?.getTime() ? styles.activeItem : null
-			// }
 			tileClassName={tileClassName}
 			value={value}
 			onChange={handleChange}

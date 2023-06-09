@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://semarang-go.me/
+Sitemap: https://semaranggo.vercel.app/

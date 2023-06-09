@@ -12,7 +12,7 @@ const GuideSection = ({ text, image, emText }: GuideSectionProps) => {
 	return (
 		<section className={styles.guideSection}>
 			<div className={styles.imageWrapper}>
-				{image && <Image src={image} alt="Guide Image" />}
+				{image && <Image src={image} alt="Guide Image" priority />}
 			</div>
 			<div className={styles.textWrapper}>
 				{text && <p>{text}</p>}

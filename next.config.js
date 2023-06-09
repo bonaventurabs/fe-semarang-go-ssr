@@ -11,7 +11,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const nextConfig = withPWA({
 	reactStrictMode: true,
-	webpack(config, { dev }) {
+	webpack(config, { isServer }) {
 		// camel-case style names from css modules
 		config.module.rules
 			.find(({ oneOf }) => !!oneOf)
