@@ -20,6 +20,8 @@ const NextButton = ({
 }) => {
 	return (
 		<button
+			role="button"
+			aria-label="Next button"
 			onClick={onClick}
 			ref={ref}
 			disabled={disabled}
@@ -48,6 +50,8 @@ const PrevButton = ({
 }) => {
 	return (
 		<button
+			role="button"
+			aria-label="Previous button"
 			onClick={onClick}
 			ref={ref}
 			disabled={disabled}

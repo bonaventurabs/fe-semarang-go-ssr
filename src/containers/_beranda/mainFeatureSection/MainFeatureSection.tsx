@@ -35,7 +35,12 @@ const MainFeatureCard = ({
 	to,
 }: MainFeatureCardProps) => {
 	return (
-		<Link href={to} className={styles.mainFeatureCard}>
+		<Link
+			href={to}
+			className={styles.mainFeatureCard}
+			aria-label={title}
+			prefetch={false}
+		>
 			<div className={styles.iconWrapper}>
 				<Icon />
 			</div>
