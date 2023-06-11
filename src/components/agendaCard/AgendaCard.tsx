@@ -97,7 +97,7 @@ const AgendaCard = ({
 				<div className={styles.agendaModal}>
 					<div className={styles.titleWrapper}>
 						<Tag startTime={time} />
-						<h4 className={styles.title}>{title}</h4>
+						<div className={styles.title}>{title}</div>
 					</div>
 					<div className={styles.contentWrapper}>
 						<div className={styles.contentItem}>

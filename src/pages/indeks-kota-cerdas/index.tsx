@@ -15,7 +15,7 @@ const SmartCityIndexPage = () => {
 				<title>{title}</title>
 				<meta
 					name="description"
-					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
+					content="Cari tahu keadaan Kota Semarang melalui pencapaian berbagai indeks kota"
 				/>
 			</Head>
 			<Header

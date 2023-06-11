@@ -31,7 +31,7 @@ function NavItemLink({ item, ...props }: { item: navItemProps }) {
 
 	return (
 		<li className={styles.navItem} id={item.id}>
-			<Link href={item.to} {...props}>
+			<Link href={item.to} prefetch={false} {...props}>
 				<>
 					{isActive ? (
 						<item.activeIcon className={`${styles.icon} ${styles.active}`} />

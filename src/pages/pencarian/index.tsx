@@ -44,6 +44,10 @@ const SearchPage = () => {
 		<>
 			<Head>
 				<title>{title}</title>
+				<meta
+					name="description"
+					content="Cari berbagai kebutuhan informasi publik menggunakan fitur pencarian dengan mudah"
+				/>
 			</Head>
 			<Header title={title} />
 			<main className={styles.wrapper}>

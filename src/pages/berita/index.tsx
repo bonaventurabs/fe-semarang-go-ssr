@@ -15,6 +15,10 @@ const NewsPage = () => {
 		<>
 			<Head>
 				<title>Berita</title>
+				<meta
+					name="description"
+					content="Cari tahu kabar terkini Kota Semarang"
+				/>
 			</Head>
 			<Header
 				title="Berita dan Pengumuman"

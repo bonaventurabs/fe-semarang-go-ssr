@@ -21,6 +21,20 @@ const IntroGuideline = dynamic(
 )
 
 function HomePage() {
+	const structuredData = {
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		url: 'https://semarang-go.me/',
+		potentialAction: {
+			'@type': 'SearchAction',
+			target: {
+				'@type': 'EntryPoint',
+				urlTemplate: 'https://semarang-go.me/pencarian?q={search_term_string}',
+			},
+			'query-input': 'required name=search_term_string',
+		},
+	}
+
 	useMapData()
 	return (
 		<>
@@ -32,6 +46,11 @@ function HomePage() {
 				/>
 				<meta name="keywords" content={process.env.NEXT_PUBLIC_APP_KEYWORDS} />
 				<meta name="author" content={process.env.NEXT_PUBLIC_COMPANY_NAME} />
+				<script
+					key="structured-data"
+					type="application/ld+json"
+					dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+				/>
 			</Head>
 			<IntroGuideline />
 			<StaticSearchHeader />

@@ -126,7 +126,7 @@ const ReportPage = () => {
 				<title>{title}</title>
 				<meta
 					name="description"
-					content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
+					content="Laporkan temuan dan keluhan Anda terkait pelayanan publik di Kota Semarang"
 				/>
 			</Head>
 			<Header

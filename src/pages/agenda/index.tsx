@@ -40,6 +40,10 @@ const AgendaPage = () => {
 			<Head>
 				<title>Agenda</title>
 				<meta name="description" content={title} />
+				<meta
+					name="description"
+					content="Ayo berpartisipasi di berbagai kegiatan Kota Semarang!"
+				/>
 			</Head>
 			<Header
 				title={title}
