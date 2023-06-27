@@ -120,6 +120,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		if (typeof date !== 'undefined' && date !== null) {
 			setStartDate(startOfISOWeek(date))
 			setEndDate(endOfISOWeek(date))
+			swiperRef.current?.slideTo(date.getDay() - 1)
 		}
 	}, [date])
 
@@ -127,7 +128,6 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		if (typeof date !== 'undefined') {
 			onChange(date)
 			setShowCalendar(false)
-			swiperRef.current?.slideTo(date?.getDay() ?? new Date().getDay() - 1)
 		}
 	}, [date, onChange])
 
@@ -180,7 +180,6 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 				<Swiper
 					initialSlide={date?.getDay() ?? new Date().getDay() - 1}
 					slideToClickedSlide
-					tabIndex={}
 					spaceBetween={10}
 					effect="slide"
 					slidesPerView="auto"
