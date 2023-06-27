@@ -76,20 +76,20 @@
 	}
 
 	.carousel-container {
-		display: grid;
+		position: relative;
 		width: 100%;
 		height: 100%;
 		justify-content: center;
 		align-items: center;
 
 		.button-wrapper {
-			grid-column: 1;
-			grid-row: 1;
+			position: absolute;
+			top: 35%;
+			left: 0;
 			margin-bottom: 3%;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			left: -1;
 			width: 100%;
 
 			.button {
@@ -101,8 +101,6 @@
 	}
 
 	.content-wrapper {
-		grid-column: 1;
-		grid-row: 1;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
