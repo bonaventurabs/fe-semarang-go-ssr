@@ -6,3 +6,8 @@ export function toISOStringDate(d?: Date | null) {
 	d = new Date(d.getTime() - offset * 60 * 1000)
 	return d.toISOString().slice(0, 10)
 }
+
+export function getIndexDay(d: Date) {
+	const defaultDayIndex = d.getDay()
+	return defaultDayIndex === 0 ? 6 : defaultDayIndex - 1
+}

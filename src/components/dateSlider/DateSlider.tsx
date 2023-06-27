@@ -14,6 +14,7 @@ import type SwiperCore from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { useOutsideClick } from '@/hooks/useOutsideClick'
+import { getIndexDay } from '@/utils/date'
 
 import styles from './DateSlider.module.scss'
 import { NextButton, PrevButton } from '../button/Button'
@@ -120,7 +121,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		if (typeof date !== 'undefined' && date !== null) {
 			setStartDate(startOfISOWeek(date))
 			setEndDate(endOfISOWeek(date))
-			swiperRef.current?.slideTo(date.getDay() - 1)
+			swiperRef.current?.slideTo(getIndexDay(date))
 		}
 	}, [date])
 
@@ -178,7 +179,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 				}}
 			>
 				<Swiper
-					initialSlide={date?.getDay() ?? new Date().getDay() - 1}
+					initialSlide={getIndexDay(date ?? new Date())}
 					slideToClickedSlide
 					spaceBetween={10}
 					effect="slide"
