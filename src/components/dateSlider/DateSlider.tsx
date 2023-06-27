@@ -127,6 +127,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		if (typeof date !== 'undefined') {
 			onChange(date)
 			setShowCalendar(false)
+			swiperRef.current?.slideTo(date?.getDay() ?? new Date().getDay() - 1)
 		}
 	}, [date, onChange])
 
@@ -177,7 +178,9 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 				}}
 			>
 				<Swiper
-					initialSlide={new Date().getDay() - 1}
+					initialSlide={date?.getDay() ?? new Date().getDay() - 1}
+					slideToClickedSlide
+					tabIndex={}
 					spaceBetween={10}
 					effect="slide"
 					slidesPerView="auto"
