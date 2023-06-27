@@ -36,7 +36,7 @@
 	}
 
 	.text-wrapper {
-		@include font-sm-regular;
+		@include font-md-regular;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
@@ -54,7 +54,7 @@
 
 		p,
 		span {
-			@include font-sm-regular;
+			@include font-md-regular;
 			color: $color-mono-darker-grey;
 			margin: 0;
 
@@ -65,7 +65,7 @@
 		}
 
 		em {
-			@include font-sm-extra-bold;
+			@include font-md-extra-bold;
 			color: $color-mono-darker-grey;
 			margin-top: 8px;
 
