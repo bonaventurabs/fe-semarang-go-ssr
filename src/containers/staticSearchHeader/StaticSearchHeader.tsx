@@ -17,7 +17,12 @@ const StaticSearchHeader = () => {
 					priority
 				/>
 			</Link>
-			<Link href="/pencarian" className={styles.searchWrapper} id="search">
+			<Link
+				href="/pencarian"
+				className={styles.searchWrapper}
+				id="search"
+				prefetch={false}
+			>
 				<SearchBar placeholder="Cari layanan dan informasi..." disabled />
 			</Link>
 		</header>
