@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import Link from 'next/link'
 
+import { slugify } from '@/utils/string'
 import { checkHTTPS } from '@/utils/url'
 
 import styles from './MainServiceCard.module.scss'
@@ -26,9 +27,11 @@ const MainServiceCard = ({
 	id,
 }: MainServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
-	const to = `/layanan/${cluster ?? 'semua'}/${id ?? 'id'}?url=https://${
-		url as string
-	}&title=${title}`
+	let to = `/layanan/${cluster ?? 'semua'}/${id ?? slugify(title)}`
+	const originTo = to
+	if (!id) {
+		to = `${to}?url=https://${url as string}&title=${title}`
+	}
 
 	useEffect(() => {
 		async function checkProtocol() {
@@ -39,6 +42,7 @@ const MainServiceCard = ({
 	return (
 		<Link
 			href={isHttpsTo ? to : `http://${url as string}`}
+			as={isHttpsTo ? originTo : undefined}
 			rel={isHttpsTo ? undefined : 'noopener noreferrer'}
 			target={isHttpsTo ? undefined : '_blank'}
 			className={styles.serviceCard}

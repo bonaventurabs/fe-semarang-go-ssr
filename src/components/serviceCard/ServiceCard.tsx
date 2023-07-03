@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
 
+import { slugify } from '@/utils/string'
 import { checkHTTPS, removeProtocol } from '@/utils/url'
 
 import styles from './ServiceCard.module.scss'
@@ -36,8 +37,11 @@ const ServiceCard = ({
 }: ServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
 	url = removeProtocol(url)
-	to ??= `/layanan/${cluster ?? 'semua'}/${id ?? 'id'}`
-	if (!id) to = `${to as string}?url=https://${url}&title=${title}`
+	to ??= `/layanan/${cluster ?? 'semua'}/${id ?? slugify(title)}`
+	const originTo = to
+	if (!id) {
+		to = `${to as string}?url=https://${url}&title=${title}`
+	}
 
 	useEffect(() => {
 		async function checkProtocol() {
@@ -48,6 +52,7 @@ const ServiceCard = ({
 	return (
 		<Link
 			href={isHttpsTo ? to : `http://${url}`}
+			as={isHttpsTo ? originTo : undefined}
 			rel={isHttpsTo ? undefined : 'noopener noreferrer'}
 			target={isHttpsTo ? undefined : '_blank'}
 			className={styles.wrapper}

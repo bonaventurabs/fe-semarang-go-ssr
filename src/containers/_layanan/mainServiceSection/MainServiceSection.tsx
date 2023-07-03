@@ -139,6 +139,7 @@ const MainServiceSection = ({ cluster }: MainServiceSectionProps) => {
 						title={item.title}
 						description={item.description}
 						url={item.url}
+						cluster={cluster}
 					/>
 				))}
 			</div>

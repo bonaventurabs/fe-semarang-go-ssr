@@ -1,16 +1,31 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
+import lazyHydrate from 'next-lazy-hydrate'
 
 import Separator from '@/components/separator/Separator'
 import AboutSemarangGoSection from '@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
-import AgendaSection from '@/containers/_beranda/agendaSection/AgendaSection'
+// import AgendaSection from '@/containers/_beranda/agendaSection/AgendaSection'
 import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
 import MainFeatureSection from '@/containers/_beranda/mainFeatureSection/MainFeatureSection'
-import NewsSection from '@/containers/_beranda/newsSection/NewsSection'
+// import NewsSection from '@/containers/_beranda/newsSection/NewsSection'
 import ServiceClusterSection from '@/containers/_beranda/serviceClusterSection/ServiceClusterSection'
 import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHeader'
 import useMapData from '@/hooks/useMapData'
 import styles from '@/styles/Home.module.scss'
+
+const NewsSection = lazyHydrate(
+	async () => await import('@/containers/_beranda/newsSection/NewsSection'),
+	{
+		on: ['visible', ['scroll', () => document]],
+	},
+)
+
+const AgendaSection = lazyHydrate(
+	async () => await import('@/containers/_beranda/agendaSection/AgendaSection'),
+	{
+		on: ['visible', ['scroll', () => document]],
+	},
+)
 
 const IntroGuideline = dynamic(
 	async () =>
