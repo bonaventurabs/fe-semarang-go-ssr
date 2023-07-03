@@ -57,6 +57,7 @@ const ServiceCard = ({
 			target={isHttpsTo ? undefined : '_blank'}
 			className={styles.wrapper}
 			draggable={false}
+			prefetch={false}
 		>
 			<div className={styles.serviceCard}>
 				{isImageDisplayed && (
