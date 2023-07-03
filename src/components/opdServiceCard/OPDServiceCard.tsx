@@ -25,8 +25,8 @@ const OPDServicesCard = ({
 }: OPDServiceCardProps) => {
 	to ??= `/layanan/OPD/${id}`
 	return (
-		<Link className={styles.opdServiceCard} href={to}>
-			<Image src={image ?? defaultImg} alt={name} />
+		<Link className={styles.opdServiceCard} href={to} prefetch={false}>
+			<Image src={image ?? defaultImg} alt={name} priority />
 			<div className={styles.textWrapper}>
 				<span className={styles.name}>{name}</span>
 				{totalService && (
