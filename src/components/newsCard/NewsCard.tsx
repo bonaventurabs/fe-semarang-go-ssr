@@ -41,7 +41,12 @@ const NewsCard = ({
 	switch (type) {
 		case 'XL':
 			return (
-				<Link href={to} draggable={false} className={styles.xlNewsCard}>
+				<Link
+					href={to}
+					draggable={false}
+					className={styles.xlNewsCard}
+					prefetch={false}
+				>
 					{isImageDisplayed && (
 						<Image
 							loader={() => image as string}
@@ -75,7 +80,12 @@ const NewsCard = ({
 			)
 		case 'M':
 			return (
-				<Link href={to} draggable={false} className={styles.mNewsCard}>
+				<Link
+					href={to}
+					draggable={false}
+					className={styles.mNewsCard}
+					prefetch={false}
+				>
 					{isImageDisplayed && (
 						<Image
 							loader={() => image as string}
