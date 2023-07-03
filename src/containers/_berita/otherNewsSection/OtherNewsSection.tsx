@@ -1,12 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
-
-import useSWR from 'swr'
+import { useRef, useState } from 'react'
 
 import NewsCard from '@/components/newsCard/NewsCard'
 import Pagination from '@/components/pagination/Pagination'
-import { ENDPOINT_PATH } from '@/interfaces'
-import { type NewsListResponseData, type newsCategoryType } from '@/models/news'
-import { apiFetcher } from '@/services/api'
+import { type newsCategoryType } from '@/models/news'
+import { GetNewsList } from '@/services/news'
 
 import styles from './OtherNewsSection.module.scss'
 
@@ -27,29 +24,33 @@ const OtherNewsSection = ({
 	const [pageIndex, setPageIndex] = useState(1)
 	const firstPageOffset = 3
 
-	const { data } = useSWR<NewsListResponseData>(
-		`${ENDPOINT_PATH.GET_NEWS}?page=${pageIndex}&limit=${itemsPerPage}`,
-		apiFetcher,
-	)
+	const { data } = GetNewsList(pageIndex, itemsPerPage)
 
 	const handlePageClick = (event: { selected: number }) => {
 		setPageIndex(event.selected + 1)
+		scrollToTop()
 	}
 
 	const paginationRef = useRef<null | HTMLDivElement>(null)
 
-	const scrollToBottom = () => {
-		paginationRef.current?.scrollIntoView({ behavior: 'smooth' })
+	const scrollToTop = () => {
+		const element = document.getElementById('pagination')
+		const headerOffset = 75
+		const elementPosition = element?.getBoundingClientRect().top ?? 0
+		const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+		window.scrollTo({
+			top: offsetPosition,
+			behavior: 'smooth',
+		})
 	}
 
-	useEffect(() => {
-		if (pagination && pageIndex > 1) {
-			scrollToBottom()
-		}
-	}, [pageIndex, pagination])
-
 	return (
-		<section className={styles.otherNewsSection} ref={paginationRef}>
+		<section
+			id="pagination"
+			className={styles.otherNewsSection}
+			ref={paginationRef}
+		>
 			<div className={styles.title}>
 				<h3>{title}</h3>
 			</div>

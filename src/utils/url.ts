@@ -39,7 +39,7 @@ export function filterProperties(raw: object, unallowed: string[]): object {
 export async function pingURL(url: UrlObject | string): Promise<boolean> {
 	try {
 		const res = await fetch(
-			`/api/proxy?method=head&endpoint=${
+			`/api/proxy/page?method=head&endpoint=${
 				typeof url === 'string' ? url : url.href ?? ''
 			}`,
 		)

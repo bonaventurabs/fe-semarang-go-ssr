@@ -1,13 +1,10 @@
 import React from 'react'
 
 import Link from 'next/link'
-import useSWR from 'swr'
 
 import NewsCard from '@/components/newsCard/NewsCard'
 import Separator from '@/components/separator/Separator'
-import { ENDPOINT_PATH } from '@/interfaces'
-import { type NewsListResponseData } from '@/models/news'
-import { apiFetcher } from '@/services/api'
+import { GetNewsList } from '@/services/news'
 
 import styles from './NewsSection.module.scss'
 
@@ -15,10 +12,7 @@ const NewsSection = () => {
 	const title = 'Kabar Terkini'
 	const page = 1
 	const limit = 3
-	const { data } = useSWR<NewsListResponseData>(
-		`${ENDPOINT_PATH.GET_NEWS}?page=${page}&limit=${limit}`,
-		apiFetcher,
-	)
+	const { data } = GetNewsList(page, limit)
 	return (
 		<section className={styles.newsSection}>
 			<div className={styles.titleCard}>

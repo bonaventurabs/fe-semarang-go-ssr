@@ -14,7 +14,7 @@ const StaticSearchHeader = () => {
 					src={logoImg}
 					alt="SemarangGo Logo"
 					className={styles.logo}
-					draggable={false}
+					priority
 				/>
 			</Link>
 			<Link href="/pencarian" className={styles.searchWrapper} id="search">

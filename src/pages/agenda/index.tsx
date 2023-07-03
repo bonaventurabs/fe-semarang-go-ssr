@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import Head from 'next/head'
 import Image from 'next/image'
-import useSWR from 'swr'
 
 import notFoundImg from '@/assets/images/not-found-2.png'
 import AgendaCard, {
@@ -11,10 +10,7 @@ import AgendaCard, {
 import DateSlider from '@/components/dateSlider/DateSlider'
 import Separator from '@/components/separator/Separator'
 import Header from '@/containers/header/Header'
-import { ENDPOINT_PATH } from '@/interfaces'
-import { type AgendaResponseData } from '@/models/agenda'
-import { apiFetcher } from '@/services/api'
-import { toISOStringDate } from '@/utils/date'
+import { GetAgendaList } from '@/services/agenda'
 
 import styles from './index.module.scss'
 
@@ -23,13 +19,7 @@ const AgendaPage = () => {
 	const [dateValue, setDateValue] = useState<Date | undefined | null>(
 		new Date(),
 	)
-	const { data, isLoading } = useSWR<AgendaResponseData>(
-		`${ENDPOINT_PATH.GET_AGENDA}?startDate=${toISOStringDate(
-			dateValue,
-		)}&endDate=${toISOStringDate(dateValue)}`,
-		apiFetcher,
-		{ revalidateOnFocus: false },
-	)
+	const { data, isLoading } = GetAgendaList(dateValue, dateValue)
 
 	const handleDateChange = (date: Date | null) => {
 		setDateValue(date)

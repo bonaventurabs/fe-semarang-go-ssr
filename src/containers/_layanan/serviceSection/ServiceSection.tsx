@@ -6,9 +6,10 @@ import ServiceCard from '@/components/serviceCard/ServiceCard'
 import useMapData from '@/hooks/useMapData'
 import { clusterBEMap } from '@/models/service'
 import {
-	GetServiceListByCluster,
+	GetServiceListByMultipleCluster,
 	GetServiceListByOPD,
 } from '@/services/service'
+import { getKey } from '@/utils/map'
 
 import styles from './ServiceSection.module.scss'
 
@@ -37,22 +38,9 @@ const ClusterServiceSection = ({
 	const orgNameMap = get('serviceOrg', 'idToName', {})
 	const clusterBEList = clusterBEMap[cluster]
 	const clusterMap = get('serviceCluster', 'nameToId', {})
-	let data = null
-	for (const clusterBE of clusterBEList) {
-		const { data: dataItem } = GetServiceListByCluster(
-			clusterMap[clusterBE],
-			page,
-			10,
-		)
-		if (dataItem) {
-			if (data) {
-				data.data = data.data.concat(dataItem.data)
-				data.totalData += dataItem.totalData
-			} else {
-				data = dataItem
-			}
-		}
-	}
+
+	const clusterIDs = clusterBEList.map((clusterBE) => clusterMap[clusterBE])
+	const { data } = GetServiceListByMultipleCluster(clusterIDs, page, 10)
 
 	const handlePageClick = (event: { selected: number }) => {
 		setPage(event.selected + 1)
@@ -62,28 +50,34 @@ const ClusterServiceSection = ({
 			<div className={styles.titleWrapper}>
 				<h3>{title}</h3>
 				<span className={styles.totalService}>
-					<b>{data?.totalData}</b> layanan ditemukan
+					<b>
+						{data?.map((el) => el.totalData).reduce((acc, curr) => acc + curr)}
+					</b>{' '}
+					layanan ditemukan
 				</span>
 			</div>
-			{data?.data.map((item, index) => (
-				<ServiceCard
-					key={index}
-					image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
-					title={item.name}
-					desc={item.description}
-					org={orgNameMap[item.tagId]}
-					url={item.domain}
-					isImageDisplayed
-					isOrgDisplayed
-					id={item._id}
-				/>
-			))}
+			{data?.map((el) =>
+				el.data.map((item, index) => (
+					<ServiceCard
+						key={index}
+						image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
+						title={item.name}
+						desc={item.description}
+						org={orgNameMap[item.tagId]}
+						url={item.domain}
+						isImageDisplayed
+						isOrgDisplayed
+						id={item._id}
+						cluster={cluster}
+					/>
+				)),
+			)}
 			{pagination && (
 				<Pagination
 					itemsPerPage={itemsPerPage}
 					onPageChange={handlePageClick}
 					className={styles.pagination}
-					pageCount={data?.totalPage}
+					pageCount={data && (clusterIDs.length > 1 ? 1 : data[0].totalPage)}
 				/>
 			)}
 		</section>
@@ -99,6 +93,7 @@ const OPDServiceSection = ({
 	const [page, setPage] = useState<number>(1)
 	const { get } = useMapData()
 	const orgNameMap = get('serviceOrg', 'idToName', {})
+	const clusterNameMap = get('serviceCluster', 'idToName', {})
 	const { data } = GetServiceListByOPD(opdID, page, itemsPerPage)
 
 	const handlePageClick = (event: { selected: number }) => {
@@ -123,6 +118,7 @@ const OPDServiceSection = ({
 					isImageDisplayed
 					isOrgDisplayed={typeof opdID === 'undefined'}
 					id={item._id}
+					cluster={getKey(clusterBEMap, clusterNameMap[item.clusterId[0]])}
 				/>
 			))}
 			{pagination && (

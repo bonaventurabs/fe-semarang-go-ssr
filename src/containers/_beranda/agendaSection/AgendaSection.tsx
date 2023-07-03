@@ -1,24 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import useSWR from 'swr'
 
 import notFoundImg from '@/assets/images/not-found-2.png'
 import AgendaCard from '@/components/agendaCard/AgendaCard'
-import { ENDPOINT_PATH } from '@/interfaces'
-import { type AgendaResponseData } from '@/models/agenda'
-import { apiFetcher } from '@/services/api'
-import { toISOStringDate } from '@/utils/date'
+import { GetAgendaList } from '@/services/agenda'
 
 import styles from './AgendaSection.module.scss'
 
 const AgendaSection = () => {
 	const title = 'Agenda kegiatan'
-	const { data } = useSWR<AgendaResponseData>(
-		`${
-			ENDPOINT_PATH.GET_AGENDA
-		}?startDate=${toISOStringDate()}&endDate=${toISOStringDate()}`,
-		apiFetcher,
-	)
+	const { data } = GetAgendaList()
 	const isError =
 		typeof data === 'undefined' || data.status !== 200 || data.data.length === 0
 

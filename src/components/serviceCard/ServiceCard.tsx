@@ -36,9 +36,8 @@ const ServiceCard = ({
 }: ServiceCardProps) => {
 	const [isHttpsTo, setIsHttpsTo] = useState(false)
 	url = removeProtocol(url)
-	to ??= `/layanan/${cluster ?? 'semua'}/${
-		id ?? 'id'
-	}?url=https://${url}&title=${title}`
+	to ??= `/layanan/${cluster ?? 'semua'}/${id ?? 'id'}`
+	if (!id) to = `${to as string}?url=https://${url}&title=${title}`
 
 	useEffect(() => {
 		async function checkProtocol() {

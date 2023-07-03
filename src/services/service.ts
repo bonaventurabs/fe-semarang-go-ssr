@@ -8,6 +8,12 @@ import {
 
 import { apiFetcher, multiApiFetcher } from './api'
 
+const options = {
+	revalidateIfStale: false,
+	revalidateOnFocus: false,
+	revalidateOnReconnect: false,
+}
+
 export function GetServiceListByOPD(
 	opdID: string,
 	page: number,
@@ -59,6 +65,7 @@ export function GetServiceListByCluster(
 		useSWR<ServiceListPaginationResponseData>(
 			`${ENDPOINT_PATH.GET_SERVICE}?${params.toString()}`,
 			apiFetcher,
+			options,
 		)
 	return {
 		data,
@@ -87,6 +94,7 @@ export function GetServiceListByMultipleCluster(
 	const { data, isLoading, error, mutate } = useSWR<
 		ServiceListPaginationResponseData[]
 	>(urls.length > 0 ? urls : null, multiApiFetcher)
+
 	return {
 		data,
 		isLoading,

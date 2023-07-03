@@ -2,7 +2,6 @@ import Head from 'next/head'
 
 import guideImg from '@/assets/images/news-guide.png'
 import Separator from '@/components/separator/Separator'
-import NewsCategorySection from '@/containers/_berita/newsCategorySection/NewsCategorySection'
 import OtherNewsSection from '@/containers/_berita/otherNewsSection/OtherNewsSection'
 import RecentNewsSection from '@/containers/_berita/recentNewsSection/RecentNewsSection'
 import GuideSection from '@/containers/guideSection/GuideSection'
@@ -32,11 +31,9 @@ const NewsPage = () => {
 					text="Dapatkan informasi terkini dan terpercaya terkait Kota Semarang"
 				/>
 				<Separator />
-				<NewsCategorySection />
-				<Separator />
 				<RecentNewsSection />
 				<Separator />
-				<OtherNewsSection />
+				<OtherNewsSection pagination />
 				<Separator />
 			</main>
 		</>

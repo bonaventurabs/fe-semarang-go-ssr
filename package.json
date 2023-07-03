@@ -26,6 +26,7 @@
 		"highcharts": "^10.3.3",
 		"highcharts-react-official": "^3.2.0",
 		"html-react-parser": "^3.0.15",
+		"http-proxy-middleware": "^2.0.6",
 		"https": "^1.0.0",
 		"isomorphic-dompurify": "^1.5.0",
 		"localforage": "^1.10.0",

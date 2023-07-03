@@ -16,6 +16,11 @@ export const nextApi = axios.create({
 	timeout: 10000,
 })
 
+export const proxyApi = axios.create({
+	baseURL: '/api/proxy',
+	timeout: 10000,
+})
+
 export const mockFetcher: BareFetcher = async (resource: string) =>
 	await mocksApi.get(resource).then((res) => res.data)
 
@@ -25,7 +30,10 @@ export const apiFetcher = async (resource: string) =>
 export const nextApiFetcher = async (resource: string) =>
 	await nextApi.get(resource).then((res) => res.data)
 
-export async function multiApiFetcher(...urls: any[]) {
+export const proxyApiFetcher = async (resource: string) =>
+	await proxyApi.get(resource).then((res) => res.data)
+
+export async function multiApiFetcher(urls: any[]) {
 	return await Promise.all(urls.map(async (url) => await apiFetcher(url)))
 }
 
