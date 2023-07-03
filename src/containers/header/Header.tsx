@@ -97,7 +97,7 @@ const Header = ({
 				</div>
 			</div>
 			{isSearchButtonDisplayed && (
-				<Link href="/pencarian">
+				<Link href="/pencarian" prefetch={false}>
 					<SearchIcon className={`${styles.icon} ${styles.iconSearch}`} />
 				</Link>
 			)}

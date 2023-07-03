@@ -1,13 +1,21 @@
 import Head from 'next/head'
+import lazyHydrate from 'next-lazy-hydrate'
 
 import guideImg from '@/assets/images/news-guide.png'
 import Separator from '@/components/separator/Separator'
-import OtherNewsSection from '@/containers/_berita/otherNewsSection/OtherNewsSection'
 import RecentNewsSection from '@/containers/_berita/recentNewsSection/RecentNewsSection'
 import GuideSection from '@/containers/guideSection/GuideSection'
 import Header from '@/containers/header/Header'
 
 import styles from './index.module.scss'
+
+const OtherNewsSection = lazyHydrate(
+	async () =>
+		await import('@/containers/_berita/otherNewsSection/OtherNewsSection'),
+	{
+		on: ['visible', ['scroll', () => document]],
+	},
+)
 
 const NewsPage = () => {
 	return (

@@ -14,12 +14,12 @@ const IconCard = ({
 }) => {
 	return (
 		<div className={styles.iconCard}>
-			<Link href={to}>
+			<Link href={to} prefetch={false}>
 				<div className={styles.iconBackground}>
 					<Icon className={styles.icon} />
 				</div>
 			</Link>
-			<Link href={to}>
+			<Link href={to} prefetch={false}>
 				<span className={styles.name}>{name}</span>
 			</Link>
 		</div>

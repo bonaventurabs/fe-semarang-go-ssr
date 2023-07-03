@@ -44,7 +44,7 @@ const IndexCard = ({
 		title,
 	)}`
 	return (
-		<Link href={to} className={styles.indexCard}>
+		<Link href={to} className={styles.indexCard} prefetch={false}>
 			<h4 className={styles.title}>{title}</h4>
 			<div className={styles.indexWrapper}>
 				<div className={styles.index}>
