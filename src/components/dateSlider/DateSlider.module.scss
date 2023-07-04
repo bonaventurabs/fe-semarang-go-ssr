@@ -107,11 +107,11 @@
 		.button-wrapper {
 			position: absolute;
 			top: 20%;
-			left: -15px;
+			left: -1em;
+			right: -1em;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			width: 105%;
 
 			.button {
 				z-index: 1;

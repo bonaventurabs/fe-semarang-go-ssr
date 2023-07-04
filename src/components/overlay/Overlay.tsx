@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, type ReactNode, useState } from 'react'
 
 import styles from './Overlay.module.scss'
 
@@ -9,6 +9,7 @@ interface OverlayProps {
 	preventScroll?: boolean
 	resetScroll?: boolean
 	style?: React.CSSProperties
+	delay?: number
 }
 
 function Overlay({
@@ -18,7 +19,10 @@ function Overlay({
 	preventScroll,
 	resetScroll,
 	style,
+	delay,
 }: OverlayProps) {
+	const [isShown, setIsShown] = useState(open)
+
 	function lockScroll(e: { preventDefault: () => void }) {
 		e.preventDefault()
 	}
@@ -43,10 +47,21 @@ function Overlay({
 		}
 	}, [open, preventScroll, resetScroll])
 
+	useEffect(() => {
+		if (!open) {
+			const timer = setTimeout(() => {
+				setIsShown(open)
+			}, delay)
+			return () => clearTimeout(timer)
+		} else {
+			setIsShown(open)
+		}
+	}, [delay, open])
+
 	return (
 		<div
 			className={`${styles.overlayWrapper} ${blur ? styles.blur : ''}`.trim()}
-			hidden={!open}
+			hidden={!isShown}
 			style={style}
 		>
 			{children}
