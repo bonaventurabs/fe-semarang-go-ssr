@@ -21,7 +21,8 @@ const NewsSection = lazyHydrate(
 const AgendaSection = lazyHydrate(
 	async () => await import('@/containers/_beranda/agendaSection/AgendaSection'),
 	{
-		on: ['visible', ['scroll', () => document]],
+		compatibleMode: true,
+		on: ['visible'],
 	},
 )
 

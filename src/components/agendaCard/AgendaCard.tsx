@@ -4,44 +4,15 @@ import dynamic from 'next/dynamic'
 import ContentLoader from 'react-content-loader'
 
 import styles from './AgendaCard.module.scss'
-import { CategoryIcon, DateIcon, LocationIcon, TimeIcon } from '../icon/SVGIcon'
+import AgendaTag from './AgendaTag'
+import { DateIcon, LocationIcon, TimeIcon } from '../icon/SVGIcon'
 
-const BottomSheet = dynamic(
-	async () => await import('../bottomSheet/BottomSheet'),
+const AgendaBottomSheet = dynamic(
+	async () => await import('./AgendaBottomSheet'),
 	{
 		ssr: false,
 	},
 )
-
-const Tag = ({ startTime, endTime }: { startTime: Date; endTime?: Date }) => {
-	const currentTime = new Date()
-	const numOfHours = 1
-	if (endTime === undefined) {
-		endTime = new Date(startTime.getTime() + numOfHours * 60 * 60 * 1000)
-	}
-	switch (true) {
-		case currentTime < startTime:
-			return (
-				<div className={`${styles.tag} ${styles.tagSoon}`}>
-					<span className={`${styles.tagText}`}>Akan Datang</span>
-				</div>
-			)
-		case currentTime >= startTime && currentTime <= endTime:
-			return (
-				<div className={`${styles.tag} ${styles.tagOnGoing}`}>
-					<span className={`${styles.tagText}`}>Sedang Berlangsung</span>
-				</div>
-			)
-		case currentTime > endTime:
-			return (
-				<div className={`${styles.tag} ${styles.tagFinished}`}>
-					<span className={`${styles.tagText}`}>Selesai</span>
-				</div>
-			)
-		default:
-			return null
-	}
-}
 
 interface AgendaCardProps {
 	title: string
@@ -49,6 +20,7 @@ interface AgendaCardProps {
 	location: string
 	category?: string
 	isDateDisplayed?: boolean
+	showBottomSheet?: boolean
 }
 
 const AgendaCard = ({
@@ -57,8 +29,9 @@ const AgendaCard = ({
 	location,
 	category = 'PemKot Semarang',
 	isDateDisplayed = true,
+	showBottomSheet = true,
 }: AgendaCardProps) => {
-	const [isOpen, setOpen] = useState(false)
+	const [isOpen, setIsOpen] = useState(false)
 	const dateValue = time.toLocaleDateString('id-ID', {
 		year: 'numeric',
 		month: 'long',
@@ -71,8 +44,8 @@ const AgendaCard = ({
 		}) + ' WIB'
 	return (
 		<>
-			<div className={styles.agendaCard} onClick={() => setOpen(true)}>
-				<Tag startTime={time} />
+			<div className={styles.agendaCard} onClick={() => setIsOpen(true)}>
+				<AgendaTag startTime={time} />
 				<div className={styles.title}>{title}</div>
 				{isDateDisplayed && (
 					<div className={styles.dateTimeWrapper}>
@@ -89,48 +62,18 @@ const AgendaCard = ({
 					<p className={styles.location}>{location}</p>
 				</div>
 			</div>
-			<BottomSheet
-				isOpen={isOpen}
-				onClose={() => setOpen(false)}
-				initialDrawerDistanceTop={350}
-			>
-				<div className={styles.agendaModal}>
-					<div className={styles.titleWrapper}>
-						<Tag startTime={time} />
-						<div className={styles.title}>{title}</div>
-					</div>
-					<div className={styles.contentWrapper}>
-						<div className={styles.contentItem}>
-							<DateIcon />
-							<div className={styles.contentText}>
-								<span className={styles.attribute}>Tanggal Kegiatan</span>
-								<span className={styles.value}>{dateValue}</span>
-							</div>
-						</div>
-						<div className={styles.contentItem}>
-							<TimeIcon />
-							<div className={styles.contentText}>
-								<span className={styles.attribute}>Jam Mulai</span>
-								<span className={styles.value}>{timeValue}</span>
-							</div>
-						</div>
-						<div className={styles.contentItem}>
-							<CategoryIcon />
-							<div className={styles.contentText}>
-								<span className={styles.attribute}>Kategori Kegiatan</span>
-								<span className={styles.value}>{category}</span>
-							</div>
-						</div>
-						<div className={styles.contentItem}>
-							<LocationIcon />
-							<div className={styles.contentText}>
-								<span className={styles.attribute}>Lokasi Kegiatan</span>
-								<span className={styles.value}>{location}</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</BottomSheet>
+			{showBottomSheet && (
+				<AgendaBottomSheet
+					isOpen={isOpen}
+					title={title}
+					dateValue={dateValue}
+					timeValue={timeValue}
+					category={category}
+					time={time}
+					location={location}
+					onClose={() => setIsOpen(false)}
+				/>
+			)}
 		</>
 	)
 }

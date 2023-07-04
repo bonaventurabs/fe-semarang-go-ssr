@@ -1,6 +1,7 @@
 import { type Url } from 'next/dist/shared/lib/router/router'
 import Image, { type StaticImageData } from 'next/image'
 import Link from 'next/link'
+import ContentLoader from 'react-content-loader'
 
 import { type newsCategoryType, newsCategoryTypeToTitle } from '@/models/news'
 import { slugify } from '@/utils/string'
@@ -120,3 +121,48 @@ const NewsCard = ({
 
 export default NewsCard
 export type { NewsCardType }
+
+interface NewsCardSkeletonProps {
+	type?: NewsCardType
+	isImageDisplayed?: boolean
+}
+
+export const NewsCardSkeleton = ({
+	type = 'XL',
+	isImageDisplayed,
+}: NewsCardSkeletonProps) => {
+	switch (type) {
+		case 'XL':
+			return (
+				<ContentLoader
+					speed={2}
+					style={{ width: '100%', height: '225' }}
+					backgroundColor="#f3f3f3"
+					foregroundColor="#ecebeb"
+					uniqueKey="news-card-skeleton-xl"
+				>
+					<rect x="0" y="0" rx="8" ry="8" width="100%" height="120" />
+					<rect x="0" y="128" rx="8" ry="8" width="140" height="14" />
+					<rect x="0" y="155" rx="8" ry="8" width="100%" height="16" />
+					<rect x="0" y="175" rx="8" ry="8" width="60%" height="16" />
+					<rect x="0" y="200" rx="8" ry="8" width="100%" height="10" />
+					<rect x="0" y="215" rx="8" ry="8" width="100%" height="10" />
+				</ContentLoader>
+			)
+
+		case 'M':
+			return (
+				<ContentLoader
+					speed={2}
+					style={{ width: '100%', height: '60' }}
+					backgroundColor="#f3f3f3"
+					foregroundColor="#ecebeb"
+					uniqueKey="news-card-skeleton-m"
+				>
+					<rect x="0" y="0" rx="8" ry="8" width="100%" height="16" />
+					<rect x="0" y="20" rx="8" ry="8" width="60%" height="16" />
+					<rect x="0" y="45" rx="8" ry="8" width="140" height="14" />
+				</ContentLoader>
+			)
+	}
+}

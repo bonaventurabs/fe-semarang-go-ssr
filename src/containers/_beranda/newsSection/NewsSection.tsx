@@ -2,7 +2,7 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import NewsCard from '@/components/newsCard/NewsCard'
+import NewsCard, { NewsCardSkeleton } from '@/components/newsCard/NewsCard'
 import Separator from '@/components/separator/Separator'
 import { GetNewsList } from '@/services/news'
 
@@ -12,7 +12,29 @@ const NewsSection = () => {
 	const title = 'Kabar Terkini'
 	const page = 1
 	const limit = 3
-	const { data } = GetNewsList(page, limit)
+	const { data, isLoading } = GetNewsList(page, limit)
+	const isError = typeof data === 'undefined' || data.data.length === 0
+
+	if (isLoading) {
+		return (
+			<section className={styles.newsSection}>
+				<div className={styles.titleCard}>
+					<h3>{title}</h3>
+					<Link href="/berita" className={styles.viewAllButton}>
+						Lihat Semua
+					</Link>
+				</div>
+				<div className={styles.contentWrapper}>
+					<NewsCardSkeleton type="XL" />
+					<Separator type="M" />
+					<NewsCardSkeleton type="M" isImageDisplayed={false} />
+					<Separator type="M" />
+					<NewsCardSkeleton type="M" isImageDisplayed={false} />
+					<Separator type="M" />
+				</div>
+			</section>
+		)
+	}
 	return (
 		<section className={styles.newsSection}>
 			<div className={styles.titleCard}>
@@ -22,7 +44,7 @@ const NewsSection = () => {
 				</Link>
 			</div>
 			<div className={styles.contentWrapper}>
-				{typeof data !== 'undefined' && data.data.length !== 0 && (
+				{!isError && (
 					<NewsCard
 						type="XL"
 						image={data.data[0].thumbnail}

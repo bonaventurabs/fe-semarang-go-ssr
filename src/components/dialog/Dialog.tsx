@@ -43,7 +43,7 @@ const Dialog = ({
 
 	return (
 		<Portal>
-			<Overlay open={isOpen} />
+			<Overlay open={isOpen} delay={100} />
 			{isOpen && (
 				<div
 					className={styles.dialogWrapper}
