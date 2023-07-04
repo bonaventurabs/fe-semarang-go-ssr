@@ -3,7 +3,6 @@ import Head from 'next/head'
 import lazyHydrate from 'next-lazy-hydrate'
 
 import Separator from '@/components/separator/Separator'
-import AboutSemarangGoSection from '@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
 import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
 import MainFeatureSection from '@/containers/_beranda/mainFeatureSection/MainFeatureSection'
 import ServiceClusterSection from '@/containers/_beranda/serviceClusterSection/ServiceClusterSection'
@@ -23,6 +22,16 @@ const AgendaSection = lazyHydrate(
 	{
 		compatibleMode: true,
 		on: ['visible'],
+	},
+)
+
+const AboutSemarangGoSection = lazyHydrate(
+	async () =>
+		await import(
+			'@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
+		),
+	{
+		on: ['visible', ['scroll', () => document]],
 	},
 )
 
