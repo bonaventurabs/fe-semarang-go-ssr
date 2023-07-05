@@ -30,7 +30,7 @@ function Overlay({
 	useEffect(() => {
 		const { body, documentElement } = document
 		let { scrollTop } = document.documentElement
-		if (preventScroll) {
+		if (preventScroll && resetScroll) {
 			if (open) {
 				// eslint-disable-next-line react-hooks/exhaustive-deps
 				scrollTop = documentElement.scrollTop
@@ -40,9 +40,20 @@ function Overlay({
 			} else {
 				scrollTop = parseInt(body.style.top)
 				body.classList.remove(styles.stopScrolling)
-				if (resetScroll === false) documentElement.scrollTop = -scrollTop
+				// if (resetScroll === false) documentElement.scrollTop = -scrollTop
 				body.style.removeProperty('top')
 				document.removeEventListener('mousewheel touchmove', lockScroll)
+			}
+		} else if (preventScroll) {
+			if (open) {
+				const scrollTop =
+					window.pageYOffset || document.documentElement.scrollTop
+				window.onscroll = function () {
+					window.scrollTo(0, scrollTop)
+				}
+			} else {
+				// eslint-disable-next-line @typescript-eslint/no-empty-function
+				window.onscroll = function () {}
 			}
 		}
 	}, [open, preventScroll, resetScroll])
