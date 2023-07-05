@@ -67,6 +67,14 @@ function HomePage() {
 				setShowAboutSection(true)
 			}
 		}
+		const onResize = () => {
+			if (window.innerHeight >= 800) {
+				setShowNewsSection(true)
+				setShowAgendaSection(true)
+				setShowAboutSection(true)
+			}
+		}
+		onResize()
 		window.addEventListener('scroll', onScroll)
 
 		return () => {
