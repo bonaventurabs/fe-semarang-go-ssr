@@ -68,7 +68,7 @@ function HomePage() {
 			}
 		}
 		const onResize = () => {
-			if (window.innerHeight >= 800) {
+			if (window.innerHeight >= 900) {
 				setShowNewsSection(true)
 				setShowAgendaSection(true)
 				setShowAboutSection(true)
