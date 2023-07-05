@@ -17,7 +17,7 @@ interface OtherNewsSectionProps {
 const OtherNewsSection = ({
 	isTagDisplayed = true,
 	pagination = false,
-	itemsPerPage = 10,
+	itemsPerPage = 5,
 	newsCategory,
 }: OtherNewsSectionProps) => {
 	const title = 'Berita Lainnya'
