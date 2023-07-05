@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -67,12 +67,24 @@ function HomePage() {
 				setShowAboutSection(true)
 			}
 		}
+
 		window.addEventListener('scroll', onScroll)
 
 		return () => {
 			window.removeEventListener('scroll', onScroll)
 		}
 	}, [])
+
+	const ref = useRef<HTMLDivElement>(null)
+	useLayoutEffect(() => {
+		if (
+			ref.current?.clientHeight &&
+			document.body.clientHeight > ref.current.scrollHeight
+		) {
+			setShowNewsSection(true)
+		}
+	}, [ref])
+
 	return (
 		<>
 			<Head>
@@ -91,7 +103,7 @@ function HomePage() {
 			</Head>
 			<IntroGuideline />
 			<StaticSearchHeader />
-			<main className={styles.wrapper}>
+			<main className={styles.wrapper} ref={ref}>
 				<Separator />
 				<ServiceClusterSection id="service" />
 				<Separator />
