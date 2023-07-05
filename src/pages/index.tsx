@@ -57,24 +57,16 @@ function HomePage() {
 
 	useEffect(() => {
 		const onScroll = () => {
-			if (window.scrollY >= 150) {
+			if (window.scrollY >= 50) {
 				setShowNewsSection(true)
 			}
-			if (window.scrollY >= 300) {
+			if (window.scrollY >= 250) {
 				setShowAgendaSection(true)
 			}
-			if (window.scrollY >= 450) {
+			if (window.scrollY >= 350) {
 				setShowAboutSection(true)
 			}
 		}
-		const onResize = () => {
-			if (window.innerHeight >= 900) {
-				setShowNewsSection(true)
-				setShowAgendaSection(true)
-				setShowAboutSection(true)
-			}
-		}
-		onResize()
 		window.addEventListener('scroll', onScroll)
 
 		return () => {
