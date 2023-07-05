@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react'
+
 import ReactPaginate, { type ReactPaginateProps } from 'react-paginate'
 
 import styles from './Pagination.module.scss'
@@ -17,14 +19,21 @@ interface Props {
 const Pagination = ({
 	onPageChange,
 	onPageActive,
-	totalItem = 10,
+	totalItem,
 	itemsPerPage,
 	className,
 	ref,
 	pageCount,
 	initialPage,
 }: Props) => {
-	pageCount ??= Math.ceil(totalItem / itemsPerPage)
+	const [pageCountState, setPageCountState] = useState<number>(1)
+	useEffect(() => {
+		if (pageCount) {
+			setPageCountState(pageCount)
+		} else if (totalItem) {
+			setPageCountState(Math.ceil(totalItem / itemsPerPage))
+		}
+	}, [totalItem, itemsPerPage, pageCount])
 	return (
 		<ReactPaginate
 			initialPage={initialPage}
@@ -32,7 +41,7 @@ const Pagination = ({
 			onPageActive={onPageActive}
 			pageRangeDisplayed={3}
 			marginPagesDisplayed={1}
-			pageCount={pageCount}
+			pageCount={pageCountState}
 			nextLabel={<NextIcon />}
 			previousLabel={<PrevIcon />}
 			pageClassName={styles.paginationItem}
