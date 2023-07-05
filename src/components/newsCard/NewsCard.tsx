@@ -57,6 +57,8 @@ const NewsCard = ({
 							width={600}
 							height={400}
 							priority
+							sizes="(max-width: 600px) 100vw, 600px"
+							fill
 						/>
 					)}
 					<div className={styles.textWrapper}>
