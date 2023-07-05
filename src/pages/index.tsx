@@ -57,13 +57,13 @@ function HomePage() {
 
 	useEffect(() => {
 		const onScroll = () => {
-			if (window.scrollY >= 250) {
+			if (window.scrollY >= 150) {
 				setShowNewsSection(true)
 			}
-			if (window.scrollY >= 500) {
+			if (window.scrollY >= 300) {
 				setShowAgendaSection(true)
 			}
-			if (window.scrollY >= 750) {
+			if (window.scrollY >= 450) {
 				setShowAboutSection(true)
 			}
 		}
