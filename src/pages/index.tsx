@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import lazyHydrate from 'next-lazy-hydrate'
@@ -48,6 +50,7 @@ const IntroGuideline = dynamic(
 )
 
 function HomePage() {
+	const [showNewsSection, setShowNewsSection] = useState(false)
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
@@ -63,6 +66,19 @@ function HomePage() {
 	}
 
 	useMapData()
+
+	useEffect(() => {
+		const onScroll = () => {
+			if (window.scrollY >= 250) {
+				setShowNewsSection(true)
+			}
+		}
+		window.addEventListener('scroll', onScroll)
+
+		return () => {
+			window.removeEventListener('scroll', onScroll)
+		}
+	}, [])
 	return (
 		<>
 			<Head>
@@ -89,7 +105,7 @@ function HomePage() {
 				<Separator />
 				<CityIndeksCluster />
 				<Separator />
-				<NewsSection />
+				{showNewsSection && <NewsSection />}
 				<Separator />
 				<AgendaSection />
 				<Separator />
