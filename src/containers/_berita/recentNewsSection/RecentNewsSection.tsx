@@ -1,6 +1,6 @@
 import React from 'react'
 
-import NewsCard from '@/components/newsCard/NewsCard'
+import NewsCard, { NewsCardSkeleton } from '@/components/newsCard/NewsCard'
 import Separator from '@/components/separator/Separator'
 import { type newsCategoryType } from '@/models/news'
 import { GetNewsList } from '@/services/news'
@@ -19,7 +19,26 @@ const RecentNewsSection = ({
 	const title = 'Kabar Terkini'
 	const page = 1
 	const limit = 3
-	const { data } = GetNewsList(page, limit)
+	const { data, isLoading } = GetNewsList(page, limit)
+
+	if (isLoading) {
+		return (
+			<section className={styles.newsSection}>
+				<div className={styles.titleCard}>
+					<h3>{title}</h3>
+				</div>
+				<div className={styles.contentWrapper}>
+					<NewsCardSkeleton type="XL" />
+					<Separator type="M" />
+					<NewsCardSkeleton type="M" isImageDisplayed={false} />
+					<Separator type="M" />
+					<NewsCardSkeleton type="M" isImageDisplayed={false} />
+					<Separator type="M" />
+				</div>
+			</section>
+		)
+	}
+
 	return (
 		<section className={styles.newsSection}>
 			<div className={styles.titleCard}>
