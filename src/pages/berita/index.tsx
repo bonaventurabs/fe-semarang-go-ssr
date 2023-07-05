@@ -20,7 +20,7 @@ const NewsPage = () => {
 	const [showOtherNewsSection, setShowOtherNewsSection] = useState(false)
 	useEffect(() => {
 		const onScroll = () => {
-			if (window.scrollY >= 500) {
+			if (window.scrollY >= 250) {
 				setShowOtherNewsSection(true)
 			}
 		}
