@@ -10,11 +10,15 @@ import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHead
 import useMapData from '@/hooks/useMapData'
 import styles from '@/styles/Home.module.scss'
 
-const NewsSection = lazyHydrate(
+// const NewsSection = lazyHydrate(
+// 	async () => await import('@/containers/_beranda/newsSection/NewsSection'),
+// 	{
+// 		on: ['visible', ['scroll', () => document]],
+// 	},
+// )
+
+const NewsSection = dynamic(
 	async () => await import('@/containers/_beranda/newsSection/NewsSection'),
-	{
-		on: ['visible', ['scroll', () => document]],
-	},
 )
 
 const AgendaSection = lazyHydrate(
