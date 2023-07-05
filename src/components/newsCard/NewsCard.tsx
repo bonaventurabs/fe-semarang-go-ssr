@@ -58,6 +58,7 @@ const NewsCard = ({
 							height={400}
 							priority
 							sizes="(max-width: 600px) 100vw, 600px"
+							quality={80}
 						/>
 					)}
 					<div className={styles.textWrapper}>
@@ -96,6 +97,8 @@ const NewsCard = ({
 							alt={description ?? ''}
 							width={100}
 							height={100}
+							sizes="(max-width: 100px) 100vw, 100px"
+							quality={60}
 						/>
 					)}
 					<div className={styles.textWrapper}>
