@@ -4780,7 +4780,6 @@ __metadata:
     lodash: ^4.17.21
     material-symbols: ^0.5.2
     next: 13.2.4
-    next-lazy-hydrate: ^1.1.0
     next-pwa: ^5.6.0
     path: ^0.12.7
     prettier: 2.8.7
@@ -6588,17 +6587,6 @@ __metadata:
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
   checksum: b8ffeb1e262eff7968fc90a2b6767b04cfd9842582a9d0ece0af7049537266e7b2506dfb1d107a32f06dd849ab2aea834d5830f7f4d0e5cb7d36e1ae55d021d9
-  languageName: node
-  linkType: hard
-
-"next-lazy-hydrate@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "next-lazy-hydrate@npm:1.1.0"
-  peerDependencies:
-    next: ^12.1.6
-    react: ^17.0.2
-    react-dom: ^17.0.2
-  checksum: 23aa42f3e5c6a5774ed7192aacc6d43799dca5037e54a474c581b88a4ad195f62afb3ecacd91ff832435c4949164062dce62442ef976a01825457f6f2c2e8aa4
   languageName: node
   linkType: hard
 

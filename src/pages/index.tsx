@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import lazyHydrate from 'next-lazy-hydrate'
 
 import Separator from '@/components/separator/Separator'
 import CityIndeksCluster from '@/containers/_beranda/cityIndeksCluster/CityIndeksCluster'
@@ -12,33 +11,19 @@ import StaticSearchHeader from '@/containers/staticSearchHeader/StaticSearchHead
 import useMapData from '@/hooks/useMapData'
 import styles from '@/styles/Home.module.scss'
 
-// const NewsSection = lazyHydrate(
-// 	async () => await import('@/containers/_beranda/newsSection/NewsSection'),
-// 	{
-// 		on: ['visible', ['scroll', () => document]],
-// 	},
-// )
-
 const NewsSection = dynamic(
 	async () => await import('@/containers/_beranda/newsSection/NewsSection'),
 )
 
-const AgendaSection = lazyHydrate(
+const AgendaSection = dynamic(
 	async () => await import('@/containers/_beranda/agendaSection/AgendaSection'),
-	{
-		compatibleMode: true,
-		on: ['visible', ['scroll', () => document]],
-	},
 )
 
-const AboutSemarangGoSection = lazyHydrate(
+const AboutSemarangGoSection = dynamic(
 	async () =>
 		await import(
 			'@/containers/_beranda/aboutSemarangGoSection/AboutSemarangGoSection'
 		),
-	{
-		on: ['visible', ['scroll', () => document]],
-	},
 )
 
 const IntroGuideline = dynamic(
@@ -51,6 +36,9 @@ const IntroGuideline = dynamic(
 
 function HomePage() {
 	const [showNewsSection, setShowNewsSection] = useState(false)
+	const [showAgendaSection, setShowAgendaSection] = useState(false)
+	const [showAboutSection, setShowAboutSection] = useState(false)
+
 	const structuredData = {
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
@@ -71,6 +59,12 @@ function HomePage() {
 		const onScroll = () => {
 			if (window.scrollY >= 250) {
 				setShowNewsSection(true)
+			}
+			if (window.scrollY >= 500) {
+				setShowAgendaSection(true)
+			}
+			if (window.scrollY >= 750) {
+				setShowAboutSection(true)
 			}
 		}
 		window.addEventListener('scroll', onScroll)
@@ -107,9 +101,9 @@ function HomePage() {
 				<Separator />
 				{showNewsSection && <NewsSection />}
 				<Separator />
-				<AgendaSection />
+				{showAgendaSection && <AgendaSection />}
 				<Separator />
-				<AboutSemarangGoSection />
+				{showAboutSection && <AboutSemarangGoSection />}
 				<Separator />
 			</main>
 		</>

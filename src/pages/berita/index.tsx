@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
+
+import dynamic from 'next/dynamic'
 import Head from 'next/head'
-import lazyHydrate from 'next-lazy-hydrate'
 
 import guideImg from '@/assets/images/news-guide.png'
 import Separator from '@/components/separator/Separator'
@@ -9,15 +11,25 @@ import Header from '@/containers/header/Header'
 
 import styles from './index.module.scss'
 
-const OtherNewsSection = lazyHydrate(
+const OtherNewsSection = dynamic(
 	async () =>
 		await import('@/containers/_berita/otherNewsSection/OtherNewsSection'),
-	{
-		on: ['visible', ['scroll', () => document]],
-	},
 )
 
 const NewsPage = () => {
+	const [showOtherNewsSection, setShowOtherNewsSection] = useState(false)
+	useEffect(() => {
+		const onScroll = () => {
+			if (window.scrollY >= 500) {
+				setShowOtherNewsSection(true)
+			}
+		}
+		window.addEventListener('scroll', onScroll)
+
+		return () => {
+			window.removeEventListener('scroll', onScroll)
+		}
+	}, [])
 	return (
 		<>
 			<Head>
@@ -41,7 +53,7 @@ const NewsPage = () => {
 				<Separator />
 				<RecentNewsSection />
 				<Separator />
-				<OtherNewsSection pagination />
+				{showOtherNewsSection && <OtherNewsSection pagination />}
 				<Separator />
 			</main>
 		</>
