@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -75,15 +75,17 @@ function HomePage() {
 		}
 	}, [])
 
-	const ref = useRef<HTMLDivElement>(null)
-	useLayoutEffect(() => {
-		if (
-			ref.current?.clientHeight &&
-			document.body.clientHeight > ref.current.scrollHeight
-		) {
-			setShowNewsSection(true)
-		}
-	}, [ref])
+	// const ref = useRef<HTMLDivElement>(null)
+	// useLayoutEffect(() => {
+	// 	if (
+	// 		ref.current?.clientHeight &&
+	// 		document.body.clientHeight > ref.current.scrollHeight
+	// 	) {
+	// 		setShowNewsSection(true)
+	// 		setShowAgendaSection(true)
+	// 		setShowAboutSection(true)
+	// 	}
+	// }, [ref])
 
 	return (
 		<>
@@ -103,7 +105,7 @@ function HomePage() {
 			</Head>
 			<IntroGuideline />
 			<StaticSearchHeader />
-			<main className={styles.wrapper} ref={ref}>
+			<main className={styles.wrapper}>
 				<Separator />
 				<ServiceClusterSection id="service" />
 				<Separator />

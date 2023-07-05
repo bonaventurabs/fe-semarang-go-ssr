@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import { Portal } from '@reach/portal'
 import { animated, useSpring } from '@react-spring/web'
 
 import { useOutsideClick } from '@/hooks/useOutsideClick'
@@ -211,8 +210,8 @@ const BottomSheet = ({
 	])
 
 	return (
-		<Portal>
-			<Overlay open={isOpen} delay={200} preventScroll />
+		<>
+			<Overlay open={isOpen} delay={200} />
 			<animated.div
 				style={{
 					maxWidth: `${maxWidth}px`,
@@ -286,7 +285,7 @@ const BottomSheet = ({
 					</div>
 				</div>
 			</animated.div>
-		</Portal>
+		</>
 	)
 }
 export default BottomSheet

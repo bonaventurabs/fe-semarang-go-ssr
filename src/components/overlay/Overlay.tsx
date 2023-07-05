@@ -40,7 +40,7 @@ function Overlay({
 			} else {
 				scrollTop = parseInt(body.style.top)
 				body.classList.remove(styles.stopScrolling)
-				if (!resetScroll) documentElement.scrollTop = -scrollTop
+				if (resetScroll === false) documentElement.scrollTop = -scrollTop
 				body.style.removeProperty('top')
 				document.removeEventListener('mousewheel touchmove', lockScroll)
 			}

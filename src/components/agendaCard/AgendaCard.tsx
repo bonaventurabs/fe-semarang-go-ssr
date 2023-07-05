@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import dynamic from 'next/dynamic'
 import ContentLoader from 'react-content-loader'
@@ -42,6 +42,17 @@ const AgendaCard = ({
 			hour: '2-digit',
 			minute: '2-digit',
 		}) + ' WIB'
+
+	const [isOpenDelay, setIsOpenDelay] = useState(isOpen)
+	useEffect(() => {
+		if (isOpen) setIsOpenDelay(true)
+		else {
+			const timeout = setTimeout(() => {
+				setIsOpenDelay(false)
+			}, 100)
+			return () => clearTimeout(timeout)
+		}
+	}, [isOpen])
 	return (
 		<>
 			<div className={styles.agendaCard} onClick={() => setIsOpen(true)}>
@@ -62,7 +73,7 @@ const AgendaCard = ({
 					<p className={styles.location}>{location}</p>
 				</div>
 			</div>
-			{showBottomSheet && (
+			{showBottomSheet && isOpenDelay && (
 				<AgendaBottomSheet
 					isOpen={isOpen}
 					title={title}

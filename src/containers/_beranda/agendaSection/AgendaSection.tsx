@@ -10,7 +10,7 @@ import { GetAgendaList } from '@/services/agenda'
 import styles from './AgendaSection.module.scss'
 
 const AgendaSection = () => {
-	const title = 'Agenda kegiatan'
+	const title = 'Agenda Kegiatan'
 	const { data, isLoading } = GetAgendaList()
 	const isError =
 		typeof data === 'undefined' || data.status !== 200 || data.data.length === 0
@@ -47,23 +47,21 @@ const AgendaSection = () => {
 						<span>Tidak ada kegiatan hari ini!</span>
 					</div>
 				) : (
-					data.data
-						.slice(0, 3)
-						.map((element, index) => (
-							<AgendaCard
-								key={index}
-								title={element.title}
-								time={
-									new Date(
-										element.scheduleDate.split('T')[0] +
-											'T' +
-											element.scheduleTime,
-									)
-								}
-								location={element.location}
-								showBottomSheet={false}
-							/>
-						))
+					data.data.slice(0, 3).map((element, index) => (
+						<AgendaCard
+							key={index}
+							title={element.title}
+							time={
+								new Date(
+									element.scheduleDate.split('T')[0] +
+										'T' +
+										element.scheduleTime,
+								)
+							}
+							location={element.location}
+							// showBottomSheet={false}
+						/>
+					))
 				)}
 			</div>
 		</div>
