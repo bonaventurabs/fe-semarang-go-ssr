@@ -121,10 +121,14 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	}
 
 	const AllServiceResult = () => {
-		const { data, error } = useSWR<search.ServiceSearchListResponseData>(
-			`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
-			apiFetcher,
-		)
+		const { data, isLoading, error } =
+			useSWR<search.ServiceSearchListResponseData>(
+				`${ENDPOINT_PATH.GET_SERVICE_SEARCH}?query=${query}`,
+				apiFetcher,
+			)
+		if (isLoading) {
+			return <div />
+		}
 		if (error || data?.status !== 200) {
 			return <NotFoundSection />
 		}
@@ -132,10 +136,14 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	}
 
 	const AllNewsResult = () => {
-		const { data, error } = useSWR<search.NewsSearchListResponseData>(
-			`${ENDPOINT_PATH.GET_NEWS_SEARCH}?query=${query}`,
-			apiFetcher,
-		)
+		const { data, isLoading, error } =
+			useSWR<search.NewsSearchListResponseData>(
+				`${ENDPOINT_PATH.GET_NEWS_SEARCH}?query=${query}`,
+				apiFetcher,
+			)
+		if (isLoading) {
+			return <div />
+		}
 		if (error || data?.status !== 200) {
 			return <NotFoundSection />
 		}
@@ -143,7 +151,10 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	}
 
 	const AllAgendaResult = () => {
-		const { data, error } = SearchAgenda(query)
+		const { data, isLoading, error } = SearchAgenda(query)
+		if (isLoading) {
+			return <div />
+		}
 		if (error || data.status !== 200) {
 			return <NotFoundSection />
 		}
@@ -151,7 +162,10 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	}
 
 	const AllIndexResult = () => {
-		const { data, error } = SearchCityIndex(query)
+		const { data, isLoading, error } = SearchCityIndex(query)
+		if (isLoading) {
+			return <div />
+		}
 		if (error || data?.status !== 200) {
 			return <NotFoundSection />
 		}
@@ -159,11 +173,14 @@ const SearchResultSection = ({ query }: { query: string }) => {
 	}
 
 	const SearchAllResult = ({ limit }: { limit?: number }) => {
-		const { data } = useSWR<search.SearchResponseData>(
+		const { data, isLoading } = useSWR<search.SearchResponseData>(
 			`${ENDPOINT_PATH.GET_SEARCH}?query=${query}`,
 			apiFetcher,
 		)
 		const { data: indexData } = SearchCityIndex(query)
+		if (isLoading) {
+			return <div />
+		}
 		if (
 			!data ||
 			data.status !== 200 ||

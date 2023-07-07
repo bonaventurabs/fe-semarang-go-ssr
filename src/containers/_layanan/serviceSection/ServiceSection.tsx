@@ -2,7 +2,9 @@ import { useState } from 'react'
 
 import semarangLogo from '@/assets/images/semarang-logo.png'
 import Pagination from '@/components/pagination/Pagination'
-import ServiceCard from '@/components/serviceCard/ServiceCard'
+import ServiceCard, {
+	ServiceCardSkeleton,
+} from '@/components/serviceCard/ServiceCard'
 import useMapData from '@/hooks/useMapData'
 import { clusterBEMap } from '@/models/service'
 import {
@@ -40,7 +42,11 @@ const ClusterServiceSection = ({
 	const clusterMap = get('serviceCluster', 'nameToId', {})
 
 	const clusterIDs = clusterBEList.map((clusterBE) => clusterMap[clusterBE])
-	const { data } = GetServiceListByMultipleCluster(clusterIDs, page, 10)
+	const { data, isLoading } = GetServiceListByMultipleCluster(
+		clusterIDs,
+		page,
+		10,
+	)
 
 	const handlePageClick = (event: { selected: number }) => {
 		setPage(event.selected + 1)
@@ -56,21 +62,29 @@ const ClusterServiceSection = ({
 					layanan ditemukan
 				</span>
 			</div>
-			{data?.map((el) =>
-				el.data.map((item, index) => (
-					<ServiceCard
-						key={index}
-						image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
-						title={item.name}
-						desc={item.description}
-						org={orgNameMap[item.tagId]}
-						url={item.domain}
-						isImageDisplayed
-						isOrgDisplayed
-						id={item._id}
-						cluster={cluster}
-					/>
-				)),
+			{isLoading ? (
+				<>
+					<ServiceCardSkeleton />
+					<ServiceCardSkeleton />
+					<ServiceCardSkeleton />
+				</>
+			) : (
+				data?.map((el) =>
+					el.data.map((item, index) => (
+						<ServiceCard
+							key={index}
+							image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
+							title={item.name}
+							desc={item.description}
+							org={orgNameMap[item.tagId]}
+							url={item.domain}
+							isImageDisplayed
+							isOrgDisplayed
+							id={item._id}
+							cluster={cluster}
+						/>
+					)),
+				)
 			)}
 			{pagination && (
 				<Pagination
@@ -94,7 +108,7 @@ const OPDServiceSection = ({
 	const { get } = useMapData()
 	const orgNameMap = get('serviceOrg', 'idToName', {})
 	const clusterNameMap = get('serviceCluster', 'idToName', {})
-	const { data } = GetServiceListByOPD(opdID, page, itemsPerPage)
+	const { data, isLoading } = GetServiceListByOPD(opdID, page, itemsPerPage)
 
 	const handlePageClick = (event: { selected: number }) => {
 		setPage(event.selected + 1)
@@ -107,20 +121,28 @@ const OPDServiceSection = ({
 					<b>{data?.totalData}</b> layanan ditemukan
 				</span>
 			</div>
-			{data?.data.map((item, index) => (
-				<ServiceCard
-					key={index}
-					image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
-					title={item.name}
-					desc={item.description}
-					org={orgNameMap[item.tagId]}
-					url={item.domain}
-					isImageDisplayed
-					isOrgDisplayed={typeof opdID === 'undefined'}
-					id={item._id}
-					cluster={getKey(clusterBEMap, clusterNameMap[item.clusterId[0]])}
-				/>
-			))}
+			{isLoading ? (
+				<>
+					<ServiceCardSkeleton />
+					<ServiceCardSkeleton />
+					<ServiceCardSkeleton />
+				</>
+			) : (
+				data?.data.map((item, index) => (
+					<ServiceCard
+						key={index}
+						image={item.thumbnail === '-' ? semarangLogo : item.thumbnail}
+						title={item.name}
+						desc={item.description}
+						org={orgNameMap[item.tagId]}
+						url={item.domain}
+						isImageDisplayed
+						isOrgDisplayed={typeof opdID === 'undefined'}
+						id={item._id}
+						cluster={getKey(clusterBEMap, clusterNameMap[item.clusterId[0]])}
+					/>
+				))
+			)}
 			{pagination && (
 				<Pagination
 					itemsPerPage={itemsPerPage}

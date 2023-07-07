@@ -135,8 +135,8 @@ export const NewsCardSkeleton = ({
 	type = 'XL',
 	isImageDisplayed,
 }: NewsCardSkeletonProps) => {
-	switch (type) {
-		case 'XL':
+	switch (true) {
+		case type === 'XL':
 			return (
 				<ContentLoader
 					speed={2}
@@ -154,7 +154,8 @@ export const NewsCardSkeleton = ({
 				</ContentLoader>
 			)
 
-		case 'M':
+		case type === 'M' &&
+			(!isImageDisplayed || typeof isImageDisplayed === 'undefined'):
 			return (
 				<ContentLoader
 					speed={2}
@@ -168,5 +169,22 @@ export const NewsCardSkeleton = ({
 					<rect x="0" y="45" rx="8" ry="8" width="140" height="14" />
 				</ContentLoader>
 			)
+		case type === 'M' && isImageDisplayed:
+			return (
+				<ContentLoader
+					speed={2}
+					style={{ width: '100%', height: '60' }}
+					backgroundColor="#f3f3f3"
+					foregroundColor="#ecebeb"
+					uniqueKey="news-card-skeleton-m"
+				>
+					<rect x="0" y="0" rx="8" ry="8" width="16%" height="100%" />
+					<rect x="17.5%" y="0" rx="8" ry="8" width="80%" height="16" />
+					<rect x="17.5%" y="20" rx="8" ry="8" width="60%" height="16" />
+					<rect x="17.5%" y="45" rx="8" ry="8" width="120" height="14" />
+				</ContentLoader>
+			)
+		default:
+			return null
 	}
 }

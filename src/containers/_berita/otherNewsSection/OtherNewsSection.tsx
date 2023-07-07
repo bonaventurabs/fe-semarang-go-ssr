@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 
-import NewsCard from '@/components/newsCard/NewsCard'
+import NewsCard, { NewsCardSkeleton } from '@/components/newsCard/NewsCard'
 import Pagination from '@/components/pagination/Pagination'
 import { type newsCategoryType } from '@/models/news'
 import { GetNewsList } from '@/services/news'
@@ -24,7 +24,7 @@ const OtherNewsSection = ({
 	const [pageIndex, setPageIndex] = useState(1)
 	const firstPageOffset = 3
 
-	const { data } = GetNewsList(pageIndex, itemsPerPage)
+	const { data, isLoading } = GetNewsList(pageIndex, itemsPerPage)
 
 	const handlePageClick = (event: { selected: number }) => {
 		setPageIndex(event.selected + 1)
@@ -55,22 +55,36 @@ const OtherNewsSection = ({
 				<h3>{title}</h3>
 			</div>
 			<div className={styles.contentWrapper}>
-				{typeof data !== 'undefined' &&
-					(pageIndex === 1
-						? data.data.slice(-(data.data.length - firstPageOffset))
-						: data.data
-					).map((value, index) => (
-						<NewsCard
-							key={index}
-							type="M"
-							image={value.thumbnail}
-							title={value.headline}
-							date={new Date(value.postDate)}
-							tag={value.category}
-							slug={value.slug}
-							isTagDisplayed={isTagDisplayed}
-						/>
-					))}
+				{(() => {
+					if (isLoading) {
+						return (
+							<>
+								<NewsCardSkeleton type="M" isImageDisplayed />
+								<NewsCardSkeleton type="M" isImageDisplayed />
+								<NewsCardSkeleton type="M" isImageDisplayed />
+							</>
+						)
+					} else {
+						return (
+							typeof data !== 'undefined' &&
+							(pageIndex === 1
+								? data.data.slice(-(data.data.length - firstPageOffset))
+								: data.data
+							).map((value, index) => (
+								<NewsCard
+									key={index}
+									type="M"
+									image={value.thumbnail}
+									title={value.headline}
+									date={new Date(value.postDate)}
+									tag={value.category}
+									slug={value.slug}
+									isTagDisplayed={isTagDisplayed}
+								/>
+							))
+						)
+					}
+				})()}
 			</div>
 			{pagination && (
 				<Pagination
