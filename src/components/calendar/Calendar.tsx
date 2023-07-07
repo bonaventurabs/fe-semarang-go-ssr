@@ -17,7 +17,7 @@ interface CalendarProps {
 	) => void
 	onClickOutside?: () => void
 	className?: string
-	ref?: Ref<HTMLDivElement>
+	inputRef?: Ref<HTMLDivElement>
 }
 
 const Calendar = ({
@@ -25,7 +25,7 @@ const Calendar = ({
 	onChange,
 	onClickOutside,
 	className,
-	ref,
+	inputRef,
 }: CalendarProps) => {
 	const handleChange = (
 		value: Value,
@@ -52,7 +52,7 @@ const Calendar = ({
 
 	return (
 		<CalendarLib
-			inputRef={ref}
+			inputRef={inputRef}
 			className={`${styles.calendar} ${className ?? ''}`}
 			tileClassName={tileClassName}
 			value={value}

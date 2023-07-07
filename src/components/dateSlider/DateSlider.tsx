@@ -74,6 +74,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	const [endDate, setEndDate] = useState(endOfISOWeek(date ?? new Date()))
 	const weekTime = 7 * 24 * 60 * 60 * 1000
 	const [showCalendar, setShowCalendar] = useState(false)
+	const now = new Date()
 
 	const handleCalendarInputChange = (
 		value: Value,
@@ -153,7 +154,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	}, [swiperRef])
 
 	const calendarRef = useRef(null)
-	useOutsideClick([], () => setShowCalendar(false))
+	useOutsideClick([calendarRef], () => setShowCalendar(false))
 
 	return (
 		<div className={styles.dateComponent}>
@@ -161,7 +162,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 				<PrevIcon onClick={handlePrevWeekClick} />
 				<SelectedWeek onClick={() => setShowCalendar((prev) => !prev)} />
 				<Calendar
-					ref={calendarRef}
+					inputRef={calendarRef}
 					className={showCalendar ? styles.calendar : styles.hide}
 					value={date}
 					onChange={handleCalendarInputChange}
@@ -197,7 +198,6 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 					{Array.from({ length: 7 }, (_, i) => {
 						const d = new Date(startDate)
 						d.setDate(startDate.getDate() + i)
-						const now = new Date()
 						return (
 							<SwiperSlide key={i} style={{ width: 'fit-content' }}>
 								<DateCard
