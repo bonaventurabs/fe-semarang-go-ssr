@@ -17,7 +17,7 @@ export function GetAgendaList(startDate?: Date | null, endDate?: Date | null) {
 	params.append('startDate', toISOStringDate(startDate))
 	params.append('endDate', toISOStringDate(endDate))
 	const { data, isLoading, error, mutate } = useSWR<AgendaResponseData>(
-		`${ENDPOINT_PATH.GET_AGENDA}?${params.toString()}}`,
+		`${ENDPOINT_PATH.GET_AGENDA}?${params.toString()}`,
 		apiFetcher,
 		options,
 	)
