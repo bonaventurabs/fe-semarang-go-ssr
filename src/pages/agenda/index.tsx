@@ -19,7 +19,7 @@ const AgendaPage = () => {
 	const [dateValue, setDateValue] = useState<Date | undefined | null>(
 		new Date(),
 	)
-	const { data, isLoading } = GetAgendaList(dateValue, dateValue)
+	const { data, isLoading, error } = GetAgendaList(dateValue, dateValue)
 
 	const handleDateChange = (date: Date | null) => {
 		setDateValue(date)
@@ -60,7 +60,7 @@ const AgendaPage = () => {
 							) {
 								return (
 									<div className={styles.notFoundWrapper}>
-										<Image src={notFoundImg} alt="" />
+										<Image src={notFoundImg} alt="" priority={!!error} />
 										<span>Tidak ada kegiatan hari ini!</span>
 									</div>
 								)

@@ -75,7 +75,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	const weekTime = 7 * 24 * 60 * 60 * 1000
 	const [showCalendar, setShowCalendar] = useState(false)
 	const now = new Date()
-	console.log('date', date)
+
 	const handleCalendarInputChange = (
 		value: Value,
 		event: React.MouseEvent<HTMLButtonElement>,
