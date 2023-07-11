@@ -73,7 +73,7 @@ const NavBar = () => {
 			to: '/indeks-kota-cerdas',
 			icon: SmartCityIcon,
 			activeIcon: CustomSmartCityIcon,
-			text: 'Smart City',
+			text: 'Indeks Kota',
 			id: 'smartCity',
 		},
 		{
