@@ -15,7 +15,7 @@ import { GetAgendaList } from '@/services/agenda'
 import styles from './index.module.scss'
 
 const AgendaPage = () => {
-	const title = 'Agenda Kegiatan Kota Semarang'
+	const title = 'Agenda Kegiatan'
 	const [dateValue, setDateValue] = useState<Date | undefined | null>(
 		new Date(),
 	)

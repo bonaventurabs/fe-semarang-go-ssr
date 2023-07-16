@@ -49,7 +49,7 @@ const AgendaCard = ({
 		else {
 			const timeout = setTimeout(() => {
 				setIsOpenDelay(false)
-			}, 100)
+			}, 150)
 			return () => clearTimeout(timeout)
 		}
 	}, [isOpen])

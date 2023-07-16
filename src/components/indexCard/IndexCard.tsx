@@ -4,7 +4,7 @@ import ContentLoader from 'react-content-loader'
 
 import { clusterBEMap } from '@/models/cityIndex'
 import { getKey } from '@/utils/map'
-import { titleCase, toCamelCase } from '@/utils/string'
+import { slugify, titleCase } from '@/utils/string'
 
 import styles from './IndexCard.module.scss'
 import { IndexIcon, TargetIcon } from '../icon/SVGIcon'
@@ -40,7 +40,7 @@ const IndexCard = ({
 	to,
 	cluster,
 }: IndexCardProps) => {
-	to ??= `/indeks-kota-cerdas/${getKey(clusterBEMap, cluster)}/${toCamelCase(
+	to ??= `/indeks-kota-cerdas/${getKey(clusterBEMap, cluster)}/${slugify(
 		title,
 	)}`
 	return (

@@ -42,3 +42,10 @@ export const toCamelCase = (str: string) =>
 		.replace(/^(.)/, function (b) {
 			return b.toLowerCase()
 		})
+
+export const slugToCamelCase = (str: string, separator?: string) => {
+	if (separator === undefined) {
+		separator = slugSeparator
+	}
+	return toCamelCase(slugToTitle(str, separator))
+}

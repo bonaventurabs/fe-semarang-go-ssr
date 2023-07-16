@@ -61,11 +61,11 @@ function Overlay({
 	useEffect(() => {
 		if (!open) {
 			const timer = setTimeout(() => {
-				setIsShown(open)
+				setIsShown(false)
 			}, delay)
 			return () => clearTimeout(timer)
 		} else {
-			setIsShown(open)
+			setIsShown(true)
 		}
 	}, [delay, open])
 

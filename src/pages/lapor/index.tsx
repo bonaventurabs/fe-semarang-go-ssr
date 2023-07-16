@@ -15,6 +15,7 @@ import {
 import Separator from '@/components/separator/Separator'
 import GuideSection from '@/containers/guideSection/GuideSection'
 import Header from '@/containers/header/Header'
+import { slugify } from '@/utils/string'
 
 import styles from './index.module.scss'
 
@@ -33,7 +34,7 @@ const ReportServiceCard = ({
 	url: string
 	openInApp?: boolean
 }) => {
-	to ??= `/layanan/semua/'id'?url=${url}&title=${title}`
+	to ??= `/lapor/${slugify(title)}`
 	return (
 		<Link
 			className={styles.reportServiceCard}

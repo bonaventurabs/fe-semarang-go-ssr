@@ -15,7 +15,11 @@ import { cityIndexDesc, type CityIndexResponseData } from '@/models/cityIndex'
 import { type ErrorResponseData } from '@/models/error'
 import ErrorPage from '@/pages/_error'
 import { api } from '@/services/api'
-import { camelCaseToTitleCase } from '@/utils/string'
+import {
+	camelCaseToTitleCase,
+	slugToCamelCase,
+	toCamelCase,
+} from '@/utils/string'
 
 import styles, { colorMonoWhite } from './index.module.scss'
 
@@ -158,7 +162,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		slug: string
 	}
 	try {
-		const res = await api.get(`${ENDPOINT_PATH.GET_CITY_INDEX}/${slug}`)
+		const res = await api.get(
+			`${ENDPOINT_PATH.GET_CITY_INDEX}/${slugToCamelCase(slug)}`,
+		)
 		const data = res.data as CityIndexResponseData
 
 		return {

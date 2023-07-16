@@ -211,7 +211,7 @@ const BottomSheet = ({
 
 	return (
 		<>
-			<Overlay open={isOpen} delay={300} preventScroll />
+			<Overlay open={isOpen} delay={250} preventScroll />
 			<animated.div
 				style={{
 					maxWidth: `${maxWidth}px`,
