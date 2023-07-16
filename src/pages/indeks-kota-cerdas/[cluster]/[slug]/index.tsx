@@ -15,11 +15,7 @@ import { cityIndexDesc, type CityIndexResponseData } from '@/models/cityIndex'
 import { type ErrorResponseData } from '@/models/error'
 import ErrorPage from '@/pages/_error'
 import { api } from '@/services/api'
-import {
-	camelCaseToTitleCase,
-	slugToCamelCase,
-	toCamelCase,
-} from '@/utils/string'
+import { camelCaseToTitleCase, slugToCamelCase } from '@/utils/string'
 
 import styles, { colorMonoWhite } from './index.module.scss'
 
