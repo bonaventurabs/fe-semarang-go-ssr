@@ -11,8 +11,6 @@ const NavBar = dynamic(async () => await import('../navBar/NavBar'), {
 	ssr: false,
 })
 
-// const DONE_DURATION = 250
-
 function Loading() {
 	const router = useRouter()
 	const [loading, setLoading] = useState(false)
