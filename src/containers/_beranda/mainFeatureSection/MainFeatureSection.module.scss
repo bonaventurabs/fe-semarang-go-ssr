@@ -6,9 +6,11 @@
 	flex-direction: column;
 	align-items: flex-start;
 	width: 170px;
+	height: 100%;
 	padding: 1em;
 	gap: 0.25em;
 	background: $color-mono-white;
+	justify-content: space-between;
 
 	border: 1px solid $color-mono-dark-grey;
 	border-radius: 8px;
@@ -34,7 +36,7 @@
 		color: $color-mono-black;
 		margin: 0;
 		line-height: 1.4;
-		text-align: center;
+		text-align: start;
 	}
 
 	p {

@@ -124,7 +124,10 @@ const MainFeatureSection = () => {
 					}}
 				>
 					{data.map((el, index) => (
-						<SwiperSlide key={index} style={{ width: 'fit-content' }}>
+						<SwiperSlide
+							key={index}
+							style={{ width: 'fit-content', height: 'auto' }}
+						>
 							<MainFeatureCard
 								title={el.title}
 								Icon={el.icon}
