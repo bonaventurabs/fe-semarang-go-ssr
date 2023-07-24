@@ -1,16 +1,9 @@
 import { useState } from 'react'
 
-import useSWR from 'swr'
-
 import IndexCard, { IndexCardSkeleton } from '@/components/indexCard/IndexCard'
 import Pagination from '@/components/pagination/Pagination'
-import { ENDPOINT_PATH } from '@/interfaces'
-import {
-	clusterBEMap,
-	cityIndexDesc,
-	type CityIndexListResponseData,
-} from '@/models/cityIndex'
-import { apiFetcher } from '@/services/api'
+import { clusterBEMap, cityIndexDesc } from '@/models/cityIndex'
+import { GetCityIndexListByCluster } from '@/services/cityIndex'
 import { getKey } from '@/utils/map'
 import { camelCaseToTitleCase } from '@/utils/string'
 
@@ -26,10 +19,7 @@ const CityIndexSection = ({ cluster, pagination }: Props) => {
 	const [, setPageIndex] = useState(1)
 	const currentYear = new Date().getFullYear() - 1
 
-	const { data, isLoading } = useSWR<CityIndexListResponseData>(
-		`${ENDPOINT_PATH.GET_CITY_INDEX}/cluster/${cluster}`,
-		apiFetcher,
-	)
+	const { data, isLoading } = GetCityIndexListByCluster(cluster)
 
 	const handlePageClick = (event: { selected: number }) => {
 		setPageIndex(event.selected + 1)

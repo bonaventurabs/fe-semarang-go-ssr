@@ -1,23 +1,13 @@
-import useSWR from 'swr'
-
 import IndexCard, { IndexCardSkeleton } from '@/components/indexCard/IndexCard'
-import { ENDPOINT_PATH } from '@/interfaces'
-import {
-	cityIndexDesc,
-	clusterBEMap,
-	type CityIndexListResponseData,
-} from '@/models/cityIndex'
-import { apiFetcher } from '@/services/api'
+import { cityIndexDesc, clusterBEMap } from '@/models/cityIndex'
+import { GetCityIndexList } from '@/services/cityIndex'
 import { getKey } from '@/utils/map'
 import { camelCaseToTitleCase } from '@/utils/string'
 
 import styles from './PopularCityIndexSection.module.scss'
 
 const PopularCityIndexSection = () => {
-	const { data, isLoading } = useSWR<CityIndexListResponseData>(
-		`${ENDPOINT_PATH.GET_CITY_INDEX}`,
-		apiFetcher,
-	)
+	const { data, isLoading } = GetCityIndexList()
 	const totalItem = 5
 	const currentYear = new Date().getFullYear() - 1
 

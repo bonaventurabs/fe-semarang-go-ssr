@@ -15,6 +15,7 @@ export function GetNewsList(page?: number, limit?: number) {
 	const params = new URLSearchParams()
 	if (page) params.append('page', page.toString())
 	if (limit) params.append('limit', limit.toString())
+
 	const { data, isLoading, error, mutate } = useSWR<NewsListResponseData>(
 		`${ENDPOINT_PATH.GET_NEWS}?${params.toString()}`,
 		proxyApiFetcher,
