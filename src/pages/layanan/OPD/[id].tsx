@@ -58,8 +58,16 @@ const OPDServicePage = ({ data, error }: OPDServicePageProps) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { id } = context.params as {
+export const getServerSideProps: GetServerSideProps = async ({
+	req,
+	res,
+	params,
+}) => {
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=120',
+	)
+	const { id } = params as {
 		id: string
 	}
 	try {

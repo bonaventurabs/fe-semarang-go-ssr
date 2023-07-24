@@ -70,8 +70,16 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { category, slug } = context.params as {
+export const getServerSideProps: GetServerSideProps = async ({
+	req,
+	res,
+	params,
+}) => {
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=120',
+	)
+	const { category, slug } = params as {
 		category: string
 		slug: string
 	}

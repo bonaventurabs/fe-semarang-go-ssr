@@ -152,8 +152,16 @@ const CityIndexContentPage = ({ data, error }: CityIndexContentPageProps) => {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-	const { slug } = context.params as {
+export const getServerSideProps: GetServerSideProps = async ({
+	req,
+	res,
+	params,
+}) => {
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=120',
+	)
+	const { slug } = params as {
 		cluster: string
 		slug: string
 	}

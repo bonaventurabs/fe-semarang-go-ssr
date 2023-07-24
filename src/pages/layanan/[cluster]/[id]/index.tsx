@@ -150,10 +150,16 @@ const ServiceDetailPage = ({
 	)
 }
 
-export const getServerSideProps: GetServerSideProps<{ id: string }> = async (
-	context,
-) => {
-	const { id } = context.params as { id: string }
+export const getServerSideProps: GetServerSideProps<{ id: string }> = async ({
+	req,
+	res,
+	params,
+}) => {
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=60, stale-while-revalidate=120',
+	)
+	const { id } = params as { id: string }
 	return { props: { id } }
 }
 
