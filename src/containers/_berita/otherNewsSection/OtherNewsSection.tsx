@@ -62,6 +62,12 @@ const OtherNewsSection = ({
 								<NewsCardSkeleton type="M" isImageDisplayed />
 								<NewsCardSkeleton type="M" isImageDisplayed />
 								<NewsCardSkeleton type="M" isImageDisplayed />
+								{pageIndex !== 1 && (
+									<>
+										<NewsCardSkeleton type="M" isImageDisplayed />
+										<NewsCardSkeleton type="M" isImageDisplayed />
+									</>
+								)}
 							</>
 						)
 					} else {
