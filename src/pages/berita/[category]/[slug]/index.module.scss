@@ -69,6 +69,7 @@
 		p,
 		span {
 			@include font-md-regular;
+			line-height: 140%;
 			color: $color-mono-darker-grey;
 			margin: 0;
 			margin-bottom: 1.5em;

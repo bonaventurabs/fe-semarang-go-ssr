@@ -87,10 +87,9 @@ export const getServerSideProps: GetServerSideProps = async ({
 	try {
 		const res = await api.get(`${ENDPOINT_PATH.GET_NEWS}/${slug}`)
 		const data = res.data as NewsResponseData
-		// data.data.content = data.data.content.replace(/>\s+</g, '><')
 		data.data.content = data.data.content
 			.replace(/\s+/g, ' ')
-			.replace(/>\s+/g, '>')
+			.replace(/>\s/g, '>')
 
 		return {
 			props: {
