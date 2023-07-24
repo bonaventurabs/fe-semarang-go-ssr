@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import fs from 'fs'
-
 import { type GetServerSideProps } from 'next'
 
 import { ENDPOINT_PATH } from '@/interfaces'
@@ -29,37 +27,37 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 			<url>
 				<loc>${baseUrl}</loc>
-				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<lastmod>${new Date().toISOString()}</lastmod>
 				<changefreq>daily</changefreq>
 				<priority>1.00</priority>
 			</url>
 				<url>
 				<loc>${baseUrl}/pencarian</loc>
-				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<lastmod>${new Date().toISOString()}</lastmod>
 				<changefreq>daily</changefreq>
 				<priority>1.00</priority>
 			</url>
 				<url>
 				<loc>${baseUrl}/berita</loc>
-				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<lastmod>${new Date().toISOString()}</lastmod>
 				<changefreq>daily</changefreq>
 				<priority>1.00</priority>
 			</url>
 			<url>
 				<loc>${baseUrl}/indeks-kota-cerdas</loc>
-				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<lastmod>${new Date().toISOString()}</lastmod>
 				<changefreq>daily</changefreq>
 				<priority>1.00</priority>
 				</url>
 			<url>
 				<loc>${baseUrl}/agenda</loc>
-				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<lastmod>${new Date().toISOString()}</lastmod>
 				<changefreq>daily</changefreq>
 				<priority>1.00</priority>
 				</url>
 			<url>
 				<loc>${baseUrl}/lapor</loc>
-				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<lastmod>${new Date().toISOString()}</lastmod>
 				<changefreq>daily</changefreq>
 				<priority>1.00</priority>
 			</url>
