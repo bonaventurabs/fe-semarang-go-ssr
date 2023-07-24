@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import NewsCard, { NewsCardSkeleton } from '@/components/newsCard/NewsCard'
 import Pagination from '@/components/pagination/Pagination'
@@ -44,6 +44,11 @@ const OtherNewsSection = ({
 			behavior: 'smooth',
 		})
 	}
+	useEffect(() => {
+		if (paginationRef.current && pagination) {
+			scrollToTop()
+		}
+	}, [pagination, paginationRef, data])
 
 	return (
 		<section
