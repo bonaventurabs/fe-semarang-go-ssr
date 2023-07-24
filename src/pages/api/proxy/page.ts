@@ -6,6 +6,7 @@ import { filterProperties, isValidUrl } from '@/utils/url'
 const METHOD = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options']
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	res.setHeader('Cache-Control', 's-maxage=1800')
 	const { endpoint, method } = req.query
 
 	if (method && !METHOD.includes(method.toString().toLowerCase())) {

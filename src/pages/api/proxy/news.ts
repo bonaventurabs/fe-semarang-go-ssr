@@ -37,6 +37,7 @@ const proxyMiddleware: any = createProxyMiddleware({
 })
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+	res.setHeader('Cache-Control', 's-maxage=1800')
 	proxyMiddleware(req, res, (result: any) => {
 		if (result instanceof Error) {
 			throw result
