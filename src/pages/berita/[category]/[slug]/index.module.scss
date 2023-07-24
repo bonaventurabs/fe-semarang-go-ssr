@@ -92,6 +92,30 @@
 			vertical-align: middle;
 			text-decoration: none;
 		}
+
+		@media (min-width: $screen-md) {
+			p,
+			span {
+				@include font($font-family, normal, 400, 16px, 140%);
+				color: $color-mono-darker-grey;
+				margin: 0;
+				margin-bottom: 1.5em;
+			}
+
+			em {
+				@include font($font-family, normal, 700, 16px, 140%);
+				color: $color-mono-darker-grey;
+				margin-top: 8px;
+				text-decoration: none;
+			}
+
+			strong {
+				@include font($font-family, normal, 700, 16px, 140%);
+				color: $color-mono-darker-grey;
+				margin-top: 10px;
+				text-decoration: none;
+			}
+		}
 	}
 }
 

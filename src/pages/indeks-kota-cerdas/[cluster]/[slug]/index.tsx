@@ -159,7 +159,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 }) => {
 	res.setHeader(
 		'Cache-Control',
-		'public, s-maxage=60, stale-while-revalidate=120',
+		'public, s-maxage=3600, stale-while-revalidate',
 	)
 	const { slug } = params as {
 		cluster: string
