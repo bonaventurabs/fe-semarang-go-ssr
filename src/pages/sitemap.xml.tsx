@@ -19,26 +19,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 		test: process.env.NEXT_PUBLIC_BASE_URL,
 	}[process.env.NODE_ENV]
 
-	const staticPages = fs
-		.readdirSync(
-			{
-				development: 'pages',
-				production: 'src/',
-				test: 'src/pages',
-			}[process.env.NODE_ENV],
-		)
-		.filter((staticPage) => {
-			return ![
-				'_app.js',
-				'_document.js',
-				'_error.js',
-				'sitemap.xml.js',
-			].includes(staticPage)
-		})
-		.map((staticPagePath) => {
-			return `${baseUrl}/${staticPagePath}`
-		})
-
 	const newsRes = await api.get(`${ENDPOINT_PATH.GET_NEWS}?page=1&limit=100`)
 	const newsData = newsRes.data as NewsListResponseData
 
@@ -47,18 +27,42 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
 	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-      ${staticPages
-				.map((url) => {
-					return `
-            <url>
-              <loc>${url}</loc>
-              <lastmod>${new Date().toISOString()}</lastmod>
-              <changefreq>daily</changefreq>
-              <priority>1.0</priority>
-            </url>
-          `
-				})
-				.join('')}
+			<url>
+				<loc>${baseUrl}</loc>
+				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<changefreq>daily</changefreq>
+				<priority>1.00</priority>
+			</url>
+				<url>
+				<loc>${baseUrl}/pencarian</loc>
+				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<changefreq>daily</changefreq>
+				<priority>1.00</priority>
+			</url>
+				<url>
+				<loc>${baseUrl}/berita</loc>
+				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<changefreq>daily</changefreq>
+				<priority>1.00</priority>
+			</url>
+			<url>
+				<loc>${baseUrl}/indeks-kota-cerdas</loc>
+				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<changefreq>daily</changefreq>
+				<priority>1.00</priority>
+				</url>
+			<url>
+				<loc>${baseUrl}/agenda</loc>
+				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<changefreq>daily</changefreq>
+				<priority>1.00</priority>
+				</url>
+			<url>
+				<loc>${baseUrl}/lapor</loc>
+				<lastmod>2023-07-23T11:12:29+00:00</lastmod>
+				<changefreq>daily</changefreq>
+				<priority>1.00</priority>
+			</url>
       ${newsData.data
 				.map(({ postDate, category, slug }) => {
 					return `
@@ -69,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 							: category
 					}/${slug}</loc>
                 <lastmod>${postDate}</lastmod>
-                <changefreq>daily</changefreq>
+                <changefreq>monthly</changefreq>
                 <priority>1.0</priority>
               </url>
             `
