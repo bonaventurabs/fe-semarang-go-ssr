@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 		.readdirSync(
 			{
 				development: 'pages',
-				production: 'src/pages',
+				production: 'src/',
 				test: 'src/pages',
 			}[process.env.NODE_ENV],
 		)
