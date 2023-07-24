@@ -52,15 +52,26 @@
 			margin: 0;
 		}
 
+		h1 {
+			@include heading-1;
+			color: $color-mono-darker-grey;
+			margin: 0;
+			margin-bottom: 0.25em;
+		}
+
+		h2 {
+			@include heading-2;
+			color: $color-mono-darker-grey;
+			margin: 0;
+			margin-bottom: 0.25em;
+		}
+
 		p,
 		span {
 			@include font-md-regular;
 			color: $color-mono-darker-grey;
 			margin: 0;
-
-			vertical-align: middle;
-			align-items: left;
-			text-align: justify;
+			margin-bottom: 1.5em;
 		}
 
 		em {

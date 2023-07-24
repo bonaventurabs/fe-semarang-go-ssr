@@ -45,6 +45,7 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 					<div className={styles.imgTagDateWrapper}>
 						<Image
 							loader={() => thumbnail}
+							unoptimized
 							src={thumbnail}
 							alt={shortDescription}
 							width={600}
@@ -62,8 +63,8 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 								})}
 							</span>
 						</div>
+						<div className={styles.textWrapper}>{html(content)}</div>
 					</div>
-					<div className={styles.textWrapper}>{html(content)}</div>
 				</section>
 			</main>
 		</>
@@ -86,6 +87,10 @@ export const getServerSideProps: GetServerSideProps = async ({
 	try {
 		const res = await api.get(`${ENDPOINT_PATH.GET_NEWS}/${slug}`)
 		const data = res.data as NewsResponseData
+		// data.data.content = data.data.content.replace(/>\s+</g, '><')
+		data.data.content = data.data.content
+			.replace(/\s+/g, ' ')
+			.replace(/>\s+/g, '>')
 
 		return {
 			props: {
