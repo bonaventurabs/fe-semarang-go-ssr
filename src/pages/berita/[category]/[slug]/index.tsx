@@ -50,6 +50,7 @@ const NewsContentPage = ({ data, error }: NewsContentPageProps) => {
 							alt={shortDescription}
 							width={600}
 							height={300}
+							priority
 						/>
 						<div className={styles.tagDateWrapper}>
 							<span className={styles.tag}>
