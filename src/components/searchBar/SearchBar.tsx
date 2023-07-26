@@ -60,24 +60,22 @@ const SearchBar = ({
 			<div className={styles.searchIcon}>
 				<SearchIcon />
 			</div>
-			<div className={styles.searchInputs}>
-				<DebounceInput
-					name={name}
-					type="text"
-					inputMode="search"
-					returnKeyType="search"
-					inputRef={ref}
-					placeholder={placeholder}
-					value={inputValue}
-					onChange={handleChange}
-					onFocus={onFocus}
-					onBlur={onBlur}
-					autoFocus
-					disabled={disabled}
-					minLength={2}
-					debounceTimeout={500}
-				/>
-			</div>
+			<DebounceInput
+				name={name}
+				type="text"
+				inputMode="search"
+				returnKeyType="search"
+				inputRef={ref}
+				placeholder={placeholder}
+				value={inputValue}
+				onChange={handleChange}
+				onFocus={onFocus}
+				onBlur={onBlur}
+				autoFocus
+				disabled={disabled}
+				minLength={2}
+				debounceTimeout={500}
+			/>
 			<div className={styles.searchIcon}>
 				{
 					// Check if input exist
