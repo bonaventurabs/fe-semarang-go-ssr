@@ -33,6 +33,7 @@
 		border-bottom-right-radius: 0px;
 		width: 100%;
 		@include font-md-regular-alt;
+		font-size: 16px;
 		color: $color-mono-black;
 		height: 100%;
 
@@ -43,12 +44,6 @@
 
 		&:focus {
 			outline: none;
-		}
-	}
-	@media screen and (-webkit-min-device-pixel-ratio: 2) {
-		input,
-		input:focus {
-			font-size: 16px;
 		}
 	}
 
