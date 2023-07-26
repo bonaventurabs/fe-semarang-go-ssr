@@ -32,15 +32,13 @@
 		border-top-right-radius: 0px;
 		border-bottom-right-radius: 0px;
 		width: 100%;
+		@include font-md-regular-alt;
+		color: $color-mono-black;
+		height: 100%;
 
 		&::placeholder {
 			@include font-md-regular-alt;
 			color: $color-mono-dark-grey;
-		}
-
-		&::value {
-			@include font-md-regular-alt;
-			color: $color-mono-black;
 		}
 
 		&:focus {
