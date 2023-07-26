@@ -145,6 +145,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 		if (swiperRef.current) {
 			swiperRef.current.on('slideChange', () => {
 				setDisabledPrev(swiperRef.current?.isBeginning)
+				setDisabledNext(swiperRef.current?.isEnd)
 			})
 			swiperRef.current.on('reachEnd', function () {
 				setDisabledNext(true)
