@@ -63,7 +63,7 @@ const SearchBar = ({
 			<div className={styles.searchInputs}>
 				<DebounceInput
 					name={name}
-					type="text"
+					type="search"
 					inputMode="search"
 					inputRef={ref}
 					placeholder={placeholder}

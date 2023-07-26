@@ -45,6 +45,12 @@
 			outline: none;
 		}
 	}
+	@media screen and (-webkit-min-device-pixel-ratio: 2) {
+		input,
+		input:focus {
+			font-size: 16px;
+		}
+	}
 
 	.search-icon {
 		display: flex;
