@@ -65,6 +65,7 @@ const SearchBar = ({
 				type="text"
 				inputMode="search"
 				returnKeyType="search"
+				enterKeyHint="search"
 				inputRef={ref}
 				placeholder={placeholder}
 				value={inputValue}
