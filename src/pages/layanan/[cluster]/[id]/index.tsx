@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 
-import { type GetServerSideProps, type InferGetServerSidePropsType } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -20,10 +19,9 @@ import { GetOPDDetails } from '@/services/opd'
 
 import styles from './index.module.scss'
 
-const ServiceDetailPage = ({
-	id,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const ServiceDetailPage = () => {
 	const router = useRouter()
+	const { id } = router.query as { id: string }
 	const frameRef = useRef<HTMLIFrameElement>(null)
 	const searchParams = useSearchParams()
 	const [idxBack, setIdxBack] = useState(0)
@@ -65,7 +63,7 @@ const ServiceDetailPage = ({
 		return <ErrorPage statusCode={404} />
 	}
 
-	const extUrl = url ?? (data && 'https://'.concat(data.data.domain)) ?? '/'
+	const extUrl = url ?? (data && 'https://'.concat(data.data.domain))
 	const extTitle = title ?? data?.data.name ?? 'Kota Semarang'
 
 	// const staticData = {
@@ -127,7 +125,7 @@ const ServiceDetailPage = ({
 			<SnackBar
 				open
 				message={
-					<Link href={extUrl} rel="noopener noreferrer" target="_blank">
+					<Link href={extUrl ?? ''} rel="noopener noreferrer" target="_blank">
 						<u>Buka layanan di halaman baru</u>
 					</Link>
 				}
@@ -148,19 +146,6 @@ const ServiceDetailPage = ({
 			{infoSheet()}
 		</>
 	)
-}
-
-export const getServerSideProps: GetServerSideProps<{ id: string }> = async ({
-	req,
-	res,
-	params,
-}) => {
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=60, stale-while-revalidate=120',
-	)
-	const { id } = params as { id: string }
-	return { props: { id } }
 }
 
 export default ServiceDetailPage
