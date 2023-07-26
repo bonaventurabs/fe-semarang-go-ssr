@@ -30,19 +30,31 @@
 		@include font-md-regular;
 		border-radius: 8px;
 
-		&:hover,
 		&:focus {
 			background-color: $color-primary-red-alt;
 			color: $color-mono-white;
 		}
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: $color-primary-red-alt;
+				color: $color-mono-white;
+			}
+		}
 	}
 
 	.active-item,
-	.active-item:hover,
 	.active-item:focus {
 		background-color: $color-primary-red-alt;
 		color: $color-mono-white;
 		border-radius: 8px;
+	}
+	@media (hover: hover) {
+		.active-item:hover {
+			background-color: $color-primary-red-alt;
+			color: $color-mono-white;
+			border-radius: 8px;
+		}
 	}
 
 	.arrow-icon {

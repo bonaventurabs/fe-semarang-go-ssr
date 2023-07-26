@@ -58,8 +58,10 @@
 		height: 100%;
 		align-items: center;
 		fill: $color-mono-darker-grey;
-		&:hover {
-			fill: $color-mono-black;
+		@media (hover: hover) {
+			&:hover {
+				fill: $color-mono-black;
+			}
 		}
 	}
 }

@@ -27,10 +27,12 @@
 		background-color: $color-mono-light-grey;
 	}
 
-	&.hover,
-	&:hover:not([disabled]),
-	&[hover]:not([disabled]) {
-		background-color: $color-mono-dark-grey;
+	@media (hover: hover) {
+		&.hover,
+		&:hover:not([disabled]),
+		&[hover]:not([disabled]) {
+			background-color: $color-mono-dark-grey;
+		}
 	}
 
 	svg {
