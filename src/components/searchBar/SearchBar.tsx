@@ -67,6 +67,7 @@ const SearchBar = ({
 				returnKeyType="search"
 				enterKeyHint="search"
 				autoCapitalize={false}
+				autocapitalize="none"
 				inputRef={ref}
 				placeholder={placeholder}
 				value={inputValue}
