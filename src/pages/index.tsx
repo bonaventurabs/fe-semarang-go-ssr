@@ -26,13 +26,13 @@ const AboutSemarangGoSection = dynamic(
 		),
 )
 
-const IntroGuideline = dynamic(
-	async () =>
-		await import('@/containers/_beranda/introGuideline/IntroGuideline'),
-	{
-		ssr: false,
-	},
-)
+// const IntroGuideline = dynamic(
+// 	async () =>
+// 		await import('@/containers/_beranda/introGuideline/IntroGuideline'),
+// 	{
+// 		ssr: false,
+// 	},
+// )
 
 function HomePage() {
 	const [showNewsSection, setShowNewsSection] = useState(false)
@@ -103,7 +103,7 @@ function HomePage() {
 					dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 				/>
 			</Head>
-			<IntroGuideline />
+			{/* <IntroGuideline /> */}
 			<StaticSearchHeader />
 			<main className={styles.wrapper}>
 				<Separator />
