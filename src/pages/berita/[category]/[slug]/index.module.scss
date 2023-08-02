@@ -66,18 +66,26 @@
 			margin-bottom: 0.25em;
 		}
 
-		p,
-		span {
-			@include font-md-regular;
+		span > p {
+			@include font-sm-regular;
 			line-height: 140%;
 			color: $color-mono-darker-grey;
 			margin: 0;
 			margin-bottom: 1.5em;
 		}
 
+		p,
+		span {
+			@include font-md-regular;
+			line-height: 140%;
+			color: $color-mono-black;
+			margin: 0;
+			margin-bottom: 1.5em;
+		}
+
 		em {
 			@include font-md-extra-bold;
-			color: $color-mono-darker-grey;
+			color: $color-mono-black;
 			margin-top: 8px;
 
 			vertical-align: middle;
@@ -86,7 +94,7 @@
 
 		strong {
 			@include font-md-bold;
-			color: $color-mono-darker-grey;
+			color: $color-mono-black;
 			margin-top: 10px;
 
 			vertical-align: middle;
@@ -94,24 +102,32 @@
 		}
 
 		@media (min-width: $screen-md) {
+			span > p {
+				@include font-md-regular;
+				line-height: 140%;
+				color: $color-mono-darker-grey;
+				margin: 0;
+				margin-bottom: 1.5em;
+			}
+
 			p,
 			span {
 				@include font($font-family, normal, 400, 16px, 140%);
-				color: $color-mono-darker-grey;
+				color: $color-mono-black;
 				margin: 0;
 				margin-bottom: 1.5em;
 			}
 
 			em {
 				@include font($font-family, normal, 700, 16px, 140%);
-				color: $color-mono-darker-grey;
+				color: $color-mono-black;
 				margin-top: 8px;
 				text-decoration: none;
 			}
 
 			strong {
 				@include font($font-family, normal, 700, 16px, 140%);
-				color: $color-mono-darker-grey;
+				color: $color-mono-black;
 				margin-top: 10px;
 				text-decoration: none;
 			}
