@@ -76,7 +76,7 @@
 
 		p,
 		span {
-			@include font($font-family, normal, 400, 15px, 140%);
+			@include font($font-family, normal, 400, 15px, 150%);
 			color: $color-mono-black;
 			margin: 0;
 			margin-bottom: 1.5em;
@@ -111,7 +111,7 @@
 
 			p,
 			span {
-				@include font($font-family, normal, 400, 16px, 140%);
+				@include font($font-family, normal, 400, 16px, 160%);
 				color: $color-mono-black;
 				margin: 0;
 				margin-bottom: 1.5em;
