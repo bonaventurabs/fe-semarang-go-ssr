@@ -1,16 +1,31 @@
-import { useState, useLayoutEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 
-const useIsMobile = (): boolean => {
-	const [isMobile, setIsMobile] = useState(false)
+const useIsMobile = (mobileScreenSize = 768) => {
+	if (typeof window.matchMedia !== 'function') {
+		throw Error('matchMedia not supported by browser!')
+	}
+	const [isMobile, setIsMobile] = useState(
+		window.matchMedia(`(max-width: ${mobileScreenSize}px)`).matches,
+	)
 
-	useLayoutEffect(() => {
-		const updateSize = (): void => {
-			setIsMobile(window.innerWidth < 768)
+	const checkIsMobile = useCallback(
+		(event: { matches: boolean | ((prevState: boolean) => boolean) }) => {
+			setIsMobile(event.matches)
+		},
+		[],
+	)
+
+	React.useEffect(() => {
+		const mediaListener = window.matchMedia(
+			`(max-width: ${mobileScreenSize}px)`,
+		)
+		// try catch used to fallback for browser compatibility
+		mediaListener.addEventListener('change', checkIsMobile)
+
+		return () => {
+			mediaListener.removeEventListener('change', checkIsMobile)
 		}
-		window.addEventListener('resize', updateSize)
-		// updateSize();
-		return (): void => window.removeEventListener('resize', updateSize)
-	}, [])
+	}, [checkIsMobile, mobileScreenSize])
 
 	return isMobile
 }
