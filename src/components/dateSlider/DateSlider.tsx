@@ -13,6 +13,7 @@ import { type Value } from 'react-calendar/dist/cjs/shared/types'
 import type SwiperCore from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
+import useIsMobile from '@/hooks/useIsMobile'
 import { useOutsideClick } from '@/hooks/useOutsideClick'
 import { getIndexDay } from '@/utils/date'
 
@@ -75,6 +76,7 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 	const weekTime = 7 * 24 * 60 * 60 * 1000
 	const [showCalendar, setShowCalendar] = useState(false)
 	const now = new Date()
+	const isMobile = useIsMobile()
 
 	const handleCalendarInputChange = (
 		value: Value,
@@ -216,20 +218,22 @@ const DateSlider = ({ value, onChange }: DateSliderProps) => {
 						)
 					})}
 				</Swiper>
-				<div className={styles.buttonWrapper}>
-					<PrevButton
-						onClick={() => swiperRef.current?.slidePrev()}
-						disabled={disabledPrev}
-						className={styles.button}
-						style={buttonStyle}
-					/>
-					<NextButton
-						onClick={() => swiperRef.current?.slideNext()}
-						disabled={disabledNext}
-						className={styles.button}
-						style={buttonStyle}
-					/>
-				</div>
+				{!isMobile && (
+					<div className={styles.buttonWrapper}>
+						<PrevButton
+							onClick={() => swiperRef.current?.slidePrev()}
+							disabled={disabledPrev}
+							className={styles.button}
+							style={buttonStyle}
+						/>
+						<NextButton
+							onClick={() => swiperRef.current?.slideNext()}
+							disabled={disabledNext}
+							className={styles.button}
+							style={buttonStyle}
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	)
