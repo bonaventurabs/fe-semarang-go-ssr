@@ -18,6 +18,7 @@ import {
 	CustomReportIcon,
 	CustomSmartCityIcon,
 } from '@/components/icon/SVGIcon'
+import useIsMobile from '@/hooks/useIsMobile'
 
 import styles from './MainFeatureSection.module.scss'
 
@@ -88,6 +89,7 @@ const MainFeatureSection = () => {
 	const [disabledPrev, setDisabledPrev] = useState<boolean | undefined>(true)
 	const [disabledNext, setDisabledNext] = useState<boolean | undefined>(false)
 	const [buttonStyle, setButtonStyle] = useState({ opacity: 0 })
+	const isMobile = useIsMobile()
 	useEffect(() => {
 		if (swiperRef.current) {
 			swiperRef.current.on('slideChange', () => {
@@ -139,20 +141,22 @@ const MainFeatureSection = () => {
 						</SwiperSlide>
 					))}
 				</Swiper>
-				<div className={styles.buttonWrapper}>
-					<PrevButton
-						onClick={() => swiperRef.current?.slidePrev()}
-						disabled={disabledPrev}
-						className={styles.button}
-						style={buttonStyle}
-					/>
-					<NextButton
-						onClick={() => swiperRef.current?.slideNext()}
-						disabled={disabledNext}
-						className={styles.button}
-						style={buttonStyle}
-					/>
-				</div>
+				{!isMobile && (
+					<div className={styles.buttonWrapper}>
+						<PrevButton
+							onClick={() => swiperRef.current?.slidePrev()}
+							disabled={disabledPrev}
+							className={styles.button}
+							style={buttonStyle}
+						/>
+						<NextButton
+							onClick={() => swiperRef.current?.slideNext()}
+							disabled={disabledNext}
+							className={styles.button}
+							style={buttonStyle}
+						/>
+					</div>
+				)}
 			</div>
 		</section>
 	)

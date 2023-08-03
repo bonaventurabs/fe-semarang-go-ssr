@@ -18,3 +18,8 @@
 	inline-size: 100%;
 	overflow-y: scroll;
 }
+
+.stop-scroll {
+	height: 100%;
+	overflow-y: hidden;
+}

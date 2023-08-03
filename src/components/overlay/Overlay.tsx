@@ -23,37 +23,17 @@ function Overlay({
 }: OverlayProps) {
 	const [isShown, setIsShown] = useState(open)
 
-	function lockScroll(e: { preventDefault: () => void }) {
-		e.preventDefault()
-	}
+	// function lockScroll(e: { preventDefault: () => void }) {
+	// 	e.preventDefault()
+	// }
 
 	useEffect(() => {
-		const { body, documentElement } = document
-		let { scrollTop } = document.documentElement
-		if (preventScroll && resetScroll) {
+		const { body } = document
+		if (preventScroll) {
 			if (open) {
-				// eslint-disable-next-line react-hooks/exhaustive-deps
-				scrollTop = documentElement.scrollTop
-				body.style.top = `-${scrollTop}px`
-				body.classList.add(styles.stopScrolling)
-				document.addEventListener('mousewheel touchmove', lockScroll)
+				body.classList.add(styles.stopScroll)
 			} else {
-				scrollTop = parseInt(body.style.top)
-				body.classList.remove(styles.stopScrolling)
-				// if (resetScroll === false) documentElement.scrollTop = -scrollTop
-				body.style.removeProperty('top')
-				document.removeEventListener('mousewheel touchmove', lockScroll)
-			}
-		} else if (preventScroll) {
-			if (open) {
-				const scrollTop =
-					window.pageYOffset || document.documentElement.scrollTop
-				window.onscroll = function () {
-					window.scrollTo(0, scrollTop)
-				}
-			} else {
-				// eslint-disable-next-line @typescript-eslint/no-empty-function
-				window.onscroll = function () {}
+				body.classList.remove(styles.stopScroll)
 			}
 		}
 	}, [open, preventScroll, resetScroll])
